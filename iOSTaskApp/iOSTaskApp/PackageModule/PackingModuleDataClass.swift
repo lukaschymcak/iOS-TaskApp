@@ -11,11 +11,13 @@ import SwiftUI
 
 @Model
 class PackingModuleDataClass{
+    var name: String
     var earliestTripName: String
     var inDays: Int
     var colorName: String
     var percentage: Int
-    init(earliestTripName: String, inDays: Int, colorName: String, percentage: Int = 0) {
+    init(name: String, earliestTripName: String, inDays: Int, colorName: String, percentage: Int = 0) {
+        self.name = name
         self.earliestTripName = earliestTripName
         self.inDays = inDays
         self.colorName = colorName
@@ -33,5 +35,5 @@ class PackingModuleDataClass{
 
 
 struct PackingMockData{
-    static let packingMock = PackingModuleDataClass(earliestTripName: "Trip 1", inDays: 10, colorName: "orange")
+    static let packingMock = PackingModuleDataClass(name: "Packing",earliestTripName: "Trip 1", inDays: 10, colorName: "orange" )
 }

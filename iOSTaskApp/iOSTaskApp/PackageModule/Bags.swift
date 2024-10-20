@@ -6,10 +6,20 @@
 //
 
 import Foundation
-
-
-struct Bags {
-    let name: String
-    let description: String
-    let items: [String]
+import SwiftData
+@Model
+class Bags{
+    var name: String
+    var desc: String
+    var items: [String]
+    var numberOfItems: Int {
+        items.count
+    }
+    @Relationship(.unique, deleteRule: .nullify, inverse: \Trip.bags)
+    var trip: Trip?
+    init(name: String, desc: String, items: [String]) {
+        self.name = name
+        self.desc = desc
+        self.items = items
+    }
 }

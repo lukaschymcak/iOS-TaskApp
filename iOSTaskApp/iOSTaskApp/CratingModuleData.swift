@@ -10,31 +10,36 @@ import SwiftUI
 import SwiftData
 
 @Model
-class CreatingPackingModuleData {
+class CreatingModuleData:Identifiable {
+    var id:String
     var name: String
     var colorName: String
-    var size: String
+
     
-    init(name: String, colorName: String, size: String) {
+    init(name: String, colorName: String) {
         self.name = name
         self.colorName = colorName
-        self.size = size
+        self.id = UUID().uuidString
     }
-
-    var color: Color {
+    
+    var color:Color {
         switch colorName {
-        case "Red":
-            return .red
-        case "Blue":
-            return .blue
-        case "Yellow":
-            return .yellow
-        case "Green":
-            return .green
-        case "Orange":
-            return .orange
-        default:
-            return .black
+        case "orange": return .orange
+        case "yellow": return .yellow
+        case "green": return .green
+        default: return .red
         }
     }
+
+   
 }
+
+struct DefaultModules {
+    static let packing = CreatingModuleData(name: "Packing", colorName: "orange")
+    static let pills = CreatingModuleData(name: "Pills", colorName: "yellow")
+    static let gymTracker = CreatingModuleData(name: "Gym Tracker", colorName: "green")
+    
+    static let defaults: [CreatingModuleData] = [packing, pills, gymTracker]
+}
+
+
