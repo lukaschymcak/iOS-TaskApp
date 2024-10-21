@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct PackingModuleOpen: View {
-    @State var name: String = "Packing"
-    @State var color: Color = .orange
+           var name: String
+           var color: Color
     @State var isAddModuleOpen: Bool = false
     @State var addingTrip: Bool = false
     
@@ -18,19 +18,16 @@ struct PackingModuleOpen: View {
             VStack{
                 
       
-                CustomNavBarModule(module:"Packing",name:name)
-                  
-                    
-                    
-                    
-
-
+                CustomNavBarModule(module:"Packing",name:name == "" ? "Packing" : name)
+                    .padding(.top,30)
+                    .frame(width: GeometryProxy.size.width - 30,height: 25)
+                color.frame(width: GeometryProxy.size.width - 30, height: 5)
+                        .clipShape(.rect(cornerRadius: 20))
                 VStack(alignment:.center){
              
-                        color.frame(width: 350, height: 5)
-                            .clipShape(.rect(cornerRadius: 20))
                     
-                    ListTripView(color: color,addingTrip: $addingTrip)
+                    
+                   ListTripView(color: color,addingTrip: $addingTrip)
                    
                        
                     
@@ -39,7 +36,7 @@ struct PackingModuleOpen: View {
                 }
                 Spacer()
             }
-            .padding(3)
+      
         }
         .sheet(isPresented: $addingTrip) {
             AddingTripsSheetView()
@@ -52,6 +49,6 @@ struct PackingModuleOpen: View {
 
 
 #Preview {
-    PackingModuleOpen()
+    PackingModuleOpen(name:"Test",color: .red)
         .modelContainer(for:Trip.self)
 }

@@ -45,15 +45,16 @@ struct CustomNavBarModule: View {
 
                 
                     
-            }.frame(maxWidth: .infinity,alignment: .leading)
-                .padding(.top,20)
+            }.padding(.top,5)
+            .frame(maxWidth: .infinity,alignment: .leading)
+                
                 
                 Spacer()
             
 
             
             }
-        .frame(width: UIScreen.main.bounds.width - 30,height: 50)
+        .frame(height: 50)
             Spacer()
         }
     }

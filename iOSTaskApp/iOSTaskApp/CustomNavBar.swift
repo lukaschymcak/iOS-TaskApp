@@ -45,7 +45,7 @@ struct CustomNavBar: View {
 
         
         }
-        .frame(width: UIScreen.main.bounds.width - 30)
+     
         
         }
     }

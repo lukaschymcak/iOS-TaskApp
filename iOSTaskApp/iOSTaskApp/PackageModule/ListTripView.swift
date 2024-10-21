@@ -8,9 +8,11 @@
 import SwiftUI
 import SwiftData
 struct ListTripView: View {
-    @State var color: Color = .orange
+     var color: Color
+    @Namespace private var namespace
     @Binding var addingTrip: Bool
-    @Query var trips: [Trip]
+    @Query(sort:\Trip.dateFrom,order: .reverse) var trips: [Trip]
+
     var body: some View {
         GeometryReader{ GeometryProxy in
             if trips.isEmpty{
@@ -52,14 +54,16 @@ struct ListTripView: View {
                     ScrollView{
                         ForEach(trips,id: \.id) { trip in
                             NavigationLink {
-                                Text(trip.name)
+                                BagsView()
+                                    .navigationTransition(.zoom(sourceID: "world", in: namespace))
+                                    .navigationBarBackButtonHidden(true)
                             } label: {
-                                TripCell(trip: trip)
+                                TripCell(trip: trip,color: color)
                             }
                             
                             
                             
-                        }.padding(.vertical)
+                        }
                     }
                     
                 }
@@ -68,6 +72,6 @@ struct ListTripView: View {
     }
 }
 #Preview {
-    ListTripView(addingTrip: .constant(false))
+    ListTripView(color: .red,addingTrip: .constant(false) )
       
 }

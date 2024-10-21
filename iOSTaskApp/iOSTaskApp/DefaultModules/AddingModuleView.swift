@@ -9,13 +9,28 @@ import SwiftUI
 
 struct AddingModuleView: View {
     var module:CreatingModuleData
-    @Bindable var packageModule: PackingModuleDataClass
-    @Environment(\.modelContext) var context
     @State var tapped:Bool = false
     @State var selection:Color = .red
     var colors:[Color] = [.red,.green,.yellow,.orange]
     
+   
+    var body: some View {
+        switch module.name {
+        case "Packing":
+            addingPackingModule(module: module,colors: colors,selection: $selection)
+        default:
+            Text("Hello")
+        }
+    }
+}
+
+struct addingPackingModule:View {
+    @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
+    @State var packageModule = PackingModuleDataClass(name: "", earliestTripName: "", inDays: 0, colorName: "")
+    var module:CreatingModuleData
+    var colors:[Color]
+    @Binding var selection:Color
     var body: some View {
         GeometryReader{ geometry in
             VStack{
@@ -40,35 +55,27 @@ struct AddingModuleView: View {
                
              
                 }.padding(.vertical,2)
-          
-            
-                
-                
                 VStack {
                     HStack{
                         Text("Colors")
                             .font(.title)
                             .fontWeight(.bold)
-                    
-                        
                     }
                     .padding(.horizontal, 20)
                     HStack{
-                      
-                            ForEach(colors,id:\.self){ color in
-                                Button {
-                                    packageModule.colorName = color.description
-                                } label: {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(color)
-                                        .frame(width: 40, height: 40)
-                                        
-                                }.padding(.horizontal,10)
-                                    .padding(.bottom,10)
-
-                            }
-                            
-                    
+                        ForEach(colors,id:\.self){ color in
+                            Button {
+                                selection = color
+                                packageModule.colorName = color.description
+                            } label: {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(selection == color ? .gray : .clear, lineWidth: 10)
+                                    .fill(color)
+                                    .frame(width: 40, height: 40)
+                                
+                            }.padding(.horizontal,10)
+                                .padding(.bottom,10)
+                        }
                     }.padding(.bottom,10)
                     HStack{
                         Text("Name:")
@@ -82,7 +89,9 @@ struct AddingModuleView: View {
                             .background(.gray)
                             .clipShape(.rect(cornerRadius: 15))
                         Button {
-                            context.insert(module)
+                            context.insert(packageModule)
+                            context.delete(DefaultModules.packing)
+                            dismiss()
                         } label: {
                             RoundedRectangle(cornerRadius: 20)
                                 .frame(width: 80,height: 55)
@@ -93,13 +102,9 @@ struct AddingModuleView: View {
                                         .fontWeight(.bold)
                                 }
                         }
-
-                            
-                        
                     }
                     .padding(.horizontal, 20)
-                    .padding(.bottom,10)
-                    
+                    .padding(.bottom,20)
                     Text("Details")
                         .font(.title)
                         .fontWeight(.bold)
@@ -110,7 +115,6 @@ struct AddingModuleView: View {
                         .multilineTextAlignment(.center)
                     
                 }
-                
                 Spacer()
             }
             
@@ -120,6 +124,6 @@ struct AddingModuleView: View {
 }
 
 #Preview {
-    AddingModuleView(module: DefaultModules.packing, packageModule: PackingMockData.packingMock)
-        .modelContainer(for: PackingModuleDataClass.self)
+    AddingModuleView(module: DefaultModules.packing)
+        .modelContainer(for: [PackingModuleDataClass.self,CreatingModuleData.self])
 }

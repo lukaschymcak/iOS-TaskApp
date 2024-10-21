@@ -12,14 +12,13 @@ struct ContentView: View {
     @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver: Bool = false
     @State var checkWelcomeScreen : Bool = true
     @State var name: String = "Lukas"
-    
-
     var body: some View {
         ZStack {
             VStack{
                 if isWelcomeScreenOver {
                     HomeView(name: $name)
                         .transition(.opacity)
+                        
                 }
                 else {
                     WelcomeView(name: $name)
@@ -100,48 +99,31 @@ struct HomeView: View{
     @Environment(\.dismiss) var dismiss
     @Binding var name:String
     @State var isAddModuleOpen:Bool = false
-    @Namespace private var namespace
+
+  
+   
     var body: some View{
         
-        NavigationStack{
-            CustomNavBar(name: $name, isAddModuleOpen: $isAddModuleOpen)
-               
-            ScrollView{
-                NavigationLink {
-                    PackingModuleOpen()
-                        .navigationTransition(.zoom(sourceID: "world", in: namespace))
-                        .navigationBarBackButtonHidden(true)
-                } label: {
-                    VStack(alignment: .leading){
-                       
-                           
-                     
-                    }
-                }.frame(height: 200)
-                    .padding(.vertical,5)
-                    .padding(.horizontal,20)
-                    .transition(.move(edge: .bottom))
-                NavigationLink {
-                  
-                } label: {
-                    VStack(alignment: .leading){
-                        
-                  
+        GeometryReader { GeometryProxy in
+            VStack(){
+                    NavigationStack{
+                    CustomNavBar(name: $name, isAddModuleOpen: $isAddModuleOpen)
+                            .frame(width: GeometryProxy.size.width - 30)
+    
                           
+                    PackageModuleHomeView()
+                        Spacer()
                     
-                        
-                    }
-                }.frame(height: 200)
-                    .padding(.vertical,5)
-                    .padding(.horizontal,20)
-                    .transition(.move(edge: .bottom))
+                }
+            }
+        
+            .sheet(isPresented: $isAddModuleOpen) {
                 
+                AddModuleView(isAddModuleOpen: $isAddModuleOpen)
+                   
             }
         }
-        .sheet(isPresented: $isAddModuleOpen) {
-            
-            AddModuleView(isAddModuleOpen: $isAddModuleOpen)
-        }
+       
      
         
         
@@ -174,7 +156,7 @@ struct AddModuleView: View {
                 
                 HStack{
                     
-                    ModuleListView(isAddingModuleOpen: $isAddingModuleOpen, modules: DefaultModules.defaults)
+                    ModuleListView(isAddingModuleOpen: $isAddingModuleOpen)
                     }
 
                 
@@ -195,29 +177,9 @@ struct AddModuleView: View {
     }
 }
 
-struct HomeModuleView:View {
-    @Namespace private var namespace
-    var body: some View {
-        NavigationLink {
-            PackingModuleOpen()
-                .navigationTransition(.zoom(sourceID: "world", in: namespace))
-                .navigationBarBackButtonHidden(true)
-        } label: {
-            VStack(alignment: .leading){
-
-                
-               
-            }
-        }.frame(height: 200)
-            .padding(.vertical,5)
-            .padding(.horizontal,20)
-            .transition(.move(edge: .bottom))
-    }
-}
-
 
 #Preview {
         ContentView()
-        .modelContainer(for:Trip.self)
+        .modelContainer(for:[Trip.self,PackingModuleDataClass.self,CreatingModuleData.self])
 }
 

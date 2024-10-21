@@ -14,7 +14,7 @@ struct iOSTaskAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: [CreatingModuleData.self,Trip.self])
+                .modelContainer(for: [PackingModuleDataClass.self,Trip.self,CreatingModuleData.self])
         }
         
 

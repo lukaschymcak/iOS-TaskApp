@@ -70,7 +70,15 @@ struct AddingTripsSheetView: View {
                     dismiss()
                 } label: {
                     Text("Add")
-                }
+                        .padding()
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .background(.blue)
+                        .clipShape(.rect(cornerRadius: 20))
+                        .foregroundStyle(.white)
+                       
+                       
+                }.padding(5)
                 
                 Spacer()
             }

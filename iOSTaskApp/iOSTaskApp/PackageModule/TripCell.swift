@@ -10,14 +10,18 @@ import SwiftUI
 struct TripCell: View {
     @Environment(\.modelContext) var context
     let trip:Trip
-    var color:Color = .orange
+    var color:Color
     var body: some View {
         GeometryReader { GeometryProxy in
-            ZStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(color,lineWidth: 6)
-                    .frame(width: GeometryProxy.size.width - 45, height: 130,alignment: .center)
-                    .padding(.horizontal,25)
+            ZStack(alignment: .center) {
+                
+                VStack(alignment:.center) {
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(color,lineWidth: 6)
+                        .frame(width: GeometryProxy.size.width - 30, height: 140)
+                        .padding(.top,10)
+                }.frame(maxWidth: .infinity)
+                    
                 VStack(alignment:.leading){
                     HStack{
                         Text(trip.dateFrom,format: .dateTime.day().month().year())
@@ -29,17 +33,21 @@ struct TripCell: View {
                         Text(trip.dateTo,format: .dateTime.day().month().year())
                             .font(.headline)
                             .foregroundStyle(color)
+                        Spacer()
                         Button {
                             context.delete(trip)
                         } label: {
                             Image(systemName: "minus")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundStyle(color)
                         }
 
                     }.padding(.vertical,7)
                         .padding(.bottom,10)
                     
                     HStack{
-                        Text(trip.name)
+                        Text(trip.name == "" ? "Trip" : trip.name)
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundStyle(color)
@@ -50,8 +58,8 @@ struct TripCell: View {
                             .foregroundStyle(color)
                     }
                     
-                }
-                .frame(width: GeometryProxy.size.width - 80, height: 110,alignment: .topLeading)
+                }.padding(9)
+                .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
             
                
             }
@@ -61,5 +69,5 @@ struct TripCell: View {
 }
 
 #Preview {
-    TripCell(trip: MockData.tripData)
+    TripCell(trip: MockData.tripData,color:.red)
 }

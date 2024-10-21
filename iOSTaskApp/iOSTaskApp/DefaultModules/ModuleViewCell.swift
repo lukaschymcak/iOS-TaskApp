@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ModuleViewCell: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.modelContext) var context
     let module:CreatingModuleData
     var body: some View {
         VStack(alignment:.leading){
@@ -21,6 +22,12 @@ struct ModuleViewCell: View {
                         .fontWeight(.bold)
                         .foregroundStyle(module.color)
                         .multilineTextAlignment(.leading)
+                    Button {
+                        context.delete(module)
+                    } label: {
+                        Image(systemName: "minus")
+                    }
+
                        
                 }
              
@@ -32,4 +39,5 @@ struct ModuleViewCell: View {
 
 #Preview {
     ModuleViewCell(module: DefaultModules.packing)
+        .modelContainer(for:CreatingModuleData.self)
 }
