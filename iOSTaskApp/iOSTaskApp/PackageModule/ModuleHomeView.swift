@@ -16,7 +16,7 @@ struct PackageModuleHomeView: View {
         
         ForEach(packingModule){ module in
             NavigationLink {
-                PackingModuleOpen(name: module.name, color: module.color)
+                PackingModuleOpen(module:module)
                     .navigationTransition(.zoom(sourceID: "world", in: namespace))
                     .navigationBarBackButtonHidden(true)
             } label: {

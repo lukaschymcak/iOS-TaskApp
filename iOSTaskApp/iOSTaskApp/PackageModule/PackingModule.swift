@@ -13,8 +13,7 @@ import SwiftData
 struct PackingModule: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
-    let packingModule: PackingModuleDataClass
-    @Query var trips: [Trip]
+    @State var packingModule: PackingModuleDataClass
     var textColor : Color {
         colorScheme == .dark ? .white : .black
     }
@@ -30,10 +29,6 @@ struct PackingModule: View {
                 Spacer()
                 Button {
                     context.delete(packingModule)
-                    context.insert(DefaultModules.packing)
-                    for trip in trips {
-                        context.delete(trip)
-                    }
                 } label: {
                     Image(systemName: "minus")
                         .font(.title)
@@ -47,7 +42,7 @@ struct PackingModule: View {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color(UIColor.systemBackground))
                     .stroke(packingModule.color,lineWidth: 7)
-                    .frame(maxWidth: UIScreen.main.bounds.width - 25,maxHeight: 150)
+                    .frame(maxWidth: UIScreen.main.bounds.width - 25,maxHeight: 170)
                 HStack{
                     VStack(alignment:.leading){
                         Text("NEXT TRIP:")
@@ -59,36 +54,42 @@ struct PackingModule: View {
                         Spacer()
                         
                         VStack(alignment:.leading){
-                            if trips.isEmpty {
+                            if packingModule.trips.isEmpty {
                                 Text("No Trips \n added")
                                     .font(.system(size: 30))
                                     .fontWeight(.bold)
                                     .foregroundStyle(packingModule.color)
                                     .multilineTextAlignment(.leading)
                             } else {
-                                if trips.first?.name == "" {
-                                    Text("Trip")
-                                        .font(.system(size: 30))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(packingModule.color)
-                                } else{
-                                    Text(trips.first?.name ?? "")
-                                        .font(.system(size: 30))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(packingModule.color)
+                                if let firstTrip = packingModule.trips.first {
+                                    if  firstTrip.name == "" {
+                                        Text("Trip")
+                                            .font(.system(size: 30))
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(packingModule.color)
+                                    } else{
+                                        Text(firstTrip.name)
+                                            .font(.system(size: 30))
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(packingModule.color)
+                                    }
+                                 
+                                    if firstTrip.dayDifference() == 0{
+                                        Text("Today")
+                                            .font(.system(size: 30))
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(packingModule.color)
+                                    } else{
+                                        Text("in \(firstTrip.dayDifference()) days")
+                                            .font(.system(size: 30))
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(packingModule.color)
+                                    }
                                 }
-                             
-                                if trips.first?.dayDifference() == 0{
-                                    Text("Today")
-                                        .font(.system(size: 30))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(packingModule.color)
-                                } else{
-                                    Text("in \(trips.first?.dayDifference() ?? 0) days")
-                                        .font(.system(size: 30))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(packingModule.color)
-                                }
+                                    
+                                    
+                                
+                              
                             }
                             
                         }

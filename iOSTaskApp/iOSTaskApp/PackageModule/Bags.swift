@@ -10,23 +10,23 @@ import SwiftData
 @Model
 class Bags{
     var name: String
-  
-    var items: [String]
+    @Relationship(deleteRule: .cascade)
+    var items = [Item]()
     var numberOfItems: Int {
         items.count
     }
     @Relationship(.unique, deleteRule: .nullify, inverse: \Trip.bags)
     var trip: Trip?
-    init(name: String, items: [String]) {
+    init(name: String, items: [Item] = [],trip: Trip? = nil) {
         self.name = name
-
         self.items = items
+        self.trip = trip
     }
 }
 
 struct MockBags {
-    static let bagA = Bags(name: "Bag A", items: ["Item A", "Item B"])
-   static let bagB = Bags(name: "Bag B", items: ["Item C", "Item D"])
+    static let bagA = Bags(name: "Bag A", items: [])
+   static let bagB = Bags(name: "Bag B", items: [])
     
    static let bags = [bagA, bagB]
 }

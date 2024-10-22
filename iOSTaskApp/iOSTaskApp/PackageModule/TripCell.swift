@@ -11,6 +11,7 @@ struct TripCell: View {
     @Environment(\.modelContext) var context
     let trip:Trip
     var color:Color
+    @State var module:PackingModuleDataClass
     var body: some View {
         GeometryReader { GeometryProxy in
             ZStack(alignment: .center) {
@@ -35,7 +36,7 @@ struct TripCell: View {
                             .foregroundStyle(color)
                         Spacer()
                         Button {
-                            context.delete(trip)
+                            module.trips.remove(at: module.trips.firstIndex(of: trip)!)
                         } label: {
                             Image(systemName: "minus")
                                 .font(.title)
@@ -69,5 +70,5 @@ struct TripCell: View {
 }
 
 #Preview {
-    TripCell(trip: MockData.tripData,color:.red)
+    TripCell(trip: MockData.tripData,color:.red,module:PackingMockData.packingMock)
 }

@@ -16,6 +16,7 @@ class PackingModuleDataClass{
     var inDays: Int
     var colorName: String
     var percentage: Int
+    @Relationship(deleteRule: .cascade) var trips  = [Trip]()
     init(name: String = "Packing", earliestTripName: String, inDays: Int, colorName: String, percentage: Int = 0) {
         self.name = name
         self.earliestTripName = earliestTripName
@@ -31,11 +32,17 @@ class PackingModuleDataClass{
         default: return .red
         }
     }
+    
+   
 }
 
 
 struct PackingMockData{
     static let packingMock = PackingModuleDataClass(name: "Packing",earliestTripName: "Trip 1", inDays: 10, colorName: "orange" )
     
+    
+    
     static let packingArr = [packingMock]
 }
+
+

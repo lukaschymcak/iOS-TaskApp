@@ -110,10 +110,17 @@ struct HomeView: View{
                     CustomNavBar(name: $name, isAddModuleOpen: $isAddModuleOpen)
                             .frame(width: GeometryProxy.size.width - 30)
     
-                          
-                    PackageModuleHomeView()
-                        Spacer()
-                    
+                        ScrollView(){
+                            PackageModuleHomeView()
+                                .frame(height: 250)
+                            Spacer()
+                   
+                      
+                            
+                            
+                        }
+                            Spacer()
+                 
                 }
             }
         

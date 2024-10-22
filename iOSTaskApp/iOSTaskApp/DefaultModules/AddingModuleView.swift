@@ -90,7 +90,6 @@ struct addingPackingModule:View {
                             .clipShape(.rect(cornerRadius: 15))
                         Button {
                             context.insert(packageModule)
-                            context.delete(DefaultModules.packing)
                             dismiss()
                         } label: {
                             RoundedRectangle(cornerRadius: 20)

@@ -11,11 +11,10 @@ struct ListTripView: View {
      var color: Color
     @Namespace private var namespace
     @Binding var addingTrip: Bool
-    @Query(sort:\Trip.dateFrom,order: .reverse) var trips: [Trip]
-
+    @State var module:PackingModuleDataClass
     var body: some View {
         GeometryReader{ GeometryProxy in
-            if trips.isEmpty{
+            if module.trips == []{
                 VStack {
                     HStack {
                         Text("MY TRIPS:")
@@ -51,27 +50,36 @@ struct ListTripView: View {
                         }
                         
                     }
-                    ScrollView{
-                        ForEach(trips,id: \.id) { trip in
-                            NavigationLink {
-                                BagsView()
-                                    .navigationTransition(.zoom(sourceID: "world", in: namespace))
-                                    .navigationBarBackButtonHidden(true)
-                            } label: {
-                                TripCell(trip: trip,color: color)
+                   
+                        ScrollView{
+                            ForEach(module.trips.sorted(by: {$0.dateTo < $1.dateTo}),id: \.id) { trip in
+                                
+                                    NavigationLink {
+                                        BagsView(trip: trip, color: color)
+                                            .navigationTransition(.zoom(sourceID: "world", in: namespace))
+                                            .navigationBarBackButtonHidden(true)
+                                    } label: {
+                                        TripCell(trip: trip,color: color,module:module)
+                                    }
+                                
+                              
+                                
+                                
+                                
                             }
                             
-                            
-                            
                         }
+                        
+                        Spacer()
                     }
                     
-                }
+                    
+                
             }
         }
     }
 }
 #Preview {
-    ListTripView(color: .red,addingTrip: .constant(false) )
+    ListTripView(color: .red,addingTrip: .constant(false) ,module: PackingMockData.packingMock)
       
 }

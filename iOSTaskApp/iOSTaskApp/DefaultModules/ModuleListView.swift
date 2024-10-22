@@ -12,7 +12,7 @@ struct ModuleListView: View {
     @Binding var isAddingModuleOpen: Bool
     @Environment(\.modelContext) var context
     @Query(sort:\CreatingModuleData.name,order: .forward) var availableModules: [CreatingModuleData]
-    @State var selectedModule: CreatingModuleData = CreatingModuleData(name: "", colorName: "",isUsed: false)
+    @State var selectedModule: CreatingModuleData = CreatingModuleData(name: "", colorName: "")
     let collums: [GridItem] = [
         GridItem(.fixed(100),spacing: 85,alignment: nil),
         GridItem(.fixed(100),spacing: 85,alignment: nil),

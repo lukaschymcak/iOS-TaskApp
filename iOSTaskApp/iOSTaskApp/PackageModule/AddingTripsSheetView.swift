@@ -12,7 +12,7 @@ struct AddingTripsSheetView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
     @State var tripData = Trip(name: "", dateFrom: Date.now, dateTo: Date.now)
-    @Query private var trips:[Trip]
+    var module:PackingModuleDataClass
     var body: some View {
             VStack{
                 Button {
@@ -66,7 +66,9 @@ struct AddingTripsSheetView: View {
                 .padding(.bottom,10)
 
                 Button {
-                    context.insert(tripData)
+                    let trip = Trip(name: tripData.name, dateFrom: tripData.dateFrom, dateTo: tripData.dateTo,module: module)
+                    module.trips.append(trip)
+                    module.trips.sort(by: {$0.dateTo < $1.dateTo})
                     dismiss()
                 } label: {
                     Text("Add")
@@ -87,7 +89,7 @@ struct AddingTripsSheetView: View {
     }
 
 #Preview {
-    AddingTripsSheetView(tripData: MockData.tripData)
+    AddingTripsSheetView(module: PackingMockData.packingMock)
         .modelContainer(for:Trip.self)
     
     
