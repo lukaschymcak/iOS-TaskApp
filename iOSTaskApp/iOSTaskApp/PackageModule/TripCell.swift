@@ -53,7 +53,7 @@ struct TripCell: View {
                             .fontWeight(.bold)
                             .foregroundStyle(color)
                         Spacer()
-                        Text(" bags")
+                        Text("\(trip.percentage)%")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundStyle(color)

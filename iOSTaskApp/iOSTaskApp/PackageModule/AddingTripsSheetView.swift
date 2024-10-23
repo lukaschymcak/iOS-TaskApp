@@ -14,6 +14,7 @@ struct AddingTripsSheetView: View {
     @State var tripData = Trip(name: "", dateFrom: Date.now, dateTo: Date.now)
     var module:PackingModuleDataClass
     var body: some View {
+        GeometryReader { GeometryProxy in
             VStack{
                 Button {
                     dismiss()
@@ -34,57 +35,65 @@ struct AddingTripsSheetView: View {
                         .font(.title)
                         .fontWeight(.bold)
                     TextField("", text: $tripData.name)
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                        .fontWeight(.bold)
-                        .padding()
-                        .background(.gray)
-                        .clipShape(.rect(cornerRadius: 15))
+                        .textFieldStyle(.roundedBorder)
                 }
-                .padding(.horizontal, 20)
                 .padding(.bottom,20)
-                HStack{
-                    DatePicker(selection: $tripData.dateFrom,in: Date.now..., displayedComponents: .date) {
-                        Text("From:")
-                            .font(.title)
-                            .fontWeight(.bold)
-                    }.datePickerStyle(.compact)
-                        .padding(.trailing,100)
-                    
-                }
-                .padding(.horizontal, 20)
-                .padding(.bottom,10)
-                HStack{
-                    DatePicker(selection: $tripData.dateTo,in: Date.now..., displayedComponents: .date) {
-                        Text("To:")
-                            .font(.title)
-                            .fontWeight(.bold)
-                    }.datePickerStyle(.compact)
-                        .padding(.trailing,100)
-                }
-                .padding(.horizontal, 20)
-                .padding(.bottom,10)
+                HStack {
+                    VStack(alignment:.leading){
+                        HStack{
+                            DatePicker(selection: $tripData.dateFrom,in: Date.now..., displayedComponents: .date) {
+                                Text("From:")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                
+                            }.frame(width: 230)
+                            .datePickerStyle(.compact)
+                            
+                        }
+    
+                        .padding(.bottom,10)
+                        HStack{
+                            DatePicker(selection: $tripData.dateTo,in: Date.now..., displayedComponents: .date) {
+                                Text("To:")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                
+                            }.frame(width: 230)
+                                .datePickerStyle(.compact)
+                            
+                            
+                        } .frame(maxWidth: .infinity,alignment: .leading)
 
-                Button {
-                    let trip = Trip(name: tripData.name, dateFrom: tripData.dateFrom, dateTo: tripData.dateTo,module: module)
-                    module.trips.append(trip)
-                    module.trips.sort(by: {$0.dateTo < $1.dateTo})
-                    dismiss()
-                } label: {
-                    Text("Add")
-                        .padding()
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .background(.blue)
-                        .clipShape(.rect(cornerRadius: 20))
-                        .foregroundStyle(.white)
-                       
-                       
-                }.padding(5)
+                            .padding(.bottom,10)
+                    }
+                    Button {
+                        let trip = Trip(name: tripData.name, dateFrom: tripData.dateFrom, dateTo: tripData.dateTo,module: module)
+                        module.trips.append(trip)
+                        module.trips.sort(by: {$0.dateTo < $1.dateTo})
+                        dismiss()
+                    } label: {
+                        Text("Add")
+                            .padding(13)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .background(module.color)
+                            .clipShape(.rect(cornerRadius: 10))
+                            .foregroundStyle(.white)
+                           
+                           
+                    }.padding(.horizontal)
+                }
+
+              
                 
                 Spacer()
+                
             }
-                .presentationDetents([.height(350)])
+            .frame(width: GeometryProxy.size.width - 40)
+            .frame(maxWidth: .infinity,alignment: .center)
+                .presentationDetents([.height(320)])
+        }
+         
         }
     }
 

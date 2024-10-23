@@ -9,9 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct BagsView: View {
+    @Environment(\.modelContext) var context
+    @Environment(\.colorScheme) var colorScheme
     var trip:Trip
     var color:Color
-  
+    @State var showAlert:Bool = false
+    @State var bagName:String = ""
     @State var addingBag:Bool = false
     var body: some View {
         GeometryReader { GeometryProxy in
@@ -19,18 +22,22 @@ struct BagsView: View {
                 VStack(alignment: .center){
                     CustomNavBarModule(module: "Packing", name: "Trip")
                         .padding(.top,30)
-                        .frame(width: GeometryProxy.size.width - 30,height: 25)
+                        .frame(width: GeometryProxy.size.width - 30,height: 15)
                 }.frame(maxWidth: .infinity)
                 VStack(alignment: .center){
                     Text(trip.name)
                         .font(.title)
                         .fontWeight(.bold)
+                        .foregroundStyle(Utils.textColor(colorScheme))
                     color.frame(width: GeometryProxy.size.width - 30, height: 5)
                         .clipShape(.rect(cornerRadius: 20))
                     VStack{
                         Text(trip.dateFrom , format: .dateTime.day().month().year())
+                            .foregroundStyle(Utils.textColor(colorScheme))
+                        
                         Text(trip.dateTo , format: .dateTime.day().month().year())
-                    }
+                            .foregroundStyle(Utils.textColor(colorScheme))
+                    }.padding(.top,10)
                 }
                 .frame(maxWidth: .infinity)
                 .frame(width: GeometryProxy.size.width - 40)
@@ -39,79 +46,76 @@ struct BagsView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .padding(.vertical,10)
+                    .foregroundStyle(Utils.textColor(colorScheme))
                 Spacer()
-                Button {
-                    addingBag.toggle()
-                } label: {
-                    Image(systemName: "plus")
-                }
-                
             }
-            .frame(width: GeometryProxy.size.width - 40)
-            .frame(maxWidth: .infinity)
-                    HStack{
-                        ForEach(trip.bags){ bag in
-                            Text(bag.name)
-                          
+              
+            
+                VStack{
+                    ScrollView{
+                        VStack{
+                            ForEach(trip.bags){ bag in
+                                CollapsableBag(colorScheme: colorScheme, bag: bag, color: color, trip: trip)
+                            }
                         }
                     }
-                
+                    HStack{
+                        TextField("Bag1", text: $bagName)
+                            .textFieldStyle(.roundedBorder)
+                   
+                        Button {
+                            if !trip.validBag(name: bagName){
+                                showAlert = true
+                                
+                            } else{
+                                let newBag = Bags(name: bagName, trip: trip)
+                                trip.bags.append(newBag)
+                            }
+                        
+                        } label: {
+                            Image(systemName: "plus")
+                                .foregroundStyle(.white)
+                                .padding(10)
+                                .background(color)
+                                .clipShape(.rect(cornerRadius: 10))
+                            
+                        }.alert("\(trip.alertMessage(name:bagName))" ,isPresented: $showAlert) {
+                            
+                        }
+                  
+                    }
+            
+                    
+                }
+          
+                                    
                
                 
                    
-        }
+        }.frame(width: GeometryProxy.size.width - 40)
+                .frame(maxWidth: .infinity)
             
         }
-        .sheet(isPresented: $addingBag) {
-            AddingBagView(bags: trip.bags,trip:trip)
-        }
+    
      
     }
 }
 
-
-struct AddingBagView:View {
-    @Environment(\.modelContext) var context
-    @State var bag = Bags(name: "", items: [])
-    @State var bagName:String = ""
-    @State var bags:[Bags]
-    var trip:Trip
-    var body: some View {
-        VStack{
-            HStack{
-                Text("Name")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.orange)
-                TextField("Enter Name", text: $bagName)
-                    .padding()
-                    .background(Color.gray.cornerRadius(10))
-                    .foregroundColor(.black)
-            }
-            Button(action: {
-                let bag = Bags(name: bagName, items: [],trip: trip)
-                bags.append(bag)
-            }, label: {
-                Text("add")
-            })
-            .padding()
-            Spacer()
-        }
-    }
-}
-
 struct ItemCell:View {
-    @Environment(\.modelContext) var context
+    var bag:Bags
     let item:Item
     var body: some View {
         ZStack {
             HStack{
+                
                 Image(systemName:item.marker )
                 Text(item.name)
                     .fontWeight(.bold)
                     .foregroundStyle(.black)
                 Button {
-                    context.delete(item)
+                  if let index = bag.items.firstIndex(of: item){
+                        bag.items.remove(at: index)
+                    }
                 } label: {
                     Image(systemName: "x.circle")
                 }
@@ -121,41 +125,91 @@ struct ItemCell:View {
                 
             }.padding(6)
                 .frame(maxWidth: .infinity,alignment: .leading)
+        
+                .onTapGesture {
+                    item.isChecked.toggle()
+                }
         }
         
     }
 }
 
 struct CollapsableBag:View {
-    var name:String
-    let collums: [GridItem] = [
-        GridItem(.fixed(300),spacing: 0,alignment: .leading),
-    ]
+    var colorScheme : ColorScheme
+    var bag:Bags
+    var color:Color
     @State var isCollapsed:Bool = true
-    @Binding var items:[String]
-    @Binding var isChecked:Bool
     @State var selectedItem:String = ""
+    @State var item:Item = Item(name: "",isChecked: false)
+    @State var itemName:String = ""
+    var trip: Trip
     var body: some View {
-        VStack {
-            Button {
-                isCollapsed.toggle()
-            } label: {
-                HStack{
-                    Text(name)
-                    Spacer()
-                    Image(systemName: isCollapsed ? "chevron.down" : "chevron.up")
-                }.frame(maxWidth: .infinity)
-                    .frame(width: 300)
-            }
-            LazyVGrid(columns: collums) {
-              
+
+            VStack(alignment: .trailing){
+                Button {
+                    isCollapsed.toggle()
+                } label: {
+                    HStack{
+                        Text(bag.name)
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                        Spacer()
+                        Text("\(bag.packedItems)/\(bag.numberOfItems)")
+                            .foregroundStyle(.white)
+                            .font(.headline)
+                        Image(systemName: isCollapsed ? "chevron.down" : "chevron.up")
+                            .foregroundStyle(.white)
+                            .font(.headline)
+                    }.padding()
+                        .background(color)
+                        .clipShape(.rect(cornerRadius: 10))
+                    Button {
+                        if let selectedBag = trip.bags.firstIndex(of:bag){
+                            trip.bags.remove(at:selectedBag)
+                        }
+                    } label: {
+                        Image(systemName: "x.circle")
+                            .font(.title)
+                            .foregroundStyle(Utils.textColor(colorScheme))
+                            .padding(5)
+                    }
+
                 }
-                      }
-                      .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: isCollapsed ? 0 : .none)
-                      .clipped()
-                      .animation(.easeInOut, value: isCollapsed)
-                      .transition(.slide)
+                VStack {
+                    VStack{
+                        ForEach(bag.items){ item in
+                            ItemCell(bag:bag,item: item)
+                        }
+                        
+                        HStack {
+                            TextField("Item", text: $itemName)
+                                .textFieldStyle(.roundedBorder)
+                            Button {
+                                item = Item(name: itemName, isChecked: false)
+                                bag.items.append(item)
+                            } label: {
+                                Image(systemName: "plus")
+                                    .foregroundStyle(.white)
+                                    .padding(2)
+                                    .background(color)
+                                    .clipShape(.rect(cornerRadius: 10))
+                        }
+                        
+                        }.frame(width: UIScreen.main.bounds.width - 120)
+                            .frame(maxWidth: .infinity,alignment: .leading)
+                        
+
+                    }.padding(.horizontal)
+                        
+                  
+                    }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: isCollapsed ? 0 : .none)
+                    .clipped()
+                   
+            }.padding(.bottom,10)
         }
+   
+            
 
     }
 

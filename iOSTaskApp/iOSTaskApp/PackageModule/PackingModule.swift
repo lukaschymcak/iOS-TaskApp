@@ -29,6 +29,7 @@ struct PackingModule: View {
                 Spacer()
                 Button {
                     context.delete(packingModule)
+                    context.insert(DefaultModules.packing)
                 } label: {
                     Image(systemName: "minus")
                         .font(.title)
@@ -104,16 +105,14 @@ struct PackingModule: View {
                             Spacer()
                             
                             HStack {
-                                Text("\(packingModule.percentage)")
-                                    .font(.system(size: 40))
+                                Text("\(packingModule.percentage)% \n packed")
+                                    .font(.system(size: 30))
                                     .foregroundStyle(packingModule.color)
                                     .fontWeight(.bold)
-                                Image(systemName: "percent")
-                                    .foregroundStyle(packingModule.color)
-                                    .font(.system(size: 30))
-                                    .fontWeight(.heavy)
+                                    .multilineTextAlignment(.trailing)
+                               
                                 
-                            }
+                            }.padding(.top,22)
                             Spacer()
                         }
                         .frame(height: 110)

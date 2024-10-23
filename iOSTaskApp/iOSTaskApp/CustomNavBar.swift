@@ -36,6 +36,7 @@ struct CustomNavBar: View {
             Spacer()
             Button {
                 isAddModuleOpen.toggle()
+                
             } label: {
                 Image(systemName: "plus")
                     .font(.system(size: 25))
@@ -48,7 +49,7 @@ struct CustomNavBar: View {
      
         
         }
-    }
+}
 
 
 

@@ -12,16 +12,27 @@ class Bags{
     var name: String
     @Relationship(deleteRule: .cascade)
     var items = [Item]()
+    
     var numberOfItems: Int {
         items.count
     }
-    @Relationship(.unique, deleteRule: .nullify, inverse: \Trip.bags)
+    var packedItems:Int {
+        items.filter { item in
+            item.isChecked
+        }.count
+    }
+    
+    var percent: Int {
+        (packedItems / numberOfItems) * 100
+    }
     var trip: Trip?
     init(name: String, items: [Item] = [],trip: Trip? = nil) {
         self.name = name
         self.items = items
         self.trip = trip
+
     }
+    
 }
 
 struct MockBags {

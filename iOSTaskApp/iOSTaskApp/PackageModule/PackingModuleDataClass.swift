@@ -15,14 +15,15 @@ class PackingModuleDataClass{
     var earliestTripName: String
     var inDays: Int
     var colorName: String
-    var percentage: Int
+    var percentage:Int {
+      return trips.first?.percentage ?? 0
+    }
     @Relationship(deleteRule: .cascade) var trips  = [Trip]()
-    init(name: String = "Packing", earliestTripName: String, inDays: Int, colorName: String, percentage: Int = 0) {
+    init(name: String = "Packing", earliestTripName: String, inDays: Int, colorName: String) {
         self.name = name
         self.earliestTripName = earliestTripName
         self.inDays = inDays
         self.colorName = colorName
-        self.percentage = percentage
     }
     var color:Color {
         switch colorName {

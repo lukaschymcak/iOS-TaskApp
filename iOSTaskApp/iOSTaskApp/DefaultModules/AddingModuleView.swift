@@ -82,24 +82,18 @@ struct addingPackingModule:View {
                             .font(.title)
                             .fontWeight(.bold)
                         TextField("", text: $packageModule.name)
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                            .fontWeight(.bold)
-                            .padding()
-                            .background(.gray)
-                            .clipShape(.rect(cornerRadius: 15))
+                            .textFieldStyle(.roundedBorder)
                         Button {
                             context.insert(packageModule)
+                            context.delete(DefaultModules.packing)
                             dismiss()
                         } label: {
-                            RoundedRectangle(cornerRadius: 20)
-                                .frame(width: 80,height: 55)
-                                .overlay {
-                                    Text("Add")
-                                        .foregroundStyle(.white)
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                }
+                            Text("Add")
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .font(.headline)
+                                .background(selection)
+                                .clipShape(.rect(cornerRadius: 10))
                         }
                     }
                     .padding(.horizontal, 20)
@@ -115,7 +109,7 @@ struct addingPackingModule:View {
                     
                 }
                 Spacer()
-            }
+            }.padding(.top,15)
             
         }
         .presentationDetents([.height(350),.height(550)])
