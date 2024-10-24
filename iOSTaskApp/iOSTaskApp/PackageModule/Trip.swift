@@ -36,7 +36,11 @@ class Trip{
     var percentage: Int {
         if allCheckedItems == 0 || allItems == 0 {
             return 0
-        } else{
+        } else if  allCheckedItems == allItems  {
+            
+            return 100
+        }
+        else{
             return Int((Double(allCheckedItems) / Double(allItems)) * 100)
             
         }
