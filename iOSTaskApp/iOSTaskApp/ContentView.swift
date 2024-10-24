@@ -18,6 +18,7 @@ struct ContentView: View {
                 if isWelcomeScreenOver {
                     HomeView(name: $name)
                         .transition(.opacity)
+                     
                         
                 }
                 else {
@@ -105,29 +106,31 @@ struct HomeView: View{
     var body: some View{
         
         GeometryReader { GeometryProxy in
-            VStack(){
+            ZStack {
+                VStack(){
                     NavigationStack{
-                    CustomNavBar(name: $name, isAddModuleOpen: $isAddModuleOpen)
+                        CustomNavBar(isWelcomeScreenOver: $isWelcomeScreenOver, name: $name, isAddModuleOpen: $isAddModuleOpen)
                             .frame(width: GeometryProxy.size.width - 30)
-    
+                        
                         ScrollView(){
                             PackageModuleHomeView()
                                 .frame(height: 250)
                             Spacer()
-                   
-                      
+                            
+                            
                             
                             
                         }
-                            Spacer()
-                 
+                        Spacer()
+                        
+                    }
                 }
-            }
-        
-            .sheet(isPresented: $isAddModuleOpen) {
                 
-                AddModuleView(isAddModuleOpen: $isAddModuleOpen)
-                   
+                .sheet(isPresented: $isAddModuleOpen) {
+                    
+                    AddModuleView(isAddModuleOpen: $isAddModuleOpen)
+                    
+                }
             }
         }
        
@@ -139,26 +142,45 @@ struct HomeView: View{
 }
 
 struct AddModuleView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Binding var isAddModuleOpen: Bool
     @State var isAddingModuleOpen: Bool = false
+    @Query var availableModules: [CreatingModuleData]
+    
     
     var body: some View {
         NavigationStack{
             
             VStack(alignment:.center){
-                Button {
-                    isAddModuleOpen.toggle()
-                } label: {
-                    Image(systemName: "chevron.up")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.black)
-                }.padding(.bottom,20)
+               
+                
+                HStack{
+                    Button {
+                        isAddModuleOpen.toggle()
+                    } label: {
+                        Image(systemName: "chevron.up")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundStyle(Utils.textColor(colorScheme))
+                    }.padding(.bottom,20)
+                        
+                    
+                    
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundStyle(Utils.textColor(colorScheme))
+                    }.padding(.bottom,20)
+                }.frame(maxWidth: .infinity,alignment: .center)
+
                 
                 Text("Choose a Module")
                     .font(.title)
                     .fontWeight(.bold)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(Utils.textColor(colorScheme))
                     .padding(.bottom,20)
                 
                 HStack{

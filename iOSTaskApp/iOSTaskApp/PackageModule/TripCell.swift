@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TripCell: View {
     @Environment(\.modelContext) var context
+    @Environment(\.colorScheme) var colorScheme
     let trip:Trip
     var color:Color
     @State var module:PackingModuleDataClass
@@ -18,7 +19,9 @@ struct TripCell: View {
                 
                 VStack(alignment:.center) {
                     RoundedRectangle(cornerRadius: 20)
+                        .fill(colorScheme == .dark ? module.color.opacity(0.3) : .clear)
                         .stroke(color,lineWidth: 6)
+                        
                         .frame(width: GeometryProxy.size.width - 30, height: 140)
                         .padding(.top,10)
                 }.frame(maxWidth: .infinity)

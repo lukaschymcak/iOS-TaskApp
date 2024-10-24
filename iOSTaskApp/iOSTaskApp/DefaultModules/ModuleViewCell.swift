@@ -12,28 +12,39 @@ struct ModuleViewCell: View {
     @Environment(\.modelContext) var context
     let module:CreatingModuleData
     var body: some View {
-        VStack(alignment:.leading){
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(module.color,lineWidth: 6)
-                .frame(width: 160, height: 150)
-                .overlay {
-                    Text("\(module.name) module")
-                        .font(.system(size: 35))
-                        .fontWeight(.bold)
-                        .foregroundStyle(module.color)
-                        .multilineTextAlignment(.leading)
-                    Button {
-                        context.delete(module)
-                    } label: {
-                        Image(systemName: "minus")
-                    }
+        GeometryReader { GeometryProxy in
+            VStack(alignment:.leading){
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(module.color,lineWidth: 6)
+                    .frame( width: GeometryProxy.size.width - 30 ,height: 150)
+                
+                    .overlay {
+                        HStack {
+                            Text("\(module.name) \n module")
+                                .font(.system(size: 35))
+                                .fontWeight(.bold)
+                                .foregroundStyle(module.color)
+                                .multilineTextAlignment(.leading)
+                            Text(module.desc)
+                                .fontWeight(.bold)
+                                .foregroundStyle(module.color)
+                        }.frame(width: GeometryProxy.size.width - 50)
+              
+                        Button {
+                            context.delete(module)
+                        } label: {
+                            Image(systemName: "minus")
+                        }
 
-                       
-                }
-             
-            
+                           
+                    }
+                 
+                
+            }
+                .frame(maxWidth: .infinity,alignment: .center)
+         
         }
-        .padding(.bottom,10)
+        
     }
 }
 

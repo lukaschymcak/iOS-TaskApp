@@ -16,6 +16,8 @@ struct BagsView: View {
     @State var showAlert:Bool = false
     @State var bagName:String = ""
     @State var addingBag:Bool = false
+    @FocusState private var nameIsFocused : Bool
+   
     var body: some View {
         GeometryReader { GeometryProxy in
             VStack {
@@ -62,7 +64,8 @@ struct BagsView: View {
                     HStack{
                         TextField("Bag1", text: $bagName)
                             .textFieldStyle(.roundedBorder)
-                   
+                            .focused($nameIsFocused)
+         
                         Button {
                             if !trip.validBag(name: bagName){
                                 showAlert = true
@@ -70,6 +73,8 @@ struct BagsView: View {
                             } else{
                                 let newBag = Bags(name: bagName, trip: trip)
                                 trip.bags.append(newBag)
+                                nameIsFocused = false
+                                bagName = ""
                             }
                         
                         } label: {
@@ -83,7 +88,7 @@ struct BagsView: View {
                             
                         }
                   
-                    }
+                    }.padding(.bottom,10)
             
                     
                 }
@@ -102,6 +107,7 @@ struct BagsView: View {
 }
 
 struct ItemCell:View {
+    @Environment(\.colorScheme) var colorScheme
     var bag:Bags
     let item:Item
     var body: some View {
@@ -111,7 +117,7 @@ struct ItemCell:View {
                 Image(systemName:item.marker )
                 Text(item.name)
                     .fontWeight(.bold)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(Utils.textColor(colorScheme))
                 Button {
                   if let index = bag.items.firstIndex(of: item){
                         bag.items.remove(at: index)
@@ -143,6 +149,7 @@ struct CollapsableBag:View {
     @State var item:Item = Item(name: "",isChecked: false)
     @State var itemName:String = ""
     var trip: Trip
+    @FocusState private var itemNameIsFocused : Bool
     var body: some View {
 
             VStack(alignment: .trailing){
@@ -185,9 +192,12 @@ struct CollapsableBag:View {
                         HStack {
                             TextField("Item", text: $itemName)
                                 .textFieldStyle(.roundedBorder)
+                                .focused($itemNameIsFocused)
                             Button {
                                 item = Item(name: itemName, isChecked: false)
                                 bag.items.append(item)
+                                itemNameIsFocused = false 
+                                itemName = ""
                             } label: {
                                 Image(systemName: "plus")
                                     .foregroundStyle(.white)
@@ -206,7 +216,8 @@ struct CollapsableBag:View {
                     }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: isCollapsed ? 0 : .none)
                     .clipped()
                    
-            }.padding(.bottom,10)
+            }
+            .padding(.bottom,10)
         }
    
             

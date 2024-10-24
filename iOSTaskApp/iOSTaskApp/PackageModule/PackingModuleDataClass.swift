@@ -16,7 +16,10 @@ class PackingModuleDataClass{
     var inDays: Int
     var colorName: String
     var percentage:Int {
-      return trips.first?.percentage ?? 0
+      if let firstTrip = trips.first {
+          return firstTrip.percentage
+        }
+        return 0
     }
     @Relationship(deleteRule: .cascade) var trips  = [Trip]()
     init(name: String = "Packing", earliestTripName: String, inDays: Int, colorName: String) {
@@ -33,7 +36,7 @@ class PackingModuleDataClass{
         default: return .red
         }
     }
-    
+   
    
 }
 

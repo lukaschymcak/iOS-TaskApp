@@ -35,8 +35,6 @@ struct addingPackingModule:View {
         GeometryReader{ geometry in
             VStack{
                 VStack(alignment: .center){
-                    Text("Swipe Up For Details")
-                        .font(.subheadline)
                     Button {
                         dismiss()
                     } label: {
@@ -98,21 +96,13 @@ struct addingPackingModule:View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom,20)
-                    Text("Details")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding()
-                    Text("ASDAS KDAS KKKASKDASD KKSAD ASD  KSAKDASKD KKSAD KASD ")
-                        .lineLimit(nil)
-                        .fontWeight(.semibold)
-                        .multilineTextAlignment(.center)
                     
                 }
                 Spacer()
             }.padding(.top,15)
             
         }
-        .presentationDetents([.height(350),.height(550)])
+        .presentationDetents([.height(350)])
     }
 }
 

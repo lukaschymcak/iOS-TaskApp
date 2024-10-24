@@ -18,49 +18,64 @@ struct PackingModule: View {
         colorScheme == .dark ? .white : .black
     }
     var body: some View {
-       
-        VStack(alignment: .center,spacing: 10){
-            HStack {
-                Text(packingModule.name == "" ? "Packing" :
-                packingModule.name)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundStyle(textColor)
-                Spacer()
-                Button {
-                    context.delete(packingModule)
-                    context.insert(DefaultModules.packing)
-                } label: {
-                    Image(systemName: "minus")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundStyle(textColor)
-                }
-
+        
+        
+        ZStack{
+           
+            RoundedRectangle(cornerRadius: 20)
+                .fill(colorScheme == .dark ? packingModule.color.opacity(0.3) : .clear)
+                .stroke(packingModule.color,lineWidth: 7)
+                .frame(maxWidth: UIScreen.main.bounds.width - 25,maxHeight: packingModule.trips.isEmpty ? 150 : 180)
+               
+            VStack(spacing: 10){
                 
-            }.frame(maxWidth: UIScreen.main.bounds.width - 50,alignment: .center)
-            ZStack{
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(UIColor.systemBackground))
-                    .stroke(packingModule.color,lineWidth: 7)
-                    .frame(maxWidth: UIScreen.main.bounds.width - 25,maxHeight: 170)
-                HStack{
-                    VStack(alignment:.leading){
-                        Text("NEXT TRIP:")
-                            .font(.system(size: 20))
-                            .fontWeight(.bold)
-                            .underline()
-                            .foregroundStyle(packingModule.color)
-                            .padding(.bottom,1)
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(packingModule.name == "" ? "Packing" :
+                                packingModule.name)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundStyle(packingModule.color)
                         Spacer()
+                        Button {
+                            context.delete(packingModule)
+                            context.insert(DefaultModules.packing)
+                        } label: {
+                            Image(systemName: "minus")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundStyle(packingModule.color)
+                        }
                         
-                        VStack(alignment:.leading){
+                        
+                    }
+                  
+                    
+                }.padding(.horizontal,8)
+       
+                .frame(maxWidth: UIScreen.main.bounds.width - 55)
+                    
+                      
+           
+                
+                      
+                HStack(alignment:.bottom){
+                    VStack(alignment:.leading,spacing: 5){
+                                Text("next trip:")
+                                    .font(.system(size: 23))
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(packingModule.color)
+                                    
                             if packingModule.trips.isEmpty {
-                                Text("No Trips \n added")
+                                Text("No trips")
                                     .font(.system(size: 30))
                                     .fontWeight(.bold)
                                     .foregroundStyle(packingModule.color)
-                                    .multilineTextAlignment(.leading)
+                                    .multilineTextAlignment(.center)
+                                    .lineLimit(2)
+                        
+                       
+                 
                             } else {
                                 if let firstTrip = packingModule.trips.first {
                                     if  firstTrip.name == "" {
@@ -74,7 +89,7 @@ struct PackingModule: View {
                                             .fontWeight(.bold)
                                             .foregroundStyle(packingModule.color)
                                     }
-                                 
+                                    
                                     if firstTrip.dayDifference() == 0{
                                         Text("Today")
                                             .font(.system(size: 30))
@@ -87,51 +102,40 @@ struct PackingModule: View {
                                             .foregroundStyle(packingModule.color)
                                     }
                                 }
-                                    
-                                    
                                 
-                              
+                                
+                                
+                                
                             }
                             
-                        }
-                        Spacer()
-                        
-                    }
-                    .frame(height: 120)
-        
-                    Spacer()
-                    HStack{
-                        VStack(alignment:.trailing){
-                            Spacer()
                             
-                            HStack {
-                                Text("\(packingModule.percentage)% \n packed")
-                                    .font(.system(size: 30))
-                                    .foregroundStyle(packingModule.color)
-                                    .fontWeight(.bold)
-                                    .multilineTextAlignment(.trailing)
-                               
-                                
-                            }.padding(.top,22)
-                            Spacer()
                         }
-                        .frame(height: 110)
-                        
-                        
-                    }
+                            Spacer()
+                                    if !packingModule.trips.isEmpty{
+                                        Text("\(packingModule.percentage)% \n packed")
+                                            .font(.system(size: 30))
+                                            .foregroundStyle(packingModule.color)
+                                            .fontWeight(.bold)
+                                            .multilineTextAlignment(.trailing)
+                                        
+                                    }
+                                  
+                                    
+                             
+       
                     
                     
                 }
-                .padding(8)
-                .frame(maxWidth: UIScreen.main.bounds.width - 55,maxHeight: 150)
-               
+                .padding(.horizontal,8)
+                .frame(maxWidth: UIScreen.main.bounds.width - 55)
                 
                 
-            }
+                
+            }.padding(.vertical,20)
         }
     }
-    
-}
+    }
+
 
 
 

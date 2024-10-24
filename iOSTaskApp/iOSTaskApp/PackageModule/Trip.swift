@@ -66,6 +66,7 @@ class Trip{
         name.isEmpty ? "Please enter a bag name" : bags.contains(where: { $0.name == name }) ? "Bag name already exists" : ""
     }
    
+    
    
 }
 

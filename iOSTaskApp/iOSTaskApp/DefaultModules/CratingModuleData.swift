@@ -10,16 +10,18 @@ import SwiftUI
 import SwiftData
 
 @Model
-class CreatingModuleData:Identifiable {
-    @Attribute(.unique) var id:UUID
+class CreatingModuleData {
+    var id:UUID
     var name: String
     var colorName: String
+    var desc: String = ""
    
 
-    init(id:UUID = .init(), name: String, colorName: String) {
+    init(id:UUID = UUID(), name: String, colorName: String,desc:String = "") {
         self.id = id
         self.name = name
         self.colorName = colorName
+        self.desc = desc
     }
     
     var color:Color {
@@ -37,11 +39,12 @@ class CreatingModuleData:Identifiable {
 }
 
 struct DefaultModules {
-    static let packing = CreatingModuleData(name: "Packing", colorName: "orange" )
-    static let pills = CreatingModuleData(name: "Pills", colorName: "yellow")
-    static let gymTracker = CreatingModuleData(name: "Gym Tracker", colorName: "green")
+    static let packing = CreatingModuleData(name: "Packing", colorName: "orange",desc: "Effortlessly organize your trips with our packing module – create trips, track items, and never forget essentials!" )
+    static let pills = CreatingModuleData(name: "Pills", colorName: "yellow",desc: "")
+    static let gymTracker = CreatingModuleData(name: "Gym Tracker", colorName: "green",desc: "")
     
-    static var defaults: [CreatingModuleData] = [packing, pills, gymTracker]
+    static var defaults: [CreatingModuleData] = [packing, pills, gymTracker].sorted(by: {$0.name < $1.name})
+    
     
 }
 

@@ -14,38 +14,43 @@ struct ModuleListView: View {
     @Query(sort:\CreatingModuleData.name,order: .forward) var availableModules: [CreatingModuleData]
     @Query var module : [PackingModuleDataClass]
     @State var selectedModule: CreatingModuleData = CreatingModuleData(name: "", colorName: "")
-    let collums: [GridItem] = [
-        GridItem(.fixed(100),spacing: 85,alignment: nil),
-        GridItem(.fixed(100),spacing: 85,alignment: nil),
-    ]
+  
     
     var body: some View {
-        
-        LazyVGrid(columns: collums){
-            ForEach(availableModules){ module in
+       
+            GeometryReader { GeometryProxy in
                 
-                ModuleViewCell(module: module)
-                    .padding(6)
-                    .onTapGesture {
-                        isAddingModuleOpen.toggle()
-                        selectedModule = module
+                    
+                    ScrollView{
+                    ForEach(availableModules){ module in
+                        VStack{
+                        ModuleViewCell(module: module)
+                            .padding(6)
+                            .onTapGesture {
+                                isAddingModuleOpen.toggle()
+                                selectedModule = module
+                            }.frame(height: 170)
+                            .sheet(isPresented: $isAddingModuleOpen) {
+                                AddingModuleView(module: selectedModule)
+                            }
+                        
+                        
                     }
-                    .sheet(isPresented: $isAddingModuleOpen) {
-                        AddingModuleView(module: selectedModule)
+                    
+                    
+                }.onAppear {
+                    if availableModules.isEmpty {
+                        for module in DefaultModules.defaults {
+                            context.insert(module)
+                        }
+                        
+                        
+                        
                     }
-                
-            }
-            
-            
-        }.onAppear {
-            if availableModules.isEmpty {
-                for module in DefaultModules.defaults {
-                    context.insert(module)
+                    
                 }
-                
-                
-                
-            }
+                }
+            
             
         }
     }

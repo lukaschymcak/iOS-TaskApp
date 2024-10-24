@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CustomNavBarModule: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
     var module:String
     var name: String
    
@@ -33,13 +34,13 @@ struct CustomNavBarModule: View {
                 } label: {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 30))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Utils.textColor(colorScheme))
                         .fontWeight(.bold)
                 }
 
                 Text("\(name)")
                     .font(.system(size: 30))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(Utils.textColor(colorScheme))
                     .fontWeight(.bold)
                
 
