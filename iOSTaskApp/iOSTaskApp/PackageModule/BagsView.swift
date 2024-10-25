@@ -54,6 +54,7 @@ struct BagsView: View {
               
             
                 VStack{
+                    
                     ScrollView{
                         VStack{
                             ForEach(trip.bags){ bag in
@@ -151,38 +152,42 @@ struct CollapsableBag:View {
     var trip: Trip
     @FocusState private var itemNameIsFocused : Bool
     var body: some View {
-
-            VStack(alignment: .trailing){
+        
+        VStack(){
+            Button {
+                isCollapsed.toggle()
+            } label: {
+                HStack{
+                    Text(bag.name)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                    Spacer()
+                    Text("\(bag.packedItems)/\(bag.numberOfItems)")
+                        .foregroundStyle(.white)
+                        .font(.headline)
+                    Image(systemName: isCollapsed ? "chevron.down" : "chevron.up")
+                        .foregroundStyle(.white)
+                        .font(.headline)
+                }.padding()
+                    .background(color)
+                    .clipShape(.rect(cornerRadius: 10))
                 Button {
-                    isCollapsed.toggle()
-                } label: {
-                    HStack{
-                        Text(bag.name)
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                        Spacer()
-                        Text("\(bag.packedItems)/\(bag.numberOfItems)")
-                            .foregroundStyle(.white)
-                            .font(.headline)
-                        Image(systemName: isCollapsed ? "chevron.down" : "chevron.up")
-                            .foregroundStyle(.white)
-                            .font(.headline)
-                    }.padding()
-                        .background(color)
-                        .clipShape(.rect(cornerRadius: 10))
-                    Button {
-                        if let selectedBag = trip.bags.firstIndex(of:bag){
-                            trip.bags.remove(at:selectedBag)
-                        }
-                    } label: {
-                        Image(systemName: "x.circle")
-                            .font(.title)
-                            .foregroundStyle(Utils.textColor(colorScheme))
-                            .padding(5)
+                    if let selectedBag = trip.bags.firstIndex(of:bag){
+                        trip.bags.remove(at:selectedBag)
                     }
-
+                } label: {
+                    Image(systemName: "x.circle")
+                        .font(.title)
+                        .foregroundStyle(Utils.textColor(colorScheme))
+                        .padding(5)
                 }
+                
+            }
+            if isCollapsed {
+                VStack {
+                }.frame(height: 0)
+            }else {
                 VStack {
                     VStack{
                         ForEach(bag.items){ item in
@@ -196,7 +201,7 @@ struct CollapsableBag:View {
                             Button {
                                 item = Item(name: itemName, isChecked: false)
                                 bag.items.append(item)
-                                itemNameIsFocused = false 
+                                itemNameIsFocused = false
                                 itemName = ""
                             } label: {
                                 Image(systemName: "plus")
@@ -204,22 +209,23 @@ struct CollapsableBag:View {
                                     .padding(2)
                                     .background(color)
                                     .clipShape(.rect(cornerRadius: 10))
-                        }
-                        
+                            }
+                            
                         }.frame(width: UIScreen.main.bounds.width - 120)
                             .frame(maxWidth: .infinity,alignment: .leading)
                         
-
-                    }.padding(.horizontal)
                         
-                  
-                    }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: isCollapsed ? 0 : .none)
+                    }.padding(.horizontal)
+                    
+                    
+                }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight:.none)
                     .clipped()
-                   
+                
+                
             }
-            .padding(.bottom,10)
-        }
-   
+                
+        }.padding(.bottom,10)
+    }
             
 
     }
