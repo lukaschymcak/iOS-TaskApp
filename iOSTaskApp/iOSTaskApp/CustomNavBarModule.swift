@@ -42,6 +42,7 @@ struct CustomNavBarModule: View {
                     .font(.system(size: 30))
                     .foregroundStyle(Utils.textColor(colorScheme))
                     .fontWeight(.bold)
+                
                
 
                 

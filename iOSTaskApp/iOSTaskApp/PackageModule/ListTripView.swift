@@ -47,7 +47,7 @@ struct ListTripView: View {
                                         .navigationTransition(.zoom(sourceID: "world", in: namespace))
                                         .navigationBarBackButtonHidden(true)
                                 } label: {
-                                    TripCell(trip: trip,color: color,module:module)
+                                    TripCell(historyView: false, trip: trip,color: color,module:module)
                                 }
                                 
                                 

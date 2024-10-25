@@ -114,7 +114,7 @@ struct HomeView: View{
                         
                         ScrollView(){
                             PackageModuleHomeView()
-                                .frame(height: 250)
+                            
                             Spacer()
                             
                             
@@ -142,6 +142,7 @@ struct HomeView: View{
 }
 
 struct AddModuleView: View {
+    @Environment(\.modelContext) var context
     @Environment(\.colorScheme) var colorScheme
     @Binding var isAddModuleOpen: Bool
     @State var isAddingModuleOpen: Bool = false
@@ -167,7 +168,12 @@ struct AddModuleView: View {
                     
                     
                     Button {
-                        
+                        for modules in availableModules{
+                            context.delete(modules)
+                        }
+                        for newModules in DefaultModules.defaults{
+                            context.insert(newModules)
+                        }
                     } label: {
                         Image(systemName: "arrow.clockwise")
                             .font(.title)

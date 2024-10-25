@@ -22,6 +22,7 @@ class PackingModuleDataClass{
         return 0
     }
     @Relationship(deleteRule: .cascade) var trips  = [Trip]()
+    @Relationship(deleteRule: .cascade) var tripHistory  = [Trip]()
     init(name: String = "Packing", earliestTripName: String, inDays: Int, colorName: String) {
         self.name = name
         self.earliestTripName = earliestTripName

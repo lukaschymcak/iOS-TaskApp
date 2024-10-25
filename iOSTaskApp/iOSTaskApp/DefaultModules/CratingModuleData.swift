@@ -40,10 +40,10 @@ class CreatingModuleData {
 
 struct DefaultModules {
     static let packing = CreatingModuleData(name: "Packing", colorName: "orange",desc: "Effortlessly organize your trips with our packing module – create trips, track items, and never forget essentials!" )
-    static let pills = CreatingModuleData(name: "Pills", colorName: "yellow",desc: "")
-    static let gymTracker = CreatingModuleData(name: "Gym Tracker", colorName: "green",desc: "")
+    static let plants = CreatingModuleData(name: "Plants", colorName: "yellow",desc: "Simple, reliable watering reminders to keep your plants healthy and thriving")
+    static let gymTracker = CreatingModuleData(name: "Gym Tracker", colorName: "green",desc: "Easily track workouts, monitor progress, and stay on top of your fitness goals.")
     
-    static var defaults: [CreatingModuleData] = [packing, pills, gymTracker].sorted(by: {$0.name < $1.name})
+    static var defaults: [CreatingModuleData] = [packing, plants, gymTracker].sorted(by: {$0.name < $1.name})
     
     
 }

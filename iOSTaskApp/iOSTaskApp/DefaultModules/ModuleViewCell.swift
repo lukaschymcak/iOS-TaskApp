@@ -20,21 +20,25 @@ struct ModuleViewCell: View {
                 
                     .overlay {
                         HStack {
-                            Text("\(module.name) \n module")
-                                .font(.system(size: 35))
-                                .fontWeight(.bold)
-                                .foregroundStyle(module.color)
-                                .multilineTextAlignment(.leading)
-                            Text(module.desc)
+                            VStack(alignment:.leading) {
+                                Text("\(module.name)")
+                                    .font(.system(size: 35))
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(module.color)
+                                    .multilineTextAlignment(.leading)
+                                Text("module")
+                                    .font(.system(size: 35))
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(module.color)
+                                    .multilineTextAlignment(.leading)
+
+                            }
+                                Text(module.desc)
                                 .fontWeight(.bold)
                                 .foregroundStyle(module.color)
                         }.frame(width: GeometryProxy.size.width - 50)
               
-                        Button {
-                            context.delete(module)
-                        } label: {
-                            Image(systemName: "minus")
-                        }
+                        
 
                            
                     }

@@ -8,39 +8,58 @@
 import SwiftUI
 
 struct PackingModuleOpen: View {
+    @Environment(\.colorScheme) var colorScheme
     var module:PackingModuleDataClass
     @State var isAddModuleOpen: Bool = false
     @State var addingTrip: Bool = false
+    @State var openingHistory : Bool = false
     
     var body: some View {
-        GeometryReader { GeometryProxy in
-            VStack{
-                
-      
-                CustomNavBarModule(module:"Packing",name:module.name == "" ? "Packing" : module.name)
-                    .padding(.top,30)
-                    .frame(width: GeometryProxy.size.width - 30,height: 25)
-                module.color.frame(width: GeometryProxy.size.width - 30, height: 5)
+        NavigationStack{
+            GeometryReader { GeometryProxy in
+                VStack{
+                    
+                    
+                    HStack {
+                        CustomNavBarModule(module:"Packing",name:module.name == "" ? "Packing" : module.name)
+                        
+                        NavigationLink {
+                            ForEach(module.tripHistory){ history in
+                                TripCell(historyView: true, trip: history, color: module.color, module: module)}
+                        } label: {
+                            Text("History")
+                                .font(.system(size: 30))
+                                .fontWeight(.bold)
+                                .foregroundStyle(Utils.textColor(colorScheme))
+                            
+                            
+                        }
+                        
+                        
+                    } .padding(.top,10)
+                        .frame(width: GeometryProxy.size.width - 30)
+                    module.color.frame(width: GeometryProxy.size.width - 30, height: 5)
                         .clipShape(.rect(cornerRadius: 20))
-                VStack(alignment:.center){
-             
-                    
-                    
-                    ListTripView(color: module.color,addingTrip: $addingTrip,module:module)
-                   
-                       
-                    
-                 
-            
+                    VStack(alignment:.center){
+                        
+                        
+                        
+                        ListTripView(color: module.color,addingTrip: $addingTrip,module:module)
+                        
+                        
+                        
+                        
+                        
+                    }
+                    Spacer()
                 }
-                Spacer()
+                
             }
-      
+            .sheet(isPresented: $addingTrip) {
+                AddingTripsSheetView(module: module)
+            }
+            
         }
-        .sheet(isPresented: $addingTrip) {
-            AddingTripsSheetView(module: module)
-        }
-     
     }
 }
 
