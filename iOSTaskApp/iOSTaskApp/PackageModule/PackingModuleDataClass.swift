@@ -12,8 +12,6 @@ import SwiftUI
 @Model
 class PackingModuleDataClass{
     var name: String
-    var earliestTripName: String
-    var inDays: Int
     var colorName: String
     var percentage:Int {
       if let firstTrip = trips.first {
@@ -23,10 +21,9 @@ class PackingModuleDataClass{
     }
     @Relationship(deleteRule: .cascade) var trips  = [Trip]()
     @Relationship(deleteRule: .cascade) var tripHistory  = [Trip]()
-    init(name: String = "Packing", earliestTripName: String, inDays: Int, colorName: String) {
+    init(name: String = "Packing", colorName: String) {
         self.name = name
-        self.earliestTripName = earliestTripName
-        self.inDays = inDays
+      
         self.colorName = colorName
     }
     var color:Color {
@@ -43,7 +40,7 @@ class PackingModuleDataClass{
 
 
 struct PackingMockData{
-    static let packingMock = PackingModuleDataClass(name: "Packing",earliestTripName: "Trip 1", inDays: 10, colorName: "orange" )
+    static let packingMock = PackingModuleDataClass(name: "Packing", colorName: "orange" )
     
     
     

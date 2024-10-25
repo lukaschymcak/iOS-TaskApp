@@ -33,7 +33,7 @@ struct CustomNavBar: View {
                     .font(.system(size: 20))
                     .foregroundStyle(Utils.textColor(colorScheme))
                     .fontWeight(.bold)
-            }
+            }.accessibilityIdentifier("welcomeScreenButton")
             Spacer()
             Button {
                 isAddModuleOpen.toggle()

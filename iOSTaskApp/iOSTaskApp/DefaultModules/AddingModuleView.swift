@@ -27,7 +27,7 @@ struct AddingModuleView: View {
 struct addingPackingModule:View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    @State var packageModule = PackingModuleDataClass(name: "", earliestTripName: "", inDays: 0, colorName: "")
+    @State var packageModule = PackingModuleDataClass(name: "", colorName: "")
     var module:CreatingModuleData
     var colors:[Color]
     @Binding var selection:Color
