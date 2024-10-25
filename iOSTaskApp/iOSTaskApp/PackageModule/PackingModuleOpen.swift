@@ -24,6 +24,9 @@ struct PackingModuleOpen: View {
                         CustomNavBarModule(module:"Packing",name:module.name == "" ? "Packing" : module.name)
                         
                         NavigationLink {
+                            if module.tripHistory.isEmpty{
+                                Text("No History yet")
+                            }
                             ForEach(module.tripHistory){ history in
                                 TripCell(historyView: true, trip: history, color: module.color, module: module)}
                         } label: {

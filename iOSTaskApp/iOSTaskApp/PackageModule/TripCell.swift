@@ -19,6 +19,7 @@ struct TripCell: View {
         if historyView {
             tripHistory
         } else{
+            
             tripCurrent
         }
         
@@ -50,13 +51,12 @@ struct TripCell: View {
                             .foregroundStyle(color)
                         Spacer()
                         Button {
-                            if trip.percentage == 100 {
-                                module.tripHistory.append(trip)
-                            } else {
-                                module.trips.remove(at: module.trips.firstIndex(of: trip)!)
+                            if let tripHistory = module.tripHistory.firstIndex(of: trip){
+                                module.tripHistory.remove(at: tripHistory)
                             }
+                            
                         } label: {
-                            Image(systemName: trip.percentage == 100 ? "checkmark":"minus")
+                            Image(systemName: "minus")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(color)
