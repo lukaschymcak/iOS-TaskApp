@@ -13,6 +13,7 @@ struct BagsView: View {
     @Environment(\.colorScheme) var colorScheme
     var trip:Trip
     var color:Color
+    @Binding var historyView:Bool
     @State var isCollapsed:Bool = true
     @State var showAlert:Bool = false
     @State var bagName:String = ""
@@ -21,7 +22,7 @@ struct BagsView: View {
     
     var body: some View {
         GeometryReader { GeometryProxy in
-            VStack {
+            VStack{
                 VStack(alignment: .center){
                     CustomNavBarModule(module: "Packing", name: "Trip")
                         .padding(.top,30)
@@ -44,40 +45,84 @@ struct BagsView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .frame(width: GeometryProxy.size.width - 40)
-                HStack {
-                    Text("MY BAGS:")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(.vertical,10)
-                        .foregroundStyle(Utils.textColor(colorScheme))
-                    Spacer()
+                if historyView{
+                    historyBags
+                } else {
+                    currentBags
                 }
-                
-                
-                VStack{
-                    
-                    ScrollView{
-                        VStack{
-                            ForEach(trip.bags){ bag in
-                                CollapsableBag(colorScheme: colorScheme, bag: bag, color: color, isCollapsed: $isCollapsed, trip: trip)
-                                    .transition(.move(edge: .bottom))
-                                
-                            }
-                        }
-                    }
-                    
-                    if isCollapsed {
-                        collapsed
-                    }else {
-                        collapsed.hidden()
-                        
-                    }
-                    
-                }
-                
-                
             }.frame(width: GeometryProxy.size.width - 40)
                 .frame(maxWidth: .infinity)
+            
+        }
+        
+       
+        
+    }
+    @ViewBuilder
+    var historyBags: some View {
+        
+        
+        HStack {
+            Text("HISTORY:")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.vertical,10)
+                .foregroundStyle(Utils.textColor(colorScheme))
+            Spacer()
+        }
+        
+        
+        VStack{
+            
+            ScrollView{
+                VStack{
+                    ForEach(trip.bags){ bag in
+                        CollapsableBag(colorScheme: colorScheme, bag: bag, color: color, historyView: $historyView, isCollapsed: $isCollapsed, trip: trip)
+                            .transition(.move(edge: .bottom))
+                        
+                    }
+                }
+            }
+            
+        }
+    }
+                
+        
+            
+        
+        
+    
+    
+    @ViewBuilder
+    var currentBags: some View {
+        HStack {
+            Text("MY BAGS:")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.vertical,10)
+                .foregroundStyle(Utils.textColor(colorScheme))
+            Spacer()
+        }
+        
+        
+        VStack{
+            
+            ScrollView{
+                VStack{
+                    ForEach(trip.bags){ bag in
+                        CollapsableBag(colorScheme: colorScheme, bag: bag, color: color, historyView: $historyView, isCollapsed: $isCollapsed, trip: trip)
+                            .transition(.move(edge: .bottom))
+                        
+                    }
+                }
+            }
+            
+            if isCollapsed {
+                collapsed
+            }else {
+                collapsed.hidden()
+                
+            }
             
         }
         
@@ -127,6 +172,7 @@ struct BagsView: View {
 struct ItemCell:View {
     @Environment(\.colorScheme) var colorScheme
     var bag:Bags
+    @Binding var historyView:Bool
     let item:Item
     var body: some View {
         ZStack {
@@ -136,12 +182,14 @@ struct ItemCell:View {
                 Text(item.name)
                     .fontWeight(.bold)
                     .foregroundStyle(Utils.textColor(colorScheme))
-                Button {
-                    if let index = bag.items.firstIndex(of: item){
-                        bag.items.remove(at: index)
+                if !historyView {
+                    Button {
+                        if let index = bag.items.firstIndex(of: item){
+                            bag.items.remove(at: index)
+                        }
+                    } label: {
+                        Image(systemName: "x.circle")
                     }
-                } label: {
-                    Image(systemName: "x.circle")
                 }
                 
                 
@@ -162,6 +210,7 @@ struct CollapsableBag:View {
     var colorScheme : ColorScheme
     var bag:Bags
     var color:Color
+    @Binding var historyView:Bool
     @Binding var isCollapsed:Bool
     @State var selectedItem:String = ""
     @State var item:Item = Item(name: "",isChecked: false)
@@ -169,7 +218,60 @@ struct CollapsableBag:View {
     var trip: Trip
     @FocusState private var itemNameIsFocused : Bool
     var body: some View {
+        if historyView {
+            historyBags
+        }else {
+            currentBags
+        }
         
+    }
+    @ViewBuilder
+    var historyBags: some View {
+        VStack(){
+            Button {
+                bag.isCollapsed.toggle()
+                isCollapsed = bag.isCollapsed
+            } label: {
+                HStack{
+                    Text(bag.name)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                    Spacer()
+                    Text("\(bag.packedItems)/\(bag.numberOfItems)")
+                        .foregroundStyle(.white)
+                        .font(.headline)
+                    Image(systemName: bag.isCollapsed ? "chevron.down" : "chevron.up")
+                        .foregroundStyle(.white)
+                        .font(.headline)
+                }.padding()
+                    .background(color)
+                    .clipShape(.rect(cornerRadius: 10))
+                
+            }
+            if bag.isCollapsed {
+                VStack {
+                }.frame(height: 0)
+            }else {
+                VStack {
+                    VStack{
+                        ForEach(bag.items){ item in
+                            ItemCell(bag:bag,historyView: $historyView, item: item)
+                        }
+                        
+                        
+                    }.padding(.horizontal)
+                    
+                    
+                }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight:.none)
+                    .clipped()
+                
+                
+            }
+            
+        }.padding(.bottom,10)
+    }
+    var currentBags: some View {
         VStack(){
             Button {
                 bag.isCollapsed.toggle()
@@ -209,7 +311,7 @@ struct CollapsableBag:View {
                 VStack {
                     VStack{
                         ForEach(bag.items){ item in
-                            ItemCell(bag:bag,item: item)
+                            ItemCell(bag:bag,historyView: $historyView, item: item)
                         }
                         
                         HStack {
@@ -245,11 +347,10 @@ struct CollapsableBag:View {
         }.padding(.bottom,10)
     }
     
-    
 }
 
 
 #Preview {
-    BagsView(trip: MockData.tripData, color: .orange)
+    BagsView(trip: MockData.tripData, color: .orange, historyView: .constant(true))
         .modelContainer(for:[Item.self,Bags.self,PackingModuleDataClass.self])
 }

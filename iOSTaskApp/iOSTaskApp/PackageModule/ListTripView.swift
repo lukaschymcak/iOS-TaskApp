@@ -18,21 +18,26 @@ struct ListTripView: View {
             
             VStack {
                 HStack {
-                    Text("MY TRIPS:")
+                    Text("\(showHistory ? "TRIP HISTORY:" : "MY TRIPS:")")
                         .font(.title)
                         .fontWeight(.bold)
                         .padding(.vertical,10)
-                        .frame(width: GeometryProxy.size.width - 80,alignment: .leading)
-                    Button {
-                        addingTrip.toggle()
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(color)
+                
+                    Spacer()
+                    if showHistory {
+                        
+                    } else {
+                        Button {
+                            addingTrip.toggle()
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundStyle(color)
+                        }
                     }
                     
-                }
+                }.frame(width: GeometryProxy.size.width - 30,alignment: .leading)
                 .frame(maxWidth: .infinity)
             
                     NavigationStack{
@@ -47,7 +52,7 @@ struct ListTripView: View {
                                     ForEach(module.tripHistory.sorted(by: {$0.dateTo < $1.dateTo}),id: \.id) { trip in
                                         
                                         NavigationLink {
-                                            BagsView(trip: trip, color: color)
+                                            BagsView(trip: trip, color: color, historyView: $showHistory)
                                                 .navigationTransition(.zoom(sourceID: "world", in: namespace))
                                                 .navigationBarBackButtonHidden(true)
                                         } label: {
@@ -74,7 +79,7 @@ struct ListTripView: View {
                                     ForEach(module.trips.sorted(by: {$0.dateTo < $1.dateTo}),id: \.id) { trip in
                                         
                                         NavigationLink {
-                                            BagsView(trip: trip, color: color)
+                                            BagsView(trip: trip, color: color, historyView: $showHistory)
                                                 .navigationTransition(.zoom(sourceID: "world", in: namespace))
                                                 .navigationBarBackButtonHidden(true)
                                         } label: {

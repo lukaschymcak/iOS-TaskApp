@@ -12,7 +12,7 @@ class Bags{
     var name: String
     @Relationship(deleteRule: .cascade)
     var items = [Item]()
-    var isCollapsed:Bool
+    var isCollapsed:Bool = true
     var numberOfItems: Int {
         items.count
     }

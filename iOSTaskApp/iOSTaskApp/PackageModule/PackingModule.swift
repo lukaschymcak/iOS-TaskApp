@@ -88,6 +88,7 @@ struct PackingModule: View {
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
                                             .foregroundStyle(packingModule.color)
+                                            .lineLimit(1)
                                     }
                                     
                                     if firstTrip.dayDifference() == 0{

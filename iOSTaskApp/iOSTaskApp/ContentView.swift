@@ -18,8 +18,8 @@ struct ContentView: View {
                 if isWelcomeScreenOver {
                     HomeView(name: $name)
                         .transition(.opacity)
-                     
-                        
+                    
+                    
                 }
                 else {
                     WelcomeView(name: $name)
@@ -28,8 +28,8 @@ struct ContentView: View {
             }.animation(.easeInOut,value: isWelcomeScreenOver)
         }
     }
-
-   
+    
+    
 }
 struct WelcomeView: View{
     @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver: Bool = false
@@ -38,59 +38,59 @@ struct WelcomeView: View{
     @FocusState private var nameIsFocused : Bool
     
     var body: some View{
-    
-        VStack(alignment: .center,spacing: 0){
-                Image("AppLogo")
-                    .resizable()
-                    .frame(width: 170, height: 170)
-                    .padding(.top,50)
-                    .padding(.bottom,50)
-                Text("Welcome,")
-                    .font(.system(size: 60))
-                    .fontWeight(.heavy)
-                    .padding(5)
-                
-                TextField("Enter your name", text: $name )
-                    .focused($nameIsFocused)
-                    .multilineTextAlignment(.center)
-                    .font(.largeTitle)
-                    .frame(width: 280, height: 80)
-                    .background(Color.gray.opacity(colorScheme == .dark ? 0.3 : 0.7))
-                    .clipShape(.rect(cornerRadius: 10))
-                    .autocorrectionDisabled()
-                   
-                   
-                Spacer()
-            
-            
         
-                Button {
-                    isWelcomeScreenOver = true
-                } label: {
-                    Image(systemName: "arrow.down.circle")
-                        .renderingMode(.original)
-                        .resizable()
-                        .frame(width: 120, height: 120)
-                        .foregroundStyle(Color(colorScheme == .dark ? .white : .black))
-                    
-                        
-                }
-                .transition(.slide)
-                Spacer()
-    
-         
-          
-         
+        VStack(alignment: .center,spacing: 0){
+            Image("AppLogo")
+                .resizable()
+                .frame(width: 170, height: 170)
+                .padding(.top,50)
+                .padding(.bottom,50)
+            Text("Welcome,")
+                .font(.system(size: 60))
+                .fontWeight(.heavy)
+                .padding(5)
             
-
+            TextField("Enter your name", text: $name )
+                .focused($nameIsFocused)
+                .multilineTextAlignment(.center)
+                .font(.largeTitle)
+                .frame(width: 280, height: 80)
+                .background(Color.gray.opacity(colorScheme == .dark ? 0.3 : 0.7))
+                .clipShape(.rect(cornerRadius: 10))
+                .autocorrectionDisabled()
+            
+            
+            Spacer()
+            
+            
+            
+            Button {
+                isWelcomeScreenOver = true
+            } label: {
+                Image(systemName: "arrow.down.circle")
+                    .renderingMode(.original)
+                    .resizable()
+                    .frame(width: 120, height: 120)
+                    .foregroundStyle(Color(colorScheme == .dark ? .white : .black))
                 
-
+                
+            }
+            .transition(.slide)
+            Spacer()
+            
+            
+            
+            
+            
+            
+            
+            
         }.onTapGesture {
             nameIsFocused = false
         }
         .ignoresSafeArea(.keyboard)
     }
-
+    
     
 }
 
@@ -100,9 +100,9 @@ struct HomeView: View{
     @Environment(\.dismiss) var dismiss
     @Binding var name:String
     @State var isAddModuleOpen:Bool = false
-
-  
-   
+    
+    
+    
     var body: some View{
         
         GeometryReader { GeometryProxy in
@@ -133,8 +133,8 @@ struct HomeView: View{
                 }
             }
         }
-       
-     
+        
+        
         
         
         
@@ -153,7 +153,7 @@ struct AddModuleView: View {
         NavigationStack{
             
             VStack(alignment:.center){
-               
+                
                 
                 HStack{
                     Button {
@@ -164,7 +164,7 @@ struct AddModuleView: View {
                             .fontWeight(.bold)
                             .foregroundStyle(Utils.textColor(colorScheme))
                     }.padding(.bottom,20)
-                        
+                    
                     
                     
                     Button {
@@ -181,7 +181,7 @@ struct AddModuleView: View {
                             .foregroundStyle(Utils.textColor(colorScheme))
                     }.padding(.bottom,20)
                 }.frame(maxWidth: .infinity,alignment: .center)
-
+                
                 
                 Text("Choose a Module")
                     .font(.title)
@@ -192,29 +192,29 @@ struct AddModuleView: View {
                 HStack{
                     
                     ModuleListView(isAddingModuleOpen: $isAddingModuleOpen)
-                    }
-
+                }
+                
                 
                 
                 
             }
-
-      
-
+            
+            
+            
             .padding(.top,20)
-        
+            
             Spacer()
             
             
-        
+            
         }
-       
+        
     }
 }
 
 
 #Preview {
-        ContentView()
+    ContentView()
         .modelContainer(for:[Trip.self,PackingModuleDataClass.self,CreatingModuleData.self])
 }
 
