@@ -13,11 +13,12 @@ struct BagsView: View {
     @Environment(\.colorScheme) var colorScheme
     var trip:Trip
     var color:Color
+    @State var isCollapsed:Bool = true
     @State var showAlert:Bool = false
     @State var bagName:String = ""
     @State var addingBag:Bool = false
     @FocusState private var nameIsFocused : Bool
-   
+    
     var body: some View {
         GeometryReader { GeometryProxy in
             VStack {
@@ -43,68 +44,84 @@ struct BagsView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .frame(width: GeometryProxy.size.width - 40)
-            HStack {
-                Text("MY BAGS:")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.vertical,10)
-                    .foregroundStyle(Utils.textColor(colorScheme))
-                Spacer()
-            }
-              
-            
+                HStack {
+                    Text("MY BAGS:")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.vertical,10)
+                        .foregroundStyle(Utils.textColor(colorScheme))
+                    Spacer()
+                }
+                
+                
                 VStack{
                     
                     ScrollView{
                         VStack{
                             ForEach(trip.bags){ bag in
-                                CollapsableBag(colorScheme: colorScheme, bag: bag, color: color, trip: trip)
+                                CollapsableBag(colorScheme: colorScheme, bag: bag, color: color, isCollapsed: $isCollapsed, trip: trip)
+                                    .transition(.move(edge: .bottom))
+                                
                             }
                         }
                     }
-                    HStack{
-                        TextField("Bag1", text: $bagName)
-                            .textFieldStyle(.roundedBorder)
-                            .focused($nameIsFocused)
-         
-                        Button {
-                            if !trip.validBag(name: bagName){
-                                showAlert = true
-                                
-                            } else{
-                                let newBag = Bags(name: bagName, trip: trip)
-                                trip.bags.append(newBag)
-                                nameIsFocused = false
-                                bagName = ""
-                            }
+                    
+                    if isCollapsed {
+                        collapsed
+                    }else {
+                        collapsed.hidden()
                         
-                        } label: {
-                            Image(systemName: "plus")
-                                .foregroundStyle(.white)
-                                .padding(10)
-                                .background(color)
-                                .clipShape(.rect(cornerRadius: 10))
-                            
-                        }.alert("\(trip.alertMessage(name:bagName))" ,isPresented: $showAlert) {
-                            
-                        }
-                  
-                    }.padding(.bottom,10)
-            
+                    }
                     
                 }
-          
-                                    
-               
                 
-                   
-        }.frame(width: GeometryProxy.size.width - 40)
+                
+            }.frame(width: GeometryProxy.size.width - 40)
                 .frame(maxWidth: .infinity)
             
         }
-    
-     
+        
+        
     }
+    @ViewBuilder
+    var collapsed: some View {
+        HStack{
+            TextField("Bag1", text: $bagName)
+                .textFieldStyle(.roundedBorder)
+                .focused($nameIsFocused)
+            
+            Button {
+                withAnimation {
+                    if !trip.validBag(name: bagName){
+                        showAlert = true
+                        
+                    } else{
+                        let newBag = Bags(name: bagName, trip: trip)
+                        trip.bags.append(newBag)
+                        nameIsFocused = false
+                        bagName = ""
+                    }
+                }
+                
+                
+            } label: {
+                Image(systemName: "plus")
+                    .foregroundStyle(.white)
+                    .padding(10)
+                    .background(color)
+                    .clipShape(.rect(cornerRadius: 10))
+                
+            }.alert("\(trip.alertMessage(name:bagName))" ,isPresented: $showAlert) {
+                
+            }
+            
+        }.padding(.bottom,10)
+    }
+    
+    
+    
+    
+    
 }
 
 struct ItemCell:View {
@@ -120,7 +137,7 @@ struct ItemCell:View {
                     .fontWeight(.bold)
                     .foregroundStyle(Utils.textColor(colorScheme))
                 Button {
-                  if let index = bag.items.firstIndex(of: item){
+                    if let index = bag.items.firstIndex(of: item){
                         bag.items.remove(at: index)
                     }
                 } label: {
@@ -132,7 +149,7 @@ struct ItemCell:View {
                 
             }.padding(6)
                 .frame(maxWidth: .infinity,alignment: .leading)
-        
+            
                 .onTapGesture {
                     item.isChecked.toggle()
                 }
@@ -145,7 +162,7 @@ struct CollapsableBag:View {
     var colorScheme : ColorScheme
     var bag:Bags
     var color:Color
-    @State var isCollapsed:Bool = true
+    @Binding var isCollapsed:Bool
     @State var selectedItem:String = ""
     @State var item:Item = Item(name: "",isChecked: false)
     @State var itemName:String = ""
@@ -155,7 +172,8 @@ struct CollapsableBag:View {
         
         VStack(){
             Button {
-                isCollapsed.toggle()
+                bag.isCollapsed.toggle()
+                isCollapsed = bag.isCollapsed
             } label: {
                 HStack{
                     Text(bag.name)
@@ -166,7 +184,7 @@ struct CollapsableBag:View {
                     Text("\(bag.packedItems)/\(bag.numberOfItems)")
                         .foregroundStyle(.white)
                         .font(.headline)
-                    Image(systemName: isCollapsed ? "chevron.down" : "chevron.up")
+                    Image(systemName: bag.isCollapsed ? "chevron.down" : "chevron.up")
                         .foregroundStyle(.white)
                         .font(.headline)
                 }.padding()
@@ -184,7 +202,7 @@ struct CollapsableBag:View {
                 }
                 
             }
-            if isCollapsed {
+            if bag.isCollapsed {
                 VStack {
                 }.frame(height: 0)
             }else {
@@ -223,12 +241,12 @@ struct CollapsableBag:View {
                 
                 
             }
-                
+            
         }.padding(.bottom,10)
     }
-            
-
-    }
+    
+    
+}
 
 
 #Preview {

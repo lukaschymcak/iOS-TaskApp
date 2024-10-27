@@ -10,7 +10,7 @@ import SwiftUI
 struct TripCell: View {
     @Environment(\.modelContext) var context
     @Environment(\.colorScheme) var colorScheme
-    @State var historyView: Bool = false
+    @Binding var historyView: Bool
     let trip:Trip
     var color:Color
     @State var module:PackingModuleDataClass
@@ -51,9 +51,7 @@ struct TripCell: View {
                             .foregroundStyle(color)
                         Spacer()
                         Button {
-                            if let tripHistory = module.tripHistory.firstIndex(of: trip){
-                                module.tripHistory.remove(at: tripHistory)
-                            }
+                            module.tripHistory.remove(at: module.tripHistory.firstIndex(of: trip)!)
                             
                         } label: {
                             Image(systemName: "minus")
@@ -80,7 +78,7 @@ struct TripCell: View {
                 }.padding(9)
                     .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
             }
-        }
+        }.frame(height: 150)
     }
     @ViewBuilder
     var tripCurrent: some View {
@@ -111,6 +109,7 @@ struct TripCell: View {
                         Button {
                             if trip.percentage == 100 {
                                 module.tripHistory.append(trip)
+                                module.trips.remove(at: module.trips.firstIndex(of: trip)!)
                             } else {
                                 module.trips.remove(at: module.trips.firstIndex(of: trip)!)
                             }
@@ -146,5 +145,5 @@ struct TripCell: View {
 }
 
 #Preview {
-    TripCell(historyView: true, trip: MockData.tripData,color:.red,module:PackingMockData.packingMock)
+    TripCell(historyView: .constant(true), trip: MockData.tripData,color:.red,module:PackingMockData.packingMock)
 }

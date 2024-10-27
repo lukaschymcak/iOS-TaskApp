@@ -12,7 +12,7 @@ class Bags{
     var name: String
     @Relationship(deleteRule: .cascade)
     var items = [Item]()
-    
+    var isCollapsed:Bool
     var numberOfItems: Int {
         items.count
     }
@@ -26,12 +26,14 @@ class Bags{
         (packedItems / numberOfItems) * 100
     }
     var trip: Trip?
-    init(name: String, items: [Item] = [],trip: Trip? = nil) {
+    init(name: String, items: [Item] = [],isCollapsed: Bool = true,trip: Trip? = nil) {
         self.name = name
         self.items = items
+        self.isCollapsed = isCollapsed
         self.trip = trip
 
     }
+
     
 }
 
