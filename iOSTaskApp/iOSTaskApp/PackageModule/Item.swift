@@ -10,9 +10,9 @@ import SwiftData
 
 @Model
 final class Item {
-    var name:String
-    var isChecked:Bool
-    var bag:Bags?
+    private(set) var name:String
+    private(set) var isChecked:Bool
+   private var bag:Bags?
     
     init(name: String, isChecked: Bool) {
         self.name = name
@@ -31,6 +31,9 @@ final class Item {
             return "square"
         
         }
+    }
+    func setName(a:String){
+        self.name = name
     }
 }
 

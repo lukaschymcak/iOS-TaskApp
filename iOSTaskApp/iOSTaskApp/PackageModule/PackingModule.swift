@@ -13,6 +13,7 @@ import SwiftData
 struct PackingModule: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
+    @State var showAlert:Bool = false
     @State var packingModule: PackingModuleDataClass
     var textColor : Color {
         colorScheme == .dark ? .white : .black
@@ -38,13 +39,17 @@ struct PackingModule: View {
                         .foregroundStyle(packingModule.color)
                         Spacer()
                         Button {
-                            context.delete(packingModule)
-                            context.insert(DefaultModules.packing)
+                            showAlert.toggle()
                         } label: {
                             Image(systemName: "minus")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(packingModule.color)
+                        }.alert(isPresented: $showAlert){
+                            Alert(title: Text("Remove module ?") ,message: Text("This will delete all your trips , and your trip history."),primaryButton: .destructive(Text("Confirm") ,action: {
+                                context.delete(packingModule)
+                                context.insert(DefaultModules.packing)
+                            }),secondaryButton: .cancel())
                         }
                         
                         

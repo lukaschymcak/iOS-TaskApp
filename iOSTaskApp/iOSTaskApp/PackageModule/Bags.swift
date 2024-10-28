@@ -9,10 +9,10 @@ import Foundation
 import SwiftData
 @Model
 class Bags{
-    var name: String
+    private(set)var name: String
     @Relationship(deleteRule: .cascade)
-    var items = [Item]()
-    var isCollapsed:Bool = true
+    private(set)var items = [Item]()
+    private(set)var isCollapsed:Bool = true
     var numberOfItems: Int {
         items.count
     }
@@ -25,7 +25,7 @@ class Bags{
     var percent: Int {
         (packedItems / numberOfItems) * 100
     }
-    var trip: Trip?
+    private var trip: Trip?
     init(name: String, items: [Item] = [],isCollapsed: Bool = true,trip: Trip? = nil) {
         self.name = name
         self.items = items
@@ -33,7 +33,22 @@ class Bags{
         self.trip = trip
 
     }
-
+    func setName(a:String){
+        self.name = a
+    }
+    func addItem(a:Item){
+        self.items.append(a)
+    }
+    func removeItem(a:Item){
+        if let index = self.items.firstIndex(of: a) {
+            self.items.remove(at: index)
+        }
+    }
+    func toggleCollapsed(){
+        isCollapsed.toggle()
+    }
+    
+   
     
 }
 

@@ -24,13 +24,6 @@ struct PackageModuleHomeView: View {
                    
                         PackingModule(packingModule: module)
                         
-                    }.onAppear {
-                        
-                        if let packingModule = packingModule.first {
-                            if packingModule.trips.first != nil {
-                                packingModule.trips.sort(by: {$0.dateTo < $1.dateTo})
-                            }
-                        }
                     }
                     
                        

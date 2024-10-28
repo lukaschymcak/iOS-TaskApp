@@ -13,7 +13,11 @@ struct TripCell: View {
     @Binding var historyView: Bool
     let trip:Trip
     var color:Color
+    @State var showDeleteAlert:Bool = false
+    @State var showAddToHistoryAlert:Bool = false
     @State var module:PackingModuleDataClass
+    @Binding var toast: Toast? 
+
     var body: some View {
         
         if historyView {
@@ -51,13 +55,25 @@ struct TripCell: View {
                             .foregroundStyle(color)
                         Spacer()
                         Button {
-                            module.tripHistory.remove(at: module.tripHistory.firstIndex(of: trip)!)
+                            
+                            showDeleteAlert.toggle()
+           
                             
                         } label: {
                             Image(systemName: "minus")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(color)
+                        }.alert(isPresented: $showDeleteAlert) {
+                            Alert(title: Text("Are you sure"), message: Text("delete"),
+                                  primaryButton: .destructive(Text("yes"), action: {
+                                toast = Toast(style: .success, message: "Trip deleted from history")
+                            
+                                module.removeHistoryTrip(a: trip)
+                              
+                         
+                            }),secondaryButton: .cancel())
+                            
                         }
                         
                     }.padding(.vertical,7)
@@ -79,6 +95,8 @@ struct TripCell: View {
                     .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
             }
         }.frame(height: 150)
+       
+            
     }
     @ViewBuilder
     var tripCurrent: some View {
@@ -108,16 +126,36 @@ struct TripCell: View {
                         Spacer()
                         Button {
                             if trip.percentage == 100 {
-                                module.tripHistory.append(trip)
-                                module.trips.remove(at: module.trips.firstIndex(of: trip)!)
+                                showAddToHistoryAlert.toggle()
+                                showDeleteAlert.toggle()
                             } else {
-                                module.trips.remove(at: module.trips.firstIndex(of: trip)!)
+                                showDeleteAlert.toggle()
+                               
                             }
                         } label: {
                             Image(systemName: trip.percentage == 100 ? "checkmark":"minus")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(color)
+                        }.alert(isPresented: $showDeleteAlert) {
+                            if showAddToHistoryAlert {
+                                Alert(title: Text("Complete trip ?"), message: Text("This will complete the trip , and add it to your history"), primaryButton: .destructive(Text("Confirm"), action: {
+                                    toast = Toast(style: .success, message: "Added to history")
+                                    module.addTripHistory(a: trip)
+                       
+                                    module.removeTrip(a: trip)
+                               
+                                }) , secondaryButton: .cancel())
+                            }else {
+                                Alert(title: Text("Are you sure"), message: Text("delete"),
+                                      primaryButton: .destructive(Text("yes"), action: {
+                                    toast = Toast(style: .success, message: "Trip succesfully deleted")
+                         
+                                    module.removeTrip(a: trip)
+                              
+                                }),secondaryButton: .cancel())
+                            }
+                            
                         }
 
                     }.padding(.vertical,7)
@@ -144,6 +182,3 @@ struct TripCell: View {
     }
 }
 
-#Preview {
-    TripCell(historyView: .constant(true), trip: MockData.tripData,color:.red,module:PackingMockData.packingMock)
-}

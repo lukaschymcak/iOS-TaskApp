@@ -11,8 +11,10 @@ import SwiftData
 struct AddingTripsSheetView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
-    @State var tripData = Trip(name: "", dateFrom: Date.now, dateTo: Date.now)
     var module:PackingModuleDataClass
+    @State var name = ""
+    @State var dateFrom = Date.now
+    @State var dateTo = Date.now
     var body: some View {
         GeometryReader { GeometryProxy in
             VStack{
@@ -34,14 +36,14 @@ struct AddingTripsSheetView: View {
                     Text("Name:")
                         .font(.title)
                         .fontWeight(.bold)
-                    TextField("", text: $tripData.name)
+                    TextField("", text: $name)
                         .textFieldStyle(.roundedBorder)
                 }
                 .padding(.bottom,20)
                 HStack {
                     VStack(alignment:.leading){
                         HStack{
-                            DatePicker(selection: $tripData.dateFrom,in: Date.now..., displayedComponents: .date) {
+                            DatePicker(selection: $dateFrom,in: Date.now..., displayedComponents: .date) {
                                 Text("From:")
                                     .font(.title)
                                     .fontWeight(.bold)
@@ -53,7 +55,7 @@ struct AddingTripsSheetView: View {
     
                         .padding(.bottom,10)
                         HStack{
-                            DatePicker(selection: $tripData.dateTo,in: Date.now..., displayedComponents: .date) {
+                            DatePicker(selection: $dateTo,in: Date.now..., displayedComponents: .date) {
                                 Text("To:")
                                     .font(.title)
                                     .fontWeight(.bold)
@@ -67,10 +69,11 @@ struct AddingTripsSheetView: View {
                             .padding(.bottom,10)
                     }
                     Button {
-                        let trip = Trip(name: tripData.name, dateFrom: tripData.dateFrom, dateTo: tripData.dateTo,module: module)
-                        module.trips.append(trip)
-                        module.trips.sort(by: {$0.dateTo < $1.dateTo})
+                      
+                        let trip = Trip(name: name, dateFrom: dateFrom, dateTo: dateTo,module: module)
+                        module.addTrip(a: trip)
                         dismiss()
+                        
                     } label: {
                         Text("Add")
                             .padding(13)
@@ -82,12 +85,12 @@ struct AddingTripsSheetView: View {
                            
                            
                     }.padding(.horizontal)
+                        .sensoryFeedback(.increase, trigger: module.trips.count)
                 }
 
               
                 
                 Spacer()
-                
             }
             .frame(width: GeometryProxy.size.width - 40)
             .frame(maxWidth: .infinity,alignment: .center)

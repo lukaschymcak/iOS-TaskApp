@@ -142,7 +142,7 @@ struct BagsView: View {
                         
                     } else{
                         let newBag = Bags(name: bagName, trip: trip)
-                        trip.bags.append(newBag)
+                        trip.addBags(a: newBag)
                         nameIsFocused = false
                         bagName = ""
                     }
@@ -156,9 +156,10 @@ struct BagsView: View {
                     .background(color)
                     .clipShape(.rect(cornerRadius: 10))
                 
-            }.alert("\(trip.alertMessage(name:bagName))" ,isPresented: $showAlert) {
-                
             }
+            .alert("\(trip.alertMessage(name:bagName))" ,isPresented: $showAlert) {
+                
+            }.sensoryFeedback(.increase, trigger: trip.bags.count)
             
         }.padding(.bottom,10)
     }
@@ -184,9 +185,7 @@ struct ItemCell:View {
                     .foregroundStyle(Utils.textColor(colorScheme))
                 if !historyView {
                     Button {
-                        if let index = bag.items.firstIndex(of: item){
-                            bag.items.remove(at: index)
-                        }
+                        bag.removeItem(a: item)
                     } label: {
                         Image(systemName: "x.circle")
                     }
@@ -199,8 +198,10 @@ struct ItemCell:View {
                 .frame(maxWidth: .infinity,alignment: .leading)
             
                 .onTapGesture {
-                    item.isChecked.toggle()
-                }
+                    item.toggleChecked()
+                }.sensoryFeedback(.increase, trigger: bag.items.filter({ Item in
+                    item.isChecked
+                }).count)
         }
         
     }
@@ -215,6 +216,7 @@ struct CollapsableBag:View {
     @State var selectedItem:String = ""
     @State var item:Item = Item(name: "",isChecked: false)
     @State var itemName:String = ""
+    @State var showAlert:Bool = false
     var trip: Trip
     @FocusState private var itemNameIsFocused : Bool
     var body: some View {
@@ -229,7 +231,7 @@ struct CollapsableBag:View {
     var historyBags: some View {
         VStack(){
             Button {
-                bag.isCollapsed.toggle()
+                bag.toggleCollapsed()
                 isCollapsed = bag.isCollapsed
             } label: {
                 HStack{
@@ -274,7 +276,7 @@ struct CollapsableBag:View {
     var currentBags: some View {
         VStack(){
             Button {
-                bag.isCollapsed.toggle()
+                bag.toggleCollapsed()
                 isCollapsed = bag.isCollapsed
             } label: {
                 HStack{
@@ -293,14 +295,16 @@ struct CollapsableBag:View {
                     .background(color)
                     .clipShape(.rect(cornerRadius: 10))
                 Button {
-                    if let selectedBag = trip.bags.firstIndex(of:bag){
-                        trip.bags.remove(at:selectedBag)
-                    }
+                    showAlert.toggle()
                 } label: {
                     Image(systemName: "x.circle")
                         .font(.title)
                         .foregroundStyle(Utils.textColor(colorScheme))
                         .padding(5)
+                }.alert(isPresented: $showAlert){
+                    Alert(title: Text("Remove bag ?") ,message: Text("This will delete the Bag , and your items."),primaryButton: .destructive(Text("Confirm") ,action: {
+                        trip.removeBags(a: bag)
+                    }),secondaryButton: .cancel())
                 }
                 
             }
@@ -320,7 +324,7 @@ struct CollapsableBag:View {
                                 .focused($itemNameIsFocused)
                             Button {
                                 item = Item(name: itemName, isChecked: false)
-                                bag.items.append(item)
+                                bag.addItem(a: item)
                                 itemNameIsFocused = false
                                 itemName = ""
                             } label: {
@@ -329,7 +333,7 @@ struct CollapsableBag:View {
                                     .padding(2)
                                     .background(color)
                                     .clipShape(.rect(cornerRadius: 10))
-                            }
+                            }.sensoryFeedback(.increase, trigger: bag.items.count)
                             
                         }.frame(width: UIScreen.main.bounds.width - 120)
                             .frame(maxWidth: .infinity,alignment: .leading)

@@ -13,6 +13,7 @@ struct ListTripView: View {
     @Binding var addingTrip: Bool
     @State var module:PackingModuleDataClass
     @Binding var showHistory:Bool
+    @State private var toast: Toast? = nil
     var body: some View {
         GeometryReader{ GeometryProxy in
             
@@ -21,12 +22,10 @@ struct ListTripView: View {
                     Text("\(showHistory ? "TRIP HISTORY:" : "MY TRIPS:")")
                         .font(.title)
                         .fontWeight(.bold)
-                        .padding(.vertical,10)
+                        .padding(.vertical,15)
                 
                     Spacer()
-                    if showHistory {
-                        
-                    } else {
+                    if !showHistory {
                         Button {
                             addingTrip.toggle()
                         } label: {
@@ -56,7 +55,7 @@ struct ListTripView: View {
                                                 .navigationTransition(.zoom(sourceID: "world", in: namespace))
                                                 .navigationBarBackButtonHidden(true)
                                         } label: {
-                                            TripCell(historyView: $showHistory, trip: trip,color: color,module:module)
+                                            TripCell(historyView: $showHistory, trip: trip,color: color,module:module, toast: $toast)
                                                 .animation(.linear, value: showHistory)
                                                 .transition(.move(edge: .trailing))
                                               
@@ -83,7 +82,7 @@ struct ListTripView: View {
                                                 .navigationTransition(.zoom(sourceID: "world", in: namespace))
                                                 .navigationBarBackButtonHidden(true)
                                         } label: {
-                                            TripCell(historyView: $showHistory, trip: trip,color: color,module:module)
+                                            TripCell(historyView: $showHistory, trip: trip,color: color,module:module, toast: $toast)
                                                 .animation(.linear, value: showHistory)
                                                 .transition(.move(edge: .leading))
                                                
@@ -108,11 +107,11 @@ struct ListTripView: View {
                     
                     
                 
-            }
+            }.toastView(toast: $toast)
         }
     }
 }
 #Preview {
-    ListTripView(color: .red,addingTrip: .constant(false) ,module: PackingMockData.packingMock, showHistory: .constant(true))
+    ListTripView(color: .red,addingTrip: .constant(false) ,module: PackingMockData.packingMock, showHistory: .constant(false))
       
 }

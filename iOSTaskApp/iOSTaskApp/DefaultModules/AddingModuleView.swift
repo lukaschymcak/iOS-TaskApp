@@ -27,8 +27,8 @@ struct AddingModuleView: View {
 struct addingPackingModule:View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    @State var packageModule = PackingModuleDataClass(name: "", colorName: "")
     var module:CreatingModuleData
+    @State var name:String = ""
     var colors:[Color]
     @Binding var selection:Color
     var body: some View {
@@ -64,7 +64,6 @@ struct addingPackingModule:View {
                         ForEach(colors,id:\.self){ color in
                             Button {
                                 selection = color
-                                packageModule.colorName = color.description
                             } label: {
                                 RoundedRectangle(cornerRadius: 20)
                                     .stroke(selection == color ? .gray : .clear, lineWidth: 10)
@@ -79,10 +78,11 @@ struct addingPackingModule:View {
                         Text("Name:")
                             .font(.title)
                             .fontWeight(.bold)
-                        TextField("", text: $packageModule.name)
+                        TextField("", text: $name)
                             .textFieldStyle(.roundedBorder)
                         Button {
-                            context.insert(packageModule)
+                            let packing = PackingModuleDataClass(name: name, colorName: selection.description )
+                            context.insert(packing)
                             context.delete(DefaultModules.packing)
                             dismiss()
                         } label: {

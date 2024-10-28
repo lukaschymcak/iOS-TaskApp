@@ -11,16 +11,18 @@ import SwiftUI
 
 @Model
 class PackingModuleDataClass{
-    var name: String
-    var colorName: String
-    var percentage:Int {
+  private(set) var name: String
+  private(set)  var colorName: String
+  var percentage:Int {
       if let firstTrip = trips.first {
           return firstTrip.percentage
         }
         return 0
     }
-    @Relationship(deleteRule: .cascade) var trips  = [Trip]()
-    @Relationship(deleteRule: .cascade) var tripHistory  = [Trip]()
+    @Relationship(deleteRule: .cascade)
+    private(set) var trips  = [Trip]().sorted(by: {$0.dateTo < $1.dateTo})
+    @Relationship(deleteRule: .cascade)
+    private(set) var tripHistory  = [Trip]().sorted(by: {$0.dateTo < $1.dateTo})
     init(name: String = "Packing", colorName: String) {
         self.name = name
       
@@ -34,7 +36,29 @@ class PackingModuleDataClass{
         default: return .red
         }
     }
-   
+    
+    func setColor(a:String){
+        self.colorName = a
+    }
+    func setName(a:String){
+        self.name = a
+    }
+    func addTrip(a:Trip){
+        self.trips.append(a)
+    }
+    func addTripHistory(a:Trip){
+        self.tripHistory.append(a)
+    }
+    func removeTrip(a:Trip){
+        if let index = self.trips.firstIndex(of: a){
+            self.trips.remove(at: index)
+        }
+    }
+    func removeHistoryTrip(a:Trip){
+        if let index = self.tripHistory.firstIndex(of: a){
+            self.tripHistory.remove(at: index)
+        }
+    }
    
 }
 
