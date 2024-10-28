@@ -91,26 +91,36 @@ struct HomeView: View {
 
     var body: some View {
 
-        GeometryReader { GeometryProxy in
+   
             ZStack {
-                VStack {
+                VStack{
                     NavigationStack {
-                        CustomNavBar(
-                            isWelcomeScreenOver: $isWelcomeScreenOver,
-                            name: $name, isAddModuleOpen: $isAddModuleOpen
-                        )
-                        .frame(width: GeometryProxy.size.width - 30)
-
-                        ScrollView {
-                            PackageModuleHomeView()
-
-                            Spacer()
-
-                        }
-                        Spacer()
+                        GeometryReader { GeometryProxy in
+                            CustomNavBar(
+                                isWelcomeScreenOver: $isWelcomeScreenOver,
+                                name: $name, isAddModuleOpen: $isAddModuleOpen
+                            )
+                          
+                            .frame(width: GeometryProxy.size.width - 30)
+                            .frame(maxWidth: .infinity,alignment: .center)
+                     
+                        }.frame(height: 70)
+                        
+                 
+                            ScrollView {
+                                PackageModuleHomeView()
+                                
+                                PlantsModuleHomeView()
+                                
+                                
+                                
+                                
+                            }
+                        
+                 
 
                     }
-                }
+                
 
                 .sheet(isPresented: $isAddModuleOpen) {
 
@@ -185,6 +195,6 @@ struct AddModuleView: View {
 #Preview {
     ContentView()
         .modelContainer(for: [
-            Trip.self, PackingModuleDataClass.self, CreatingModuleData.self,
+            Trip.self, PackingModuleDataClass.self, CreatingModuleData.self,PlantsModuleDataClass.self
         ])
 }

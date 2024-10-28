@@ -16,9 +16,10 @@ class PlantsModuleDataClass{
     @Relationship(deleteRule: .cascade)
     private(set) var plants = [PlantModel]()
     
-    init(name: String, colorName: String) {
+    init(name: String, colorName: String,plants:[PlantModel] = []) {
         self.name = name
         self.colorName = colorName
+        self.plants = plants
     }
     
     var color:Color {
@@ -32,7 +33,7 @@ class PlantsModuleDataClass{
     
     var needWatering:Int {
         var counter:Int = 0
-        for plant in plants {
+        for plant in plants{
             if(!plant.watered){
                 counter += 1
             }
@@ -42,8 +43,12 @@ class PlantsModuleDataClass{
     
     var wateringLocations:[houseLocation:Int] {
         var counts :[houseLocation:Int] = [:]
-        for plant in MockPlants.mockedPlants {
-            counts[plant.location, default: 0] += 1
+        for plant in plants {
+            if !plant.watered {
+                counts[plant.location, default: 0] += 1
+            } else {
+                counts[plant.location, default: 0] += 0
+            }
         }
         return counts
     }
@@ -62,6 +67,13 @@ class PlantsModuleDataClass{
             self.plants.remove(at: index)
         }
     }
+    func filterByLocation(a:houseLocation) -> [PlantModel] {
+        return plants.filter { plant in
+            plant.location == a
+        }
+    }
+    
+    
     
 }
 

@@ -12,17 +12,17 @@ import SwiftData
 @Model
 class PlantModel {
     private(set) var name: String
-    private(set) var desc: String
+    private var desc: String
     private(set) var location: houseLocation
     private(set) var frequency : Int
-    private(set) var water : Int
+    private var water : String
     private var light:String
     private(set) var image: String
     private(set) var watered:Bool
     
     var module:PlantsModuleDataClass?
     
-    init(name: String, desc: String = "",location:houseLocation, frequency: Int, water: Int, light: String = "", image: String = "",watered:Bool = false) {
+    init(name: String, desc: String = "",location:houseLocation = .bathroom, frequency: Int = 0, water: String = "", light: String = "", image: String = "",watered:Bool = false) {
         self.name = name
         self.desc = desc
         self.location = location
@@ -45,7 +45,7 @@ class PlantModel {
     func setFrequency(a:Int){
         self.frequency = a
     }
-    func setWater(a:Int){
+    func setWater(a:String){
         self.water = a
     }
     func setImage(a:String){
@@ -59,12 +59,19 @@ class PlantModel {
 
 struct MockPlants {
     
-    static let plantA = PlantModel(name: "Kvet",location: .kitchen, frequency: 3, water: 250)
-    static let plantB = PlantModel(name: "Kvet A",location: .bathroom, frequency: 4, water: 300)
-    static let plantC = PlantModel(name: "Kvet B",location: .diningRoom, frequency: 2, water: 500)
-    static let plantD = PlantModel(name: "Kvet C",location: .bathroom, frequency: 1, water: 150)
+    static let plantA = PlantModel(name: "Kvet",location: .kitchen, frequency: 3,watered: true)
+    static let plantB = PlantModel(name: "Kvet A",location: .bathroom)
+    static let plantC = PlantModel(name: "Kvet B",location: .diningRoom)
+    static let plantD = PlantModel(name: "Kvet C",location: .bathroom)
+    static let plantE = PlantModel(name: "Kvet D",location: .livingRoom)
     
-    static let mockedPlants:[PlantModel] = [plantA,plantB,plantC,plantD]
+    static let mockedPlants:[PlantModel] = [plantA,plantB,plantC,plantD,plantE]
 }
 
-
+struct DefaultPlants {
+    static let monstera = PlantModel(name: "Monstera",desc: "Kvet monstera, známy ako „monstera deliciosa“, je obľúbená izbová rastlina s veľkými listami a charakteristickými otvormi. Pôvodom je z tropických oblastí Strednej a Južnej Ameriky. Kvitne zriedkavo a je známa svojou estetikou a schopnosťou čistiť vzduch. Jej starostlivosť je jednoduchá.",image: "bird.fill")
+    
+    static let orchidea = PlantModel(name: "Orchidea",desc: "Orchidea je exotická rastlina známa svojimi pôsobivými kvetmi, ktoré sa vyskytujú v širokej palete farieb a tvarov. Väčšina orchideí pochádza z tropických oblastí, kde rastú na stromoch (epifyticky) alebo v pôde. Vyžadujú vysokú vlhkosť a jemné, rozptýlené svetlo, čo im pripomína prostredie dažďových pralesov. Orchidey sú symbolom krásy, elegancie a lásky a vďaka svojej dlhej životnosti kvetov sú obľúbenými izbovými rastlinami po celom svete.",image: "cat.fill")
+    
+    static let presetPlants:[PlantModel] = [monstera,orchidea,monstera]
+}

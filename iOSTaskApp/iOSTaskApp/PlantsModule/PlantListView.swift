@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct PlantListView: View {
+    var plantsModule: PlantsModuleDataClass
+    var location: houseLocation
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ForEach(plantsModule.filterByLocation(a: location)){ plant in
+            PlantCell(plantCell: plant,color: plantsModule.color)
+        }
     }
 }
 
 #Preview {
-    PlantListView()
+    PlantListView(plantsModule: MockPlantsModule.moduleA,location: .bathroom)
 }

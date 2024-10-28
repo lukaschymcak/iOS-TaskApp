@@ -8,11 +8,35 @@
 import SwiftUI
 
 struct PresetViewCell: View {
+    var plantCell:PlantModel
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack{
+            GeometryReader { GeometryProxy in
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(.green,lineWidth: 5)
+                    .fill(.clear)
+                    .frame(width: GeometryProxy.size.width - 50, height: 100)
+                    .frame(maxWidth: .infinity,alignment: .center)
+                    .overlay {
+                        HStack(spacing:30){
+                            Image(systemName: plantCell.image)
+                                .font(.system(size: 50))
+                                .foregroundStyle(.green)
+                            Text(plantCell.name)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.green)
+                            Spacer()
+                        }   .frame(width: GeometryProxy.size.width - 100)
+                     
+                    }
+            }
+           
+                
+        }.frame(height: 100)
     }
 }
 
 #Preview {
-    PresetViewCell()
+    PresetViewCell(plantCell: DefaultPlants.monstera)
 }

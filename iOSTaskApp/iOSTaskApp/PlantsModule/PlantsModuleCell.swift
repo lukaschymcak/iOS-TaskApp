@@ -19,10 +19,10 @@ struct PlantsModuleCell: View {
                     .fill(colorScheme == .dark ? plantsModule.color.opacity(0.3) : .clear)
                     .stroke(plantsModule.color,lineWidth: 7)
                     .frame(maxWidth: UIScreen.main.bounds.width - 25,maxHeight:
-                            plantsModule.plants.isEmpty ? 150 : 180)
+                            plantsModule.plants.isEmpty ? 180 : 180)
                 
                 VStack{
-                    VStack(alignment: .leading,spacing: 10) {
+                    VStack(alignment: .leading,spacing: 15) {
                         HStack {
                             Text(plantsModule.name == "" ? "Plants" :
                                     plantsModule.name)
@@ -51,21 +51,24 @@ struct PlantsModuleCell: View {
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundStyle(plantsModule.color)
-                        ScrollView(.horizontal){
-                            HStack(spacing: 20){
-                      
-                                ForEach(plantsModule.wateringLocations.sorted(by: { $0.value > $1.value }),id: \.key) { location,number  in
-                                    VStack{
-                                        Text("\(location.id)")
-                                            .font(.headline)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(plantsModule.color)
-                                        Text("\(number)")
-                                            .font(.title2)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(plantsModule.color)
-                                    }
+                        ScrollView(.horizontal,showsIndicators: false){
+                            if !plantsModule.wateringLocations.isEmpty {
+                                
+                                HStack(spacing: 20){
                                     
+                                    ForEach(plantsModule.wateringLocations.sorted(by: { $0.value > $1.value }),id: \.key) { location,number  in
+                                        VStack{
+                                            Text("\(location.id)")
+                                                .font(.headline)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(plantsModule.color)
+                                            Text("\(number)")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(plantsModule.color)
+                                        }
+                                        
+                                    }
                                 }
                             }
                         }
@@ -75,8 +78,10 @@ struct PlantsModuleCell: View {
                
            
                  
-                }.frame(maxWidth: UIScreen.main.bounds.width - 55)
-            }.padding(.vertical,20)
+                }  .padding(.vertical,20)
+                .frame(maxWidth: UIScreen.main.bounds.width - 55)
+                  
+            }
         }
     
 }

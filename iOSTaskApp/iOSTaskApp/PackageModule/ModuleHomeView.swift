@@ -20,16 +20,17 @@ struct PackageModuleHomeView: View {
                     .navigationTransition(.zoom(sourceID: "world", in: namespace))
                     .navigationBarBackButtonHidden(true)
             } label: {
-                VStack(alignment: .leading){
+             
                    
                         PackingModule(packingModule: module)
                         
-                    }
+               
                     
                        
                  
                 }
-                .padding()
+            .padding(.horizontal)
+            .padding(.vertical,5)
                     
         }
         

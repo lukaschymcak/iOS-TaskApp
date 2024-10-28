@@ -8,8 +8,25 @@
 import SwiftUI
 
 struct PresetPlantsListView: View {
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack{
+            ScrollView{
+                VStack(spacing:20){
+                    ForEach(DefaultPlants.presetPlants) { plant in
+                        NavigationLink {
+                            Text(plant.name)
+                        } label: {
+                            PresetViewCell(plantCell: plant)
+                        }
+
+                        
+                        
+                        
+                    }
+                }.padding(.top,20)
+            }
+        }
     }
 }
 
