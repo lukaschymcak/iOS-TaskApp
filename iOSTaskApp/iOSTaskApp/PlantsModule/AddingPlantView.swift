@@ -26,6 +26,7 @@ struct AddingPlantView: View {
                             ForEach(DefaultPlants.presetPlants) { plant in
                                 NavigationLink {
                                     Text(plant.name)
+                                       
                                 } label: {
                                     PresetViewCell(plantCell: plant)
                                 }

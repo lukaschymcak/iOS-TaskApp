@@ -36,8 +36,8 @@ class PlantModel {
     func setName(a:String){
         self.name = a
     }
-    func setDesc(a:String){
-        self.desc = a
+    func getDesc() -> String{
+       return self.desc 
     }
     func setLocation(a:houseLocation){
         self.location = a

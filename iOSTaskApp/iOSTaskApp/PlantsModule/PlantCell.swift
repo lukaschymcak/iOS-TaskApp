@@ -32,9 +32,6 @@ struct PlantCell: View {
                                     .foregroundStyle(color)
                                     .lineLimit(2)
                                  
-                                Text("\(plantCell.water.description)ml")
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(color)
                                 
                             }
                             Spacer()
