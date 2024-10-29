@@ -25,8 +25,9 @@ struct AddingPlantView: View {
                         VStack(spacing:20){
                             ForEach(DefaultPlants.presetPlants) { plant in
                                 NavigationLink {
-                                    Text(plant.name)
-                                       
+                                  
+                                    PresetAddView(plantModule: plantsModule, plantModel: plant)
+                                        .navigationBarBackButtonHidden(true)
                                 } label: {
                                     PresetViewCell(plantCell: plant)
                                 }

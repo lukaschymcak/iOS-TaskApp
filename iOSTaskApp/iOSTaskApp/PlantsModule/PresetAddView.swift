@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PresetAddView: View {
     @State var color: Color = .green
+    @State var plantModule: PlantsModuleDataClass
     @State var plantModel:PlantModel
     @State var infoText: String = ""
     @State var selectedDate:Date = Date.now
@@ -31,140 +32,195 @@ struct PresetAddView: View {
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
                     }.padding()
-                    Text(infoText)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
-                        .lineSpacing(6)
+                    ScrollView{
+                        Text(infoText)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                            .lineSpacing(6)
+                    }
                     Spacer()
                     HStack(spacing:20){
-    
-                            
-                            Button {
-                                infoText = plantModel.getDesc()
-                            } label: {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(color.opacity(0.9),lineWidth: 5)
-                                    .fill(.white)
-                                    .frame(width: 100, height: 50)
-                                    .overlay {
-                                        Text("Info")
-                                            .foregroundStyle(color)
-                                            .fontWeight(.bold)
-                                     
-                                        
-                                    }
-                            }
-                            Button {
-                                
-                            } label: {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(color.opacity(0.9),lineWidth: 5)
-                                    .fill(.white)
-                                    .frame(width: 100, height: 50)
-                                    .overlay {
-                                        Text("Water")
-                                            .foregroundStyle(color)
-                                            .fontWeight(.bold)
+                        
+                        
+                        Button {
+                            infoText = plantModel.getDesc()
+                        } label: {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(color.opacity(0.4),lineWidth: 5)
+                                .fill(.white)
+                                .frame(width: 100, height: 50)
+                                .overlay {
+                                    Text("Info")
+                                        .foregroundStyle(color)
+                                        .fontWeight(.bold)
+                                        .font(.title2)
                                     
-                                        
-                                    }
-                            }
-                            Button {
-                                
-                            } label: {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(color.opacity(0.9),lineWidth: 5)
-                                    .fill(.white)
-                                    .frame(width: 100, height: 50)
-                                    .overlay {
-                                        Text("Light")
-                                            .foregroundStyle(color)
-                                            .fontWeight(.bold)
-                                        
-                                        
-                                    }
-                            }
-
+                                }
+                        }
+                        Button {
                             
+                        } label: {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(color.opacity(0.4),lineWidth: 5)
+                                .fill(.white)
+                                .frame(width: 100, height: 50)
+                                .overlay {
+                                    Text("Water")
+                                        .foregroundStyle(color)
+                                        .fontWeight(.bold)
+                                        .font(.title2)
+                                    
+                                    
+                                }
+                        }
+                        Button {
                             
-                            
-                        }.padding(.bottom,220)
+                        } label: {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(color.opacity(0.4),lineWidth: 5)
+                                .fill(.white)
+                                .frame(width: 100, height: 50)
+                                .overlay {
+                                    Text("Light")
+                                        .foregroundStyle(color)
+                                        .fontWeight(.bold)
+                                        .font(.title2)
+                                    
+                                }
+                        }
+                        
+                        
+                        
+                        
+                    }.padding(.bottom,305)
                     
                     
-                       
-                   
                     
-                  
-               
+                    
+                    
+                    
+                    
                 }.frame(width: GeometryProxy.size.width - 50)
                     .frame(maxWidth: .infinity,alignment: .center)
-         
-        
+                
+                
                 VStack {
                     Spacer()
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.white)
-                        .frame(height: 190)
+                        .frame(height: 285)
                         .overlay {
-                            HStack {
-                                VStack(alignment:.leading){
-                                    DatePicker(selection: $selectedDate,in: Date.now..., displayedComponents: .date) {
-                                        Text("First Day")
-                                            .font(.title2)
-                                            .fontWeight(.bold)
-                                    }.frame(width: 230)
-                                    .datePickerStyle(.compact)
-                                    HStack{
-                                        Text("Select Frequency:")
-                                            .font(.title2)
-                                            .fontWeight(.bold)
-                                        Text("every")
-                                        Picker("Frequency",selection: $frequency){
+                            
+                            VStack(alignment:.leading,spacing: 15){
+                                DatePicker(selection: $selectedDate,in: Date.now..., displayedComponents: .date) {
+                                    Text("First Day")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                }
+                                .datePickerStyle(.compact)
+                                .padding(10)
+                                .background(color.opacity(0.4))
+                                .clipShape(.rect(cornerRadius: 10))
                                 
-                                                ForEach((1...30), id: \.self){ num in
-                                                    Text("\(num.description)").tag(num.description)
-                                                   
-                                                
-                                                
-                                            }
-                                        }.pickerStyle(.automatic)
-                                         
-                                        Text("\(frequency > 1 ?"days": "day")")
-                                            
-                                    }
-                                    HStack{
-                                        Text("Location:")
-                                            .font(.title2)
-                                            .fontWeight(.bold)
+                                HStack(alignment: .center){
+                                    Text("Frequency:")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                    Text("every")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                    
+                                    Picker("Frequency",selection: $frequency){
                                         
-                                        Picker("Bathroom", selection: $location) {
-                                            Text("Bathroom").tag(houseLocation.bathroom)
-                                            Text("Bedroom").tag(houseLocation.bedroom)
-                                            Text("Dining Room").tag(houseLocation.diningRoom)
-                                            Text("Kitchen").tag(houseLocation.kitchen)
-                                        }.pickerStyle(.menu)
-
+                                        ForEach((1...30), id: \.self){ num in
+                                            Text("\(num.description)").tag(num.description)
+                                            
+                                            
+                                            
+                                        }
+                                    }.pickerStyle(.automatic)
+                                    
+                                    
+                                    Text("\(frequency > 1 ?"days": "day")")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                    
+                                }.frame(maxWidth: .infinity,alignment: .leading)
+                                    .padding(10)
+                                    .background(color.opacity(0.4))
+                                    .clipShape(.rect(cornerRadius: 10))
+                                HStack(alignment: .bottom){
+                                    Text("Room:")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                    Spacer()
+                                    Picker("Bathroom", selection: $location) {
+                                        
+                                        Text("Bathroom").tag(houseLocation.bathroom)
+                                        Text("Bedroom").tag(houseLocation.bedroom)
+                                        Text("Dining Room").tag(houseLocation.diningRoom)
+                                        Text("Kitchen").tag(houseLocation.kitchen)
+                                        
                                     }
-                                }.padding()
-                   
-                            }.frame(maxWidth: .infinity,alignment: .leading)
-                        }
-               
+                                    
+                                    
+                                    
+                                }.frame(maxWidth: .infinity,alignment: .leading)
+                                    .padding(10)
+                                    .background(color.opacity(0.4))
+                                    .clipShape(.rect(cornerRadius: 10))
+                                
+                                HStack {
+                                    Button {
+                                        let plantModelCopy = PlantModel(name: plantModel.name,desc: plantModel.getDesc(),location:location, frequency: frequency,waterDate: selectedDate)
+                                       
+                                        
+                                        plantModule.addPlants(a: plantModelCopy)
+                           
+                                        
+                                    } label: {
+                                        Text("Add")
+                                            .font(.title)
+                                            .foregroundStyle(.white)
+                                            .fontWeight(.bold)
+                                            .frame(width: 100,height: 50)
+                                            .background(color.opacity(0.4))
+                                            .clipShape(.rect(cornerRadius: 10))
+                                    }
+                                }.frame(maxWidth: .infinity,alignment: .center)
+                                    .padding(.top,10)
+                                
+                            }.padding(.horizontal)
+                                .padding(.top,20)
+                            
+                            
+                            
+                            
+                        }.frame(maxWidth: .infinity,alignment: .leading)
                 }
                 
+            }.onAppear {
+                infoText = plantModel.getDesc()
             }
-          
+            
         }
-      
-         
-           
-
-        }
-
+        
+        
+        
+        
+        
+        
     }
+    
+}
 
 
 #Preview {
-    PresetAddView(plantModel: DefaultPlants.monstera)
+    PresetAddView(plantModule: MockPlantsModule.moduleA, plantModel: DefaultPlants.monstera)
 }

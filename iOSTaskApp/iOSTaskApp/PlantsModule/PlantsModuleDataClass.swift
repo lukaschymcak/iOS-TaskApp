@@ -72,9 +72,33 @@ class PlantsModuleDataClass{
             plant.location == a
         }
     }
+    func getTodayPlants() -> [PlantModel]{
+        let today = Date.now
+        return plants.filter { plant in
+            Calendar.current.isDate(today, inSameDayAs: plant.waterDate)
+        }
+    }
     
-    
-    
+    func getWeekPlants() -> [PlantModel]?{
+        let today = Date.now
+        let nextWeek = Calendar.current.date(byAdding: .day, value: 5, to: today)
+        if let nextWeek = nextWeek {
+         return   plants.filter { plant in
+                plant.waterDate > today && plant.waterDate < nextWeek
+            }
+        }
+        return nil
+    }
+    func getRestPlants() -> [PlantModel]?{
+        let today = Date.now
+        let nextWeek = Calendar.current.date(byAdding: .day, value: 5, to: today)
+        if let nextWeek = nextWeek {
+         return   plants.filter { plant in
+             plant.waterDate > nextWeek
+            }
+        }
+        return nil
+    }
 }
 
 struct MockPlantsModule {

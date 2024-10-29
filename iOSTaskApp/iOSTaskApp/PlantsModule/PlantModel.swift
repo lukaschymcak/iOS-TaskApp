@@ -19,10 +19,11 @@ class PlantModel {
     private var light:String
     private(set) var image: String
     private(set) var watered:Bool
+    private(set) var waterDate:Date = Date.now
     
     var module:PlantsModuleDataClass?
     
-    init(name: String, desc: String = "",location:houseLocation = .bathroom, frequency: Int = 0, water: String = "", light: String = "", image: String = "",watered:Bool = false) {
+    init(name: String, desc: String = "",location:houseLocation = .bathroom, frequency: Int = 0, water: String = "", light: String = "", image: String = "",watered:Bool = false,waterDate:Date = Date.now) {
         self.name = name
         self.desc = desc
         self.location = location
@@ -31,6 +32,7 @@ class PlantModel {
         self.light = light
         self.image = image
         self.watered = watered
+        self.waterDate = waterDate
     }
     
     func setName(a:String){
@@ -52,8 +54,16 @@ class PlantModel {
         self.image = a
     }
     func toggleWatered(){
-        watered.toggle()
+        self.watered = true
     }
+    func toggleNotWatered(){
+        self.watered = false
+    }
+    func setWaterDate(a:Date){
+        self.waterDate = a
+    }
+    
+  
     
 }
 
