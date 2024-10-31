@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct PresetPlantsListView: View {
-    
+
     var body: some View {
-        NavigationStack{
-            ScrollView{
-                VStack(spacing:20){
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 20) {
                     ForEach(DefaultPlants.presetPlants) { plant in
                         NavigationLink {
                             Text(plant.name)
@@ -20,11 +20,8 @@ struct PresetPlantsListView: View {
                             PresetViewCell(plantCell: plant)
                         }
 
-                        
-                        
-                        
                     }
-                }.padding(.top,20)
+                }.padding(.top, 20)
             }
         }
     }

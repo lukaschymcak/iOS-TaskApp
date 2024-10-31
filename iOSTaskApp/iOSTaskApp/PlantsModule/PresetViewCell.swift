@@ -8,32 +8,36 @@
 import SwiftUI
 
 struct PresetViewCell: View {
+    @Environment(\.colorScheme) var colorScheme
     var plantCell:PlantModel
     var body: some View {
         ZStack{
             GeometryReader { GeometryProxy in
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(.green,lineWidth: 5)
-                    .fill(.clear)
-                    .frame(width: GeometryProxy.size.width - 50, height: 100)
+                    .fill(Color(hex: "9DA091"))
+                    .frame(width: GeometryProxy.size.width - 50, height: 80)
                     .frame(maxWidth: .infinity,alignment: .center)
                     .overlay {
-                        HStack(spacing:30){
-                            Image(systemName: plantCell.image)
-                                .font(.system(size: 50))
-                                .foregroundStyle(.green)
+                        HStack(spacing:20){
+                            Image(plantCell.image)
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .font(.title)
+                                .foregroundStyle(Utils.changeColorBasedOnDarkMode(colorScheme, setDarkColor: .white, setLightColor: .green))
                             Text(plantCell.name)
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundStyle(.green)
+                                .foregroundStyle(Utils.changeColorBasedOnDarkMode(colorScheme, setDarkColor: .white, setLightColor: .green))
                             Spacer()
-                        }   .frame(width: GeometryProxy.size.width - 100)
+                        }
+                        .frame(width: GeometryProxy.size.width - 70)
+                    
                      
                     }
             }
            
                 
-        }.frame(height: 100)
+        }.frame(height: 80)
     }
 }
 

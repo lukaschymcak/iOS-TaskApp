@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PresetAddView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) var dismiss
     @State var color: Color = .green
     @State var plantModule: PlantsModuleDataClass
     @State var plantModel:PlantModel
@@ -15,85 +17,37 @@ struct PresetAddView: View {
     @State var selectedDate:Date = Date.now
     @State var location: houseLocation = .bathroom
     @State var frequency: Int = 1
+    @State var showOptions: Bool = false
+    @Binding var cancelHit:Bool
+    @State var isPopupShown:Bool = false
     var body: some View {
         GeometryReader { GeometryProxy in
             
             ZStack(alignment: .top) {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(color.opacity(0.4))
-                VStack{
+                    .fill(Color(hex: "5C7457"))
+                    .ignoresSafeArea()
+                VStack(spacing:20){
                     HStack {
-                        Image(systemName: plantModel.image)
+                        Image(plantModel.image)
+                            .resizable()
+                            .frame(width: 50, height: 50)
                             .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
                         Text(plantModel.name)
-                            .font(.title)
+                            .font(.system(size: 35))
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
-                    }.padding()
+                    }.frame(maxWidth: .infinity,alignment:.leading)
+            
                     ScrollView{
                         Text(infoText)
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
                             .lineSpacing(6)
-                    }
+                            .multilineTextAlignment(.leading)
+                    }.frame(height: 325)
                     Spacer()
-                    HStack(spacing:20){
-                        
-                        
-                        Button {
-                            infoText = plantModel.getDesc()
-                        } label: {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(color.opacity(0.4),lineWidth: 5)
-                                .fill(.white)
-                                .frame(width: 100, height: 50)
-                                .overlay {
-                                    Text("Info")
-                                        .foregroundStyle(color)
-                                        .fontWeight(.bold)
-                                        .font(.title2)
-                                    
-                                }
-                        }
-                        Button {
-                            
-                        } label: {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(color.opacity(0.4),lineWidth: 5)
-                                .fill(.white)
-                                .frame(width: 100, height: 50)
-                                .overlay {
-                                    Text("Water")
-                                        .foregroundStyle(color)
-                                        .fontWeight(.bold)
-                                        .font(.title2)
-                                    
-                                    
-                                }
-                        }
-                        Button {
-                            
-                        } label: {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(color.opacity(0.4),lineWidth: 5)
-                                .fill(.white)
-                                .frame(width: 100, height: 50)
-                                .overlay {
-                                    Text("Light")
-                                        .foregroundStyle(color)
-                                        .fontWeight(.bold)
-                                        .font(.title2)
-                                    
-                                }
-                        }
-                        
-                        
-                        
-                        
-                    }.padding(.bottom,305)
                     
                     
                     
@@ -101,108 +55,164 @@ struct PresetAddView: View {
                     
                     
                     
-                }.frame(width: GeometryProxy.size.width - 50)
+                }.frame(width: GeometryProxy.size.width - 20)
                     .frame(maxWidth: .infinity,alignment: .center)
                 
                 
                 VStack {
                     Spacer()
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(.white)
-                        .frame(height: 285)
+                        .fill(Color(hex: "9DA091"))
+                        .ignoresSafeArea()
+                        .frame(height: 330)
+
                         .overlay {
-                            
-                            VStack(alignment:.leading,spacing: 15){
-                                DatePicker(selection: $selectedDate,in: Date.now..., displayedComponents: .date) {
-                                    Text("First Day")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.white)
-                                }
-                                .datePickerStyle(.compact)
-                                .padding(10)
-                                .background(color.opacity(0.4))
-                                .clipShape(.rect(cornerRadius: 10))
+                            ZStack {
                                 
-                                HStack(alignment: .center){
-                                    Text("Frequency:")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.white)
-                                    Text("every")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.white)
-                                    
-                                    Picker("Frequency",selection: $frequency){
-                                        
-                                        ForEach((1...30), id: \.self){ num in
-                                            Text("\(num.description)").tag(num.description)
-                                            
-                                            
+                                VStack(alignment:.leading,spacing: 15){
+                                    HStack {
+                                        DatePicker(selection: $selectedDate,in: Date.now..., displayedComponents: .date) {
+                                            Text("First Day")
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(Color(hex: "9DA091"))
+    
                                             
                                         }
-                                    }.pickerStyle(.automatic)
+                                        .padding(10)
+                                        .background(Color(hex: "EFD0CA"))
+                                        .clipShape(.rect(cornerRadius: 10))
+                             
+                                    }.frame(height: 60)
                                     
-                                    
-                                    Text("\(frequency > 1 ?"days": "day")")
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.white)
-                                    
-                                }.frame(maxWidth: .infinity,alignment: .leading)
-                                    .padding(10)
-                                    .background(color.opacity(0.4))
-                                    .clipShape(.rect(cornerRadius: 10))
-                                HStack(alignment: .bottom){
-                                    Text("Room:")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.white)
-                                    Spacer()
-                                    Picker("Bathroom", selection: $location) {
-                                        
-                                        Text("Bathroom").tag(houseLocation.bathroom)
-                                        Text("Bedroom").tag(houseLocation.bedroom)
-                                        Text("Dining Room").tag(houseLocation.diningRoom)
-                                        Text("Kitchen").tag(houseLocation.kitchen)
-                                        
-                                    }
-                                    
-                                    
-                                    
-                                }.frame(maxWidth: .infinity,alignment: .leading)
-                                    .padding(10)
-                                    .background(color.opacity(0.4))
-                                    .clipShape(.rect(cornerRadius: 10))
-                                
-                                HStack {
-                                    Button {
-                                        let plantModelCopy = PlantModel(name: plantModel.name,desc: plantModel.getDesc(),location:location, frequency: frequency,waterDate: selectedDate)
-                                       
-                                        
-                                        plantModule.addPlants(a: plantModelCopy)
-                           
-                                        
-                                    } label: {
-                                        Text("Add")
+                                    HStack(alignment: .center){
+                                        Text("Frequency:")
                                             .font(.title)
-                                            .foregroundStyle(.white)
                                             .fontWeight(.bold)
-                                            .frame(width: 100,height: 50)
-                                            .background(color.opacity(0.4))
-                                            .clipShape(.rect(cornerRadius: 10))
-                                    }
-                                }.frame(maxWidth: .infinity,alignment: .center)
-                                    .padding(.top,10)
+                                            .foregroundStyle(Color(hex: "9DA091"))
+                                        Spacer()
+                                        
+                                        
+                                        Picker("Frequency",selection: $frequency){
+                                            
+                                            ForEach((1...30), id: \.self){ num in
+                                                Text("\(num.description)").tag(num.description)
+                                                
+                                                
+                                                
+                                            }
+                                        }.pickerStyle(.wheel)
+                                            .frame(width: 100)
+                                        Button {
+                                            isPopupShown.toggle()
+                                        } label: {
+                                            Image(systemName: "info.circle.fill")
+                                                       .resizable()
+                                                       .scaledToFit()
+                                                       .frame(width: 20, height: 20)
+                                                       .foregroundStyle(Color(hex: "9DA091"))
+                                                       .popover(isPresented: $isPopupShown, attachmentAnchor: .point(.top),arrowEdge: .bottom) {
+                                                           VStack{
+                                                               Text("Every X Days")
+                                                               Text("e.g  X Days from last watering")
+                                                           }
+                                                           .multilineTextAlignment(.center)
+                                                               .lineLimit(0)
+                                                               .foregroundStyle(.white)
+                                                               .font(.system(size: 12, weight: .semibold, design: .default))
+                                                               .padding(5)
+                                                               .presentationCompactAdaptation(.none)
+                                                              
+                                                       }
+                                        }
+
+                                        
+                                        
+                                 
+                                    }.frame(height: 60)
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(.horizontal,10)
+                                        .background(Color(hex: "EFD0CA"))
+                        
+                                        .clipShape(.rect(cornerRadius: 10))
+                                    HStack(alignment: .center){
+                                        Text("Room:")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(Color(hex: "9DA091"))
+                                        Spacer()
+                                        Menu(location.id){
+                                            ForEach(houseLocation.allCases){ loc in
+                                                Button {
+                                                    location = loc
+                                                } label: {
+                                                    Text(loc.id)
+                                                    
+                                                }
+                                                
+                                                
+                                            }
+                                            
+                                        }
+                                        .padding(8)
+                                        .padding(.horizontal,10)
+                                        .foregroundStyle(Color.white)
+                                        .background(RoundedRectangle(cornerRadius: 16).fill(.gray.opacity(0.3)))
+                                        
+                 
+                                    }.frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(10)
+                                        .background(Color(hex: "EFD0CA"))
+                                        .clipShape(.rect(cornerRadius: 10))
+                                    
+                                    HStack(spacing:15) {
+                                        Button {
+                                            cancelHit = true
+                                            dismiss()
+                                            
+                                            
+                                        } label: {
+                                            Text("Cancel")
+                                                .font(.title)
+                                                .foregroundStyle(Color(hex: "9DA091"))
+                                                .fontWeight(.bold)
+                                                .padding(10)
+                                                .background(Color(hex: "EFD0CA"))
+                                                .clipShape(.rect(cornerRadius: 10))
+                                        }
+                                        Button {
+                                            let plantModelCopy = PlantModel(name: plantModel.name,desc: plantModel.getDesc(),location:location, frequency: frequency,image: plantModel.image,waterDate: selectedDate)
+                                            
+                                            
+                                            plantModule.addPlants(a: plantModelCopy)
+                                            cancelHit = false 
+                                            dismiss()
+                                            
+                                        } label: {
+                                            Text("Add Plant")
+                                                .font(.title)
+                                                .foregroundStyle(Color(hex: "9DA091"))
+                                                .fontWeight(.bold)
+                                                .padding(10)
+                                                .background(Color(hex: "EFD0CA"))
+                                                .clipShape(.rect(cornerRadius: 10))
+                                        }
+                                       
+                                    }.frame(maxWidth: .infinity,alignment: .center)
+                                        .padding(.top,10)
+                                    Spacer()
+                                    
+                                    
+                                }.padding(.horizontal)
+                                    .padding(.top,30)
+                                    .presentationDetents([.height(400)])
                                 
-                            }.padding(.horizontal)
-                                .padding(.top,20)
-                            
-                            
-                            
+                                    .presentationCornerRadius(20)
+                            }
+                   
                             
                         }.frame(maxWidth: .infinity,alignment: .leading)
+                        
                 }
                 
             }.onAppear {
@@ -217,10 +227,11 @@ struct PresetAddView: View {
         
         
     }
+   
     
 }
 
 
 #Preview {
-    PresetAddView(plantModule: MockPlantsModule.moduleA, plantModel: DefaultPlants.monstera)
+    PresetAddView(plantModule: MockPlantsModule.moduleA, plantModel: DefaultPlants.monstera, cancelHit: .constant(true))
 }

@@ -13,12 +13,14 @@ struct PlantListView: View {
     var body: some View {
         
         GeometryReader { GeometryProxy in
-            ScrollView{
+            ScrollView(showsIndicators: false){
                 VStack(alignment:.leading){
                     if !self.getForgottenPlants(a: plantsModule.filterByLocation(a: location)).isEmpty{
                             Text("Forgotten:")
-                                .font(.title)
+                            .font(.title)
                                 .fontWeight(.bold)
+                                .padding(10)
+                 
                             ForEach(self.getForgottenPlants(a: plantsModule.filterByLocation(a: location)),id: \.self){ plant in
                                 PlantCell(plantModule: plantsModule, plantCell: plant, color: plantsModule.color)
                                     .frame(height: 130)
@@ -30,7 +32,21 @@ struct PlantListView: View {
                         Text("Today")
                             .font(.title)
                             .fontWeight(.bold)
+                            .padding(13)
+                    
                         ForEach(self.getTodayPlants(a: plantsModule.filterByLocation(a: location)),id: \.self){ plant in
+                            PlantCell(plantModule: plantsModule, plantCell: plant, color: plantsModule.color)
+                                .frame(height: 130)
+                            
+                        }
+                    }
+                    if !self.getTmrwPlants(a: plantsModule.filterByLocation(a: location)).isEmpty{
+                        Text("Tommorow")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .padding(13)
+                    
+                        ForEach(self.getTmrwPlants(a: plantsModule.filterByLocation(a: location)),id: \.self){ plant in
                             PlantCell(plantModule: plantsModule, plantCell: plant, color: plantsModule.color)
                                 .frame(height: 130)
                             
@@ -41,7 +57,9 @@ struct PlantListView: View {
                             Text("in the next 5 days:")
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .padding(.top,10)
+                                .padding(10)
+                                .padding(.top,5)
+
                             ForEach(weekPlants,id: \.self){ plant in
                                 PlantCell(plantModule: plantsModule, plantCell: plant, color: plantsModule.color)
                                     .frame(height: 130)
@@ -53,7 +71,8 @@ struct PlantListView: View {
                             Text("more than 5 days:")
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .padding(.top,10)
+                                .padding(10)
+                                .padding(.top,5)
                             ForEach(restPlants,id: \.self){ plant in
                                 PlantCell(plantModule: plantsModule, plantCell: plant, color: plantsModule.color)
                                     .frame(height: 130)
@@ -61,7 +80,7 @@ struct PlantListView: View {
                         }
                     }
                     
-                }.frame(width: GeometryProxy.size.width - 50)
+                }.frame(width: GeometryProxy.size.width - 20)
                     .frame(maxWidth: .infinity,alignment: .center)
             }
             
@@ -80,14 +99,20 @@ struct PlantListView: View {
             plant.waterDate.isToday()
         }
     }
-    
+    func getTmrwPlants(a:[PlantModel]) -> [PlantModel]{
+        return a.filter { plant in
+            plant.waterDate.isTmrw()
+        }
+    }
     func getWeekPlants(a:[PlantModel]) -> [PlantModel]?{
-        let today = Date.now
-        let nextWeek = Calendar.current.date(byAdding: .day, value: 5, to: today)
-        if let nextWeek = nextWeek {
-         return   a.filter { plant in
-                plant.waterDate > today && plant.waterDate < nextWeek
-         }.sorted { $0.waterDate < $1.waterDate}
+        if let tmrw = Calendar.current.date(byAdding: .day, value: 1, to: Date.now){
+            let nextWeek = Calendar.current.date(byAdding: .day, value: 6, to: tmrw)
+            if let nextWeek = nextWeek {
+                return   a.filter { plant in
+                    plant.waterDate > tmrw && plant.waterDate < nextWeek
+                }.sorted { $0.waterDate < $1.waterDate}
+            }
+   
         }
         return nil
     }

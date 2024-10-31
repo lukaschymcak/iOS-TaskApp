@@ -17,6 +17,8 @@ struct CustomNavBarModule: View {
         switch module {
         case "Packing":
             packingNavBar
+        case "Plants":
+            plantsNavbar
         default:
             Text("hello")
         }
@@ -37,12 +39,15 @@ struct CustomNavBarModule: View {
                         .foregroundStyle(Utils.textColor(colorScheme))
                         .fontWeight(.bold)
                 }
-
+       
                 Text("\(name)")
                     .font(.system(size: 30))
                     .foregroundStyle(Utils.textColor(colorScheme))
                     .fontWeight(.bold)
-                
+                Spacer()
+                Image("leaves")
+                     .resizable()
+                     .frame(width: 50, height: 50)
                
 
                 
@@ -59,9 +64,49 @@ struct CustomNavBarModule: View {
         .frame(height: 50)
             Spacer()
         }
+    @ViewBuilder
+    var plantsNavbar: some View {
+        NavigationStack{
+            HStack{
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+               
+                        .font(.largeTitle)
+                        .foregroundStyle(Color(hex: "EFD0CA"))
+                        .fontWeight(.bold)
+                }
+       
+                Text("\(name)")
+                    .font(.system(size: 30))
+                    .foregroundStyle(Utils.textColor(colorScheme))
+                    .fontWeight(.bold)
+                Spacer()
+                Image("leaves")
+                     .resizable()
+                     .frame(width: 50, height: 50)
+               
+
+                
+                    
+            }.padding(.top,5)
+            .frame(maxWidth: .infinity,alignment: .leading)
+                
+                
+                Spacer()
+            
+
+            
+            }
+        .frame(height: 50)
+            Spacer()
+        }
+    
     }
 
 
+
 #Preview {
-    CustomNavBarModule(module: "Packing", name: "Packing")
+    CustomNavBarModule(module: "Plants", name: "Plants")
 }

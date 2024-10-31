@@ -75,13 +75,15 @@ struct MockPlants {
     static let plantD = PlantModel(name: "Kvet C",location: .bathroom)
     static let plantE = PlantModel(name: "Kvet D",location: .livingRoom)
     
-    static let mockedPlants:[PlantModel] = [plantA,plantB,plantC,plantD,plantE]
+    static let mockedPlants:[PlantModel] = [plantA,plantB,plantC,plantD,plantE,plantA,plantA]
 }
 
 struct DefaultPlants {
-    static let monstera = PlantModel(name: "Monstera",desc: "Kvet monstera, známy ako „monstera deliciosa“, je obľúbená izbová rastlina s veľkými listami a charakteristickými otvormi. Pôvodom je z tropických oblastí Strednej a Južnej Ameriky. Kvitne zriedkavo a je známa svojou estetikou a schopnosťou čistiť vzduch. Jej starostlivosť je jednoduchá.",image: "bird.fill")
+    static let monstera = PlantModel(name: "Monstera",desc: "Kvet monstera, známy ako „monstera deliciosa“, je obľúbená izbová rastlina s veľkými listami a charakteristickými otvormi. Pôvodom je z tropických oblastí Strednej a Južnej Ameriky. Kvitne zriedkavo a je známa svojou estetikou a schopnosťou čistiť vzduch.",image: "monstera")
     
-    static let orchidea = PlantModel(name: "Orchidea",desc: "Orchidea je exotická rastlina známa svojimi pôsobivými kvetmi, ktoré sa vyskytujú v širokej palete farieb a tvarov. Väčšina orchideí pochádza z tropických oblastí, kde rastú na stromoch (epifyticky) alebo v pôde. Vyžadujú vysokú vlhkosť a jemné, rozptýlené svetlo, čo im pripomína prostredie dažďových pralesov. Orchidey sú symbolom krásy, elegancie a lásky a vďaka svojej dlhej životnosti kvetov sú obľúbenými izbovými rastlinami po celom svete.",image: "cat.fill")
+    static let orchidea = PlantModel(name: "Orchidea",desc: "Orchidea je exotická rastlina známa svojimi pôsobivými kvetmi, ktoré sa vyskytujú v širokej palete farieb a tvarov. Väčšina orchideí pochádza z tropických oblastí, kde rastú na stromoch (epifyticky) alebo v pôde. Vyžadujú vysokú vlhkosť a jemné, rozptýlené svetlo, čo im pripomína prostredie dažďových pralesov. Orchidey sú symbolom krásy, elegancie a lásky a vďaka svojej dlhej životnosti kvetov sú obľúbenými izbovými rastlinami po celom svete.",image: "orchid")
     
-    static let presetPlants:[PlantModel] = [monstera,orchidea,monstera]
+    static let zzPlant = PlantModel(name: "ZZ Plant",desc: "The ZZ plant (Zamioculcas zamiifolia) is a hardy, low-maintenance indoor plant known for its glossy, dark green leaves and upright, wand-like stems. Native to East Africa, it's drought-tolerant and thrives in low to bright indirect light. This plant is popular for its ability to withstand neglect, making it ideal for beginners or low-light spaces. The ZZ plant also has air-purifying qualities and can grow up to 2-3 feet indoors with minimal watering.",image: "zz-plant")
+    
+    static let presetPlants:[PlantModel] = [monstera,orchidea,zzPlant]
 }
