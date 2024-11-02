@@ -52,17 +52,17 @@ struct PlantsModuleCell: View {
                             .fontWeight(.bold)
                             .foregroundStyle(plantsModule.color)
                         ScrollView(.horizontal,showsIndicators: false){
-                            if !plantsModule.wateringLocations.isEmpty {
+                            if !plantsModule.wateredLocations.isEmpty {
                                 
                                 HStack(spacing: 20){
                                     
-                                    ForEach(plantsModule.wateringLocations.sorted(by: { $0.value > $1.value }),id: \.key) { location,number  in
+                                    ForEach(plantsModule.wateredLocations.keys.sorted(by: { $0.rawValue > $1.rawValue }),id: \.self) { location  in
                                         VStack{
                                             Text("\(location.id)")
                                                 .font(.headline)
                                                 .fontWeight(.bold)
                                                 .foregroundStyle(plantsModule.color)
-                                            Text("\(number)")
+                                            Text("'")
                                                 .font(.title2)
                                                 .fontWeight(.bold)
                                                 .foregroundStyle(plantsModule.color)

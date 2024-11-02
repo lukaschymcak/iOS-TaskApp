@@ -21,6 +21,9 @@ class PlantsModuleDataClass {
         self.colorName = colorName
         self.plants = plants
     }
+    var wateredLocations: [houseLocation : [PlantModel]] {
+        Dictionary(grouping: plants, by: {$0.location})
+    }
 
     var color: Color {
         switch colorName {
@@ -41,18 +44,9 @@ class PlantsModuleDataClass {
         return counter
     }
 
-    var wateringLocations: [houseLocation: Int] {
-        var counts: [houseLocation: Int] = [:]
-        for plant in plants {
-            if !plant.watered {
-                counts[plant.location, default: 0] += 1
-            } else {
-                counts[plant.location, default: 0] += 0
-            }
-        }
-        return counts
 
-    }
+    
+  
 
     func getAllLocations() -> [houseLocation] {
         var caseArray: [houseLocation] = []
@@ -81,34 +75,62 @@ class PlantsModuleDataClass {
             plant.location == a
         }
     }
-    func getTodayPlants() -> [PlantModel] {
+    func getTodayPlants(location:houseLocation) -> [PlantModel] {
         let today = Date.now
         return plants.filter { plant in
-            Calendar.current.isDate(today, inSameDayAs: plant.waterDate)
+            Calendar.current.isDateInToday(plant.waterDate) && plant.location == location
+        }
+    }
+    func getTmrwPlants(location:houseLocation) -> [PlantModel] {
+        return plants.filter { plant in
+            Calendar.current.isDateInTomorrow(plant.waterDate) && plant.location == location
         }
     }
 
-    func getWeekPlants() -> [PlantModel]? {
-        let today = Date.now
-        let nextWeek = Calendar.current.date(
-            byAdding: .day, value: 5, to: today)
-        if let nextWeek = nextWeek {
-            return plants.filter { plant in
-                plant.waterDate > today && plant.waterDate < nextWeek
+    func getWeekPlants(location:houseLocation) -> [PlantModel]? {
+        let tmrw = Calendar.current.date(byAdding: .day, value: 1, to: Date.now)
+        if let tmrw = tmrw {
+            let nextWeek = Calendar.current.date(
+                byAdding: .day, value: 6, to: tmrw)
+            if let nextWeek = nextWeek {
+                return plants.filter { plant in
+                    plant.waterDate > tmrw && plant.waterDate < nextWeek && plant.location == location
+                }
             }
         }
         return nil
     }
-    func getRestPlants() -> [PlantModel]? {
-        let today = Date.now
-        let nextWeek = Calendar.current.date(
-            byAdding: .day, value: 5, to: today)
-        if let nextWeek = nextWeek {
-            return plants.filter { plant in
-                plant.waterDate > nextWeek
+    
+        func getRestPlants(location:houseLocation) -> [PlantModel]? {
+            let morethanWeek = Calendar.current.date(byAdding: .day, value: 7, to: Date.now)
+            if let morethanWeek = morethanWeek {
+                return plants.filter { plant in
+                    plant.waterDate >= morethanWeek
+                }
+            }
+            return nil
+        }
+     
+    
+    func getForgottenPlants(location:houseLocation) -> [PlantModel]{
+        return plants.filter { plant in
+            plant.waterDate.isBeforeToday() && plant.location == location
+        }.sorted { $0.waterDate < $1.waterDate}
+        }
+    func waterPlants() {
+        plants.filter { plant in
+            plant.prepared
+        }.forEach { plant in
+            if let dateIncrease = Calendar.current.date(
+                byAdding: .day, value: plant.frequency,
+                to: plant.waterDate) {
+                plant.toggleWatered()
+                plant.setWaterDate(a: dateIncrease)
+                plant.unPrepare()
+                
             }
         }
-        return nil
+        
     }
 }
 

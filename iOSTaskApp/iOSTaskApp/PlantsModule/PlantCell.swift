@@ -50,27 +50,35 @@ struct PlantCell: View {
                             Spacer()
                             VStack(spacing: 10) {
                                 Button {
-
+                                    
                                     plantModule.removePlants(a: plantCell)
-
+                                    
                                 } label: {
                                     Image(systemName: "minus")
                                         .font(.title)
                                         .fontWeight(.bold)
                                         .foregroundStyle(Color(hex: "EFD0CA"))
                                 }.offset(y: -5)
-
-                                Button {
-                                    self.waterPlant()
-                                } label: {
-                                    Image(
-                                        systemName: plantCell.watered
+                                if Calendar.current.isDateInToday(plantCell.waterDate){
+                                    Button {
+                                        plantCell.prepare()
+                                    } label: {
+                                        Image(
+                                            systemName: plantCell.prepared
                                             ? "checkmark.circle" : "drop.circle"
+                                        )
+                                        .font(.system(size: 50))
+                                        .foregroundStyle(Color(hex: "EFD0CA"))
+                                    }.padding(.horizontal)
+                                } else {
+                                    Image(
+                                        systemName: "clock"
                                     )
                                     .font(.system(size: 50))
                                     .foregroundStyle(Color(hex: "EFD0CA"))
+                                    .padding(.horizontal)
                                 }
-                            }.padding()
+                            }
 
                         }.frame(maxWidth: .infinity, alignment: .leading)
 
@@ -85,19 +93,7 @@ struct PlantCell: View {
         }
 
     }
-    func waterPlant() {
-        if Calendar.current.isDate(plantCell.waterDate, inSameDayAs: Date.now) {
-            self.plantCell.toggleWatered()
-            if let dateIncrease = Calendar.current.date(
-                byAdding: .day, value: plantCell.frequency,
-                to: plantCell.waterDate)
-            {
-                plantCell.setWaterDate(a: dateIncrease)
-            }
-        } else if plantCell.waterDate.isBeforeToday() {
-
-        }
-    }
+   
 }
 extension Date {
     func isBeforeToday() -> Bool {

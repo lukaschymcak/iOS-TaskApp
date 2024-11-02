@@ -19,6 +19,7 @@ class PlantModel {
     private var light:String
     private(set) var image: String
     private(set) var watered:Bool
+    private(set) var prepared:Bool = false
     private(set) var waterDate:Date = Date.now
     
     var module:PlantsModuleDataClass?
@@ -63,7 +64,26 @@ class PlantModel {
         self.waterDate = a
     }
     
-  
+    func prepare(){
+        self.prepared = true
+    }
+    func unPrepare(){
+        self.prepared = false
+    }
+    func waterPlant() {
+        if Calendar.current.isDate(waterDate, inSameDayAs: Date.now) {
+            toggleWatered()
+            if let dateIncrease = Calendar.current.date(
+                byAdding: .day, value: frequency,
+                to: waterDate)
+            {
+                setWaterDate(a: dateIncrease)
+            }
+        }
+        
+    }
+    
+    
     
 }
 
