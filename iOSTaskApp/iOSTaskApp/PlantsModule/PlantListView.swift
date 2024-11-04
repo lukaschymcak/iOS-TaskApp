@@ -39,6 +39,7 @@ struct PlantListView: View {
                             .fontWeight(.bold)
                             .padding(.top,10)
                             .padding(.horizontal,5)
+
                     
                         ForEach(plantsModule.wateredLocations.filter({$0.key == location}),id: \.key.id){ location, value in
                             ForEach(value){ plant in

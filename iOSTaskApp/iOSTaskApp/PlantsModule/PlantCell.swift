@@ -65,7 +65,9 @@ struct PlantCell: View {
                                        
                                         }) , secondaryButton: .cancel())
                                     }
+
                                 if Calendar.current.isDateInToday(plantCell.waterDate) || plantCell.waterDate.isBeforeToday() {
+
                                     Button {
                                         plantCell.prepare()
                                         toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")

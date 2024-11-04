@@ -13,5 +13,12 @@ struct Utils {
    static func textColor(_ color: ColorScheme) -> Color {
         color == .dark ? .white : .black
     }
+    
+    static func changeColorBasedOnDarkMode(_ color: ColorScheme, setDarkColor: Color,setLightColor:Color) ->Color {
+        if(color == .dark){
+            return setDarkColor
+        }
+        return setLightColor
+    }
 }
 

@@ -24,8 +24,9 @@ struct PresetAddView: View {
         GeometryReader { GeometryProxy in
             
             ZStack(alignment: .top) {
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: 20) 
                     .fill(Color(hex: "606C38"))
+
                     .ignoresSafeArea()
                 VStack(spacing:20){
                     HStack {

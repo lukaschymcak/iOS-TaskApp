@@ -96,13 +96,13 @@ struct PackingModule: View {
                                             .lineLimit(1)
                                     }
                                     
-                                    if firstTrip.dayDifference() == 0{
+                                    if Calendar.current.isDate(firstTrip.dateTo, inSameDayAs: Date.now){
                                         Text("Today")
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
                                             .foregroundStyle(.white)
                                     } else{
-                                        Text("in \(firstTrip.dayDifference()) days")
+                                        Text("in \(firstTrip.dayDifference()) \(firstTrip.dayDifference() == 1 ? "day": "days")")
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
                                             .foregroundStyle(.white)

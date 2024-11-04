@@ -15,19 +15,14 @@ struct AddingModuleView: View {
     
    
     var body: some View {
-        switch module.name {
-        case "Packing":
             addingPackingModule(module: module,colors: colors,selection: $selection)
-        default:
-            Text("Hello")
-        }
+       
     }
 }
 
 struct addingPackingModule:View {
-    @Environment(\.modelContext) var context
-    @Environment(\.dismiss) var dismiss
     var module:CreatingModuleData
+    @Environment(\.dismiss) var dismiss
     @State var name:String = ""
     var colors:[Color]
     @Binding var selection:Color
@@ -53,60 +48,65 @@ struct addingPackingModule:View {
                
              
                 }.padding(.vertical,2)
+                
                 VStack {
-                    HStack{
-                        Text("Colors")
-                            .font(.title)
-                            .fontWeight(.bold)
-                    }
-                    .padding(.horizontal, 20)
-                    HStack{
-                        ForEach(colors,id:\.self){ color in
-                            Button {
-                                selection = color
-                            } label: {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(selection == color ? .gray : .clear, lineWidth: 10)
-                                    .fill(color)
-                                    .frame(width: 40, height: 40)
-                                
-                            }.padding(.horizontal,10)
-                                .padding(.bottom,10)
-                        }
-                    }.padding(.bottom,10)
+                   
+                  
                     HStack{
                         Text("Name:")
                             .font(.title)
                             .fontWeight(.bold)
                         TextField("", text: $name)
                             .textFieldStyle(.roundedBorder)
-                        Button {
-                            let packing = PackingModuleDataClass(name: name, colorName: selection.description )
-                            context.insert(packing)
-                            context.delete(DefaultModules.packing)
-                            dismiss()
-                        } label: {
-                            Text("Add")
-                                .foregroundStyle(.white)
-                                .padding(8)
-                                .font(.headline)
-                                .background(selection)
-                                .clipShape(.rect(cornerRadius: 10))
-                        }
+                        addingModule(selection: $selection, name: $name, module: module)
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom,20)
                     
-                }
+                }.padding()
                 Spacer()
             }.padding(.top,15)
             
         }
-        .presentationDetents([.height(350)])
+        .presentationDetents([.height(250)])
+    }
+}
+
+struct addingModule: View {
+    @Environment(\.modelContext) var context
+    @Environment(\.dismiss) var dismiss
+    @Binding var selection:Color
+    @Binding var name:String
+    var module:CreatingModuleData
+    var body: some View {
+        Button {
+            switch module.name {
+            case "Packing":
+                let packing = PackingModuleDataClass(name: name, colorName: selection.description)
+                context.insert(packing)
+                context.delete(DefaultModules.packing)
+                dismiss()
+            case "Plants":
+                let plants = PlantsModuleDataClass(name: name, colorName: selection.description)
+                context.insert(plants)
+                context.delete(DefaultModules.plants)
+                dismiss()
+                
+            default:
+                return
+            }
+        } label: {
+            Text("Add")
+                .foregroundStyle(.white)
+                .padding(8)
+                .font(.headline)
+                .background(selection)
+                .clipShape(.rect(cornerRadius: 10))
+        }
     }
 }
 
 #Preview {
     AddingModuleView(module: DefaultModules.packing)
-        .modelContainer(for: [PackingModuleDataClass.self,CreatingModuleData.self])
+        .modelContainer(for: [PackingModuleDataClass.self,CreatingModuleData.self,PlantsModuleDataClass.self])
 }
