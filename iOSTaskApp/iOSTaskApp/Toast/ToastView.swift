@@ -14,7 +14,10 @@ struct ToastView: View {
     var style: ToastStyle
     var message: String
     var width = CGFloat.infinity
+    let doOutsideFunction: () -> Void
+    var doOutsideFunctonImage: String
     var onCancelTapped: (() -> Void)
+    
     
     var body: some View {
       HStack(alignment: .center, spacing: 12) {
@@ -24,9 +27,16 @@ struct ToastView: View {
               .font(.title3)
               .fontWeight(.bold)
           .foregroundColor(Color.white)
+          .multilineTextAlignment(.leading)
         
         Spacer(minLength: 10)
-        
+          Button {
+              doOutsideFunction()
+              onCancelTapped()
+          } label: {
+              Image(systemName: doOutsideFunctonImage)
+                  .foregroundColor(.white)
+          }.padding(.horizontal,10)
         Button {
           onCancelTapped()
         } label: {
@@ -51,7 +61,7 @@ struct ToastView: View {
 
 extension View {
 
-  func toastView(toast: Binding<Toast?>) -> some View {
-    self.modifier(ToastModifier(toast: toast))
+    func toastView(toast: Binding<Toast?>,someAction: @escaping () -> Void) -> some View {
+        self.modifier(ToastModifier(toast: toast,someAction:someAction))
   }
 }

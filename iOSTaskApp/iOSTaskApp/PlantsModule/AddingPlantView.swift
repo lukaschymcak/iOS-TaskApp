@@ -18,10 +18,8 @@ struct AddingPlantView: View {
         NavigationStack {
             ZStack {
 
-                Utils.changeColorBasedOnDarkMode(
-                    colorScheme, setDarkColor: .brown.opacity(0.8),
-                    setLightColor: .brown.opacity(0.9)
-                )
+                Color(hex: "FEFAE0")
+                
                 .ignoresSafeArea()
                 VStack {
                     VStack {
@@ -29,7 +27,7 @@ struct AddingPlantView: View {
                             Text("Choose from a preset")
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundStyle(Color(hex: "EFD0CA"))
+                                .foregroundStyle(Color(hex: "D19252"))
                                 .padding(.top, 30)
                                 .multilineTextAlignment(.leading)
 
@@ -111,12 +109,12 @@ struct AddingPlantView: View {
                                             .font(.largeTitle)
                                             .fontWeight(.bold)
                                             .foregroundStyle(
-                                                Color(hex: "EFD0CA"))
+                                                Color(hex: "D19252"))
                                         Text("Go Home")
                                             .font(.largeTitle)
                                             .fontWeight(.bold)
                                             .foregroundStyle(
-                                                Color(hex: "EFD0CA"))
+                                                Color(hex: "D19252"))
 
                                     }
 

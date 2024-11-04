@@ -16,8 +16,8 @@ struct PlantsModuleCell: View {
   
             ZStack{
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(colorScheme == .dark ? plantsModule.color.opacity(0.3) : .clear)
-                    .stroke(plantsModule.color,lineWidth: 7)
+                    .fill(Color(hex: "FEFAE0"))
+                    .stroke(Color(hex: "606C38"),lineWidth: 7)
                     .frame(maxWidth: UIScreen.main.bounds.width - 25,maxHeight:
                             plantsModule.plants.isEmpty ? 180 : 180)
                 
@@ -28,7 +28,7 @@ struct PlantsModuleCell: View {
                                     plantsModule.name)
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                            .foregroundStyle(plantsModule.color)
+                            .foregroundStyle(Color(hex: "606C38"))
                             Spacer()
                             Button {
                                 showAlert.toggle()
@@ -36,7 +36,7 @@ struct PlantsModuleCell: View {
                                 Image(systemName: "minus")
                                     .font(.title)
                                     .fontWeight(.bold)
-                                    .foregroundStyle(plantsModule.color)
+                                    .foregroundStyle(Color(hex: "606C38"))
                             }.alert(isPresented: $showAlert){
                                 Alert(title: Text("Remove module ?") ,message: Text("This will delete all your plants"),primaryButton: .destructive(Text("Confirm") ,action: {
                                     context.delete(plantsModule)
@@ -50,23 +50,28 @@ struct PlantsModuleCell: View {
                         Text("\(plantsModule.needWatering) plants need watering today")
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundStyle(plantsModule.color)
+                            .foregroundStyle(Color(hex: "606C38"))
                         ScrollView(.horizontal,showsIndicators: false){
                             if !plantsModule.wateredLocations.isEmpty {
                                 
                                 HStack(spacing: 20){
                                     
-                                    ForEach(plantsModule.wateredLocations.keys.sorted(by: { $0.rawValue > $1.rawValue }),id: \.self) { location  in
-                                        VStack{
-                                            Text("\(location.id)")
-                                                .font(.headline)
-                                                .fontWeight(.bold)
-                                                .foregroundStyle(plantsModule.color)
-                                            Text("'")
-                                                .font(.title2)
-                                                .fontWeight(.bold)
-                                                .foregroundStyle(plantsModule.color)
+                                    ForEach(plantsModule.wateredLocations.sorted(by: { $0.value.count > $1.value.count }).filter({ (key: houseLocation, value: [PlantModel]) in
+                                        value.allSatisfy { PlantModel in
+                                            !PlantModel.prepared
                                         }
+                                    }),id: \.key.id) { location , value  in
+                                            VStack{
+                                                Text("\(location.id)")
+                                                    .font(.headline)
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                Text("\(value.count)")
+                                                    .font(.title2)
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(Color(hex: "606C38"))
+                                            }
+                                            
                                         
                                     }
                                 }

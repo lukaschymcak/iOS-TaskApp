@@ -48,27 +48,10 @@ struct addingPackingModule:View {
                
              
                 }.padding(.vertical,2)
+                
                 VStack {
-                    HStack{
-                        Text("Colors")
-                            .font(.title)
-                            .fontWeight(.bold)
-                    }
-                    .padding(.horizontal, 20)
-                    HStack{
-                        ForEach(colors,id:\.self){ color in
-                            Button {
-                                selection = color
-                            } label: {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(selection == color ? .gray : .clear, lineWidth: 10)
-                                    .fill(color)
-                                    .frame(width: 40, height: 40)
-                                
-                            }.padding(.horizontal,10)
-                                .padding(.bottom,10)
-                        }
-                    }.padding(.bottom,10)
+                   
+                  
                     HStack{
                         Text("Name:")
                             .font(.title)
@@ -80,12 +63,12 @@ struct addingPackingModule:View {
                     .padding(.horizontal, 20)
                     .padding(.bottom,20)
                     
-                }
+                }.padding()
                 Spacer()
             }.padding(.top,15)
             
         }
-        .presentationDetents([.height(350)])
+        .presentationDetents([.height(250)])
     }
 }
 

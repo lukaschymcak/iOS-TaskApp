@@ -9,7 +9,9 @@ import SwiftUI
 
 struct PlantListView: View {
     var plantsModule: PlantsModuleDataClass
+    @State var plant: PlantModel?
     var location: houseLocation
+    @State private var toast: Toast? = nil
     var body: some View {
         
         GeometryReader { GeometryProxy in
@@ -17,13 +19,14 @@ struct PlantListView: View {
                 VStack(alignment:.leading){
                     if !plantsModule.getForgottenPlants(location: location).isEmpty{
                             Text("Forgotten:")
-                            .font(.title)
+                            .font(.largeTitle)
+                            .foregroundStyle(Color(hex: "C77F3C"))
                                 .fontWeight(.bold)
                                 .padding(.top,10)
                                 .padding(.horizontal,10)
                  
                         ForEach(plantsModule.getForgottenPlants(location: location),id: \.self){ plant in
-                                PlantCell(plantModule: plantsModule, plantCell: plant, color: plantsModule.color)
+                            PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
                                     .frame(height: 130)
                                 
                             }
@@ -31,7 +34,8 @@ struct PlantListView: View {
                     }
                     if !plantsModule.getTodayPlants(location: location).isEmpty{
                         Text("Today:")
-                            .font(.title)
+                            .font(.largeTitle)
+                            .foregroundStyle(Color(hex: "C77F3C"))
                             .fontWeight(.bold)
                             .padding(.top,10)
                             .padding(.horizontal,10)
@@ -39,7 +43,7 @@ struct PlantListView: View {
                         ForEach(plantsModule.wateredLocations.filter({$0.key == location}),id: \.key.id){ location, value in
                             ForEach(value){ plant in
                                 if Calendar.current.isDateInToday(plant.waterDate){
-                                    PlantCell(plantModule: plantsModule, plantCell: plant, color: plantsModule.color)
+                                    PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
                                         .frame(height: 130)
                                 }
                             }
@@ -47,13 +51,14 @@ struct PlantListView: View {
                     }
                     if !self.plantsModule.getTmrwPlants(location: location).isEmpty{
                         Text("Tommorow:")
-                            .font(.title)
+                            .font(.largeTitle)
+                            .foregroundStyle(Color(hex: "C77F3C"))
                             .fontWeight(.bold)
                             .padding(.top,10)
                             .padding(.horizontal,10)
                     
                         ForEach(plantsModule.getTmrwPlants(location: location),id: \.self){ plant in
-                            PlantCell(plantModule: plantsModule, plantCell: plant, color: plantsModule.color)
+                            PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
                                 .frame(height: 130)
                             
                         }
@@ -61,13 +66,14 @@ struct PlantListView: View {
                     if let weekPlants = plantsModule.getWeekPlants(location: location) {
                         if !weekPlants.isEmpty{
                             Text("This Week:")
-                                .font(.title)
+                                .font(.largeTitle)
+                                .foregroundStyle(Color(hex: "C77F3C"))
                                 .fontWeight(.bold)
                                 .padding(.top,10)
                                 .padding(.horizontal,10)
 
                             ForEach(weekPlants,id: \.self){ plant in
-                                PlantCell(plantModule: plantsModule, plantCell: plant, color: plantsModule.color)
+                                PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
                                     .frame(height: 130)
                             }
                         }
@@ -75,12 +81,13 @@ struct PlantListView: View {
                     if let restPlants = plantsModule.getRestPlants(location: location){
                         if !restPlants.isEmpty{
                             Text("After this week:")
-                                .font(.title)
+                                .font(.largeTitle)
+                                .foregroundStyle(Color(hex: "C77F3C"))
                                 .fontWeight(.bold)
                                 .padding(.top,10)
                                 .padding(.horizontal,10)
                             ForEach(restPlants,id: \.self){ plant in
-                                PlantCell(plantModule: plantsModule, plantCell: plant, color: plantsModule.color)
+                                PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
                                     .frame(height: 130)
                             }
                         }
@@ -88,9 +95,10 @@ struct PlantListView: View {
                     
                 }.frame(width: GeometryProxy.size.width - 20)
                     .frame(maxWidth: .infinity,alignment: .center)
+       
             }
             
-        }
+        }.toastView(toast: $toast, someAction: {plant?.unPrepare()})
     }
    
    

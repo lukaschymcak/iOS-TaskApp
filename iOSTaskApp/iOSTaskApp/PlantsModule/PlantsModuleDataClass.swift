@@ -24,6 +24,11 @@ class PlantsModuleDataClass {
     var wateredLocations: [houseLocation : [PlantModel]] {
         Dictionary(grouping: plants, by: {$0.location})
     }
+    var preparedLocations:[PlantModel] {
+        plants.filter { plant in
+            plant.prepared
+        }
+    }
 
     var color: Color {
         switch colorName {
@@ -37,7 +42,7 @@ class PlantsModuleDataClass {
     var needWatering: Int {
         var counter: Int = 0
         for plant in plants {
-            if !plant.watered {
+            if !plant.prepared {
                 counter += 1
             }
         }
@@ -136,7 +141,7 @@ class PlantsModuleDataClass {
 
 struct MockPlantsModule {
     static let moduleA = PlantsModuleDataClass(
-        name: "Plant", colorName: "red", plants: MockPlants.mockedPlants)
+        name: "Plant", colorName: "red",plants: MockPlants.mockedPlants)
 }
 
 enum houseLocation: String, Codable, CaseIterable, Identifiable {

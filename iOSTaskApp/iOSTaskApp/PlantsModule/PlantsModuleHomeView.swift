@@ -15,7 +15,7 @@ struct PlantsModuleHomeView: View {
         ForEach(plantsModule){ module in
             NavigationLink {
                 PlantsModuleOpen(plantsModule: module)
-                    .navigationTransition(.zoom(sourceID: "world", in: namespace))
+                    .navigationTransition(.zoom(sourceID: "pot", in: namespace))
                     .navigationBarBackButtonHidden(true)
             } label: {
                

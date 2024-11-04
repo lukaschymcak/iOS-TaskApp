@@ -62,7 +62,7 @@ struct PresetAddView: View {
                 VStack {
                     Spacer()
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(Color(hex: "9DA091"))
+                        .fill(Color(hex: "FEFAE0"))
                         .ignoresSafeArea()
                         .frame(height: 330)
 
@@ -75,12 +75,12 @@ struct PresetAddView: View {
                                             Text("First Day")
                                                 .font(.title)
                                                 .fontWeight(.bold)
-                                                .foregroundStyle(Color(hex: "9DA091"))
+                                                .foregroundStyle(Color(hex: "FEFAE0"))
     
                                             
                                         }
                                         .padding(10)
-                                        .background(Color(hex: "EFD0CA"))
+                                        .background(Color(hex: "DCA569"))
                                         .clipShape(.rect(cornerRadius: 10))
                              
                                     }.frame(height: 60)
@@ -89,7 +89,7 @@ struct PresetAddView: View {
                                         Text("Frequency:")
                                             .font(.title)
                                             .fontWeight(.bold)
-                                            .foregroundStyle(Color(hex: "9DA091"))
+                                            .foregroundStyle(Color(hex: "FEFAE0"))
                                         Spacer()
                                         
                                         
@@ -110,7 +110,9 @@ struct PresetAddView: View {
                                                        .resizable()
                                                        .scaledToFit()
                                                        .frame(width: 20, height: 20)
-                                                       .foregroundStyle(Color(hex: "9DA091"))
+                                                       .background(Color(hex: "DCA569"))
+                                                       .foregroundStyle(Color(hex: "FEFAE0"))
+                                            
                                                        .popover(isPresented: $isPopupShown, attachmentAnchor: .point(.top),arrowEdge: .bottom) {
                                                            VStack{
                                                                Text("Every X Days")
@@ -118,7 +120,7 @@ struct PresetAddView: View {
                                                            }
                                                            .multilineTextAlignment(.center)
                                                                .lineLimit(0)
-                                                               .foregroundStyle(.white)
+                                                               .foregroundStyle(Color(hex: "FEFAE0"))
                                                                .font(.system(size: 12, weight: .semibold, design: .default))
                                                                .padding(5)
                                                                .presentationCompactAdaptation(.none)
@@ -132,14 +134,14 @@ struct PresetAddView: View {
                                     }.frame(height: 60)
                                         .frame(maxWidth: .infinity,alignment: .leading)
                                         .padding(.horizontal,10)
-                                        .background(Color(hex: "EFD0CA"))
+                                        .background(Color(hex: "DCA569"))
                         
                                         .clipShape(.rect(cornerRadius: 10))
                                     HStack(alignment: .center){
                                         Text("Room:")
                                             .font(.title)
                                             .fontWeight(.bold)
-                                            .foregroundStyle(Color(hex: "9DA091"))
+                                            .foregroundStyle(Color(hex: "FEFAE0"))
                                         Spacer()
                                         Menu(location.id){
                                             ForEach(houseLocation.allCases){ loc in
@@ -162,7 +164,7 @@ struct PresetAddView: View {
                  
                                     }.frame(maxWidth: .infinity,alignment: .leading)
                                         .padding(10)
-                                        .background(Color(hex: "EFD0CA"))
+                                        .background(Color(hex: "DCA569"))
                                         .clipShape(.rect(cornerRadius: 10))
                                     
                                     HStack(spacing:15) {
@@ -174,10 +176,10 @@ struct PresetAddView: View {
                                         } label: {
                                             Text("Cancel")
                                                 .font(.title)
-                                                .foregroundStyle(Color(hex: "9DA091"))
+                                                .foregroundStyle(Color(hex: "FEFAE0"))
                                                 .fontWeight(.bold)
                                                 .padding(10)
-                                                .background(Color(hex: "EFD0CA"))
+                                                .background(Color(hex: "DCA569"))
                                                 .clipShape(.rect(cornerRadius: 10))
                                         }
                                         Button {
@@ -191,10 +193,10 @@ struct PresetAddView: View {
                                         } label: {
                                             Text("Add Plant")
                                                 .font(.title)
-                                                .foregroundStyle(Color(hex: "9DA091"))
+                                                .foregroundStyle(Color(hex: "FEFAE0"))
                                                 .fontWeight(.bold)
                                                 .padding(10)
-                                                .background(Color(hex: "EFD0CA"))
+                                                .background(Color(hex: "DCA569"))
                                                 .clipShape(.rect(cornerRadius: 10))
                                         }
                                        

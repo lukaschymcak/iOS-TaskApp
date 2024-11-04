@@ -9,15 +9,17 @@ import SwiftUI
 
 struct PlantCell: View {
     var plantModule: PlantsModuleDataClass
+    @Binding var selectedPlant: PlantModel?
     @State var plantCell: PlantModel
     @State var showAlert: Bool = false
     @State var alertMessage: String = ""
     @State var color: Color = .red
+    @Binding  var toast: Toast?
     var body: some View {
         GeometryReader { GeometryProxy in
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(hex: "9DA091"))
+                    .fill(Color(hex: "697442"))
 
                 HStack {
                     VStack(alignment: .leading) {
@@ -25,57 +27,63 @@ struct PlantCell: View {
                             Image("\(plantCell.image)")
                                 .resizable()
                                 .frame(width: 80, height: 80)
-                                .foregroundStyle(Color(hex: "EFD0CA"))
                                 .padding()
                             VStack(spacing: 10) {
                                 Text(plantCell.name)
                                     .font(.title)
                                     .fontWeight(.bold)
-                                    .foregroundStyle(Color(hex: "EFD0CA"))
+                                    .foregroundStyle(Color(hex: "FEFAE0"))
                                     .lineLimit(2)
                                 HStack {
                                     Image(systemName: "drop")
                                         .fontWeight(.bold)
-                                        .foregroundStyle(Color(hex: "EFD0CA"))
+                                        .foregroundStyle(Color(hex: "FEFAE0"))
                                     Text(
                                         plantCell.waterDate,
                                         format: .dateTime.month().day()
                                     )
                                     .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(Color(hex: "EFD0CA"))
+                                    .foregroundStyle(Color(hex: "FEFAE0"))
                                 }
 
                             }
                             Spacer()
                             VStack(spacing: 10) {
                                 Button {
-                                    
-                                    plantModule.removePlants(a: plantCell)
+                                    showAlert.toggle()
                                     
                                 } label: {
                                     Image(systemName: "minus")
                                         .font(.title)
                                         .fontWeight(.bold)
-                                        .foregroundStyle(Color(hex: "EFD0CA"))
+                                        .foregroundStyle(Color(hex: "FEFAE0"))
                                 }.offset(y: -5)
+                                    .alert(isPresented: $showAlert) {
+                                        Alert(title: Text("Remove Plant ?"), primaryButton: .destructive(Text("Confirm"), action: {
+                                            toast = Toast(style: .success, message: "Plant Removed",doOutsideFunctonImage: "")
+                                            plantModule.removePlants(a: plantCell)
+                                       
+                                        }) , secondaryButton: .cancel())
+                                    }
                                 if Calendar.current.isDateInToday(plantCell.waterDate){
                                     Button {
                                         plantCell.prepare()
+                                        toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                                        selectedPlant = plantCell
                                     } label: {
                                         Image(
                                             systemName: plantCell.prepared
                                             ? "checkmark.circle" : "drop.circle"
                                         )
                                         .font(.system(size: 50))
-                                        .foregroundStyle(Color(hex: "EFD0CA"))
+                                        .foregroundStyle(Color(hex: "FEFAE0"))
                                     }.padding(.horizontal)
                                 } else {
                                     Image(
                                         systemName: "clock"
                                     )
                                     .font(.system(size: 50))
-                                    .foregroundStyle(Color(hex: "EFD0CA"))
+                                    .foregroundStyle(Color(hex: "FEFAE0"))
                                     .padding(.horizontal)
                                 }
                             }
@@ -89,7 +97,6 @@ struct PlantCell: View {
             }.frame(width: GeometryProxy.size.width - 10)
                 .frame(height: 120)
                 .frame(maxWidth: .infinity, alignment: .center)
-
         }
 
     }
@@ -111,8 +118,4 @@ extension Date {
     }
 }
 
-#Preview {
-    PlantCell(
-        plantModule: MockPlantsModule.moduleA, plantCell: DefaultPlants.monstera
-    )
-}
+

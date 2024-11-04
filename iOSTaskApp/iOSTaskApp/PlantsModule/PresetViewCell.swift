@@ -14,7 +14,7 @@ struct PresetViewCell: View {
         ZStack{
             GeometryReader { GeometryProxy in
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(hex: "9DA091"))
+                    .fill(Color(hex: "697442"))
                     .frame(width: GeometryProxy.size.width - 50, height: 80)
                     .frame(maxWidth: .infinity,alignment: .center)
                     .overlay {
@@ -23,11 +23,11 @@ struct PresetViewCell: View {
                                 .resizable()
                                 .frame(width: 50, height: 50)
                                 .font(.title)
-                                .foregroundStyle(Utils.changeColorBasedOnDarkMode(colorScheme, setDarkColor: .white, setLightColor: .green))
+                                .foregroundStyle(.white)
                             Text(plantCell.name)
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundStyle(Utils.changeColorBasedOnDarkMode(colorScheme, setDarkColor: .white, setLightColor: .green))
+                                .foregroundStyle(.white)
                             Spacer()
                         }
                         .frame(width: GeometryProxy.size.width - 70)

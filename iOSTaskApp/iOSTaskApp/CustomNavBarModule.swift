@@ -12,7 +12,6 @@ struct CustomNavBarModule: View {
     @Environment(\.colorScheme) var colorScheme
     var module:String
     var name: String
-   
     var body: some View {
         switch module {
         case "Packing":
@@ -67,26 +66,23 @@ struct CustomNavBarModule: View {
     @ViewBuilder
     var plantsNavbar: some View {
         NavigationStack{
-            HStack{
+            HStack(alignment:.bottom){
                 Button {
                     dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
                
                         .font(.largeTitle)
-                        .foregroundStyle(Color(hex: "EFD0CA"))
+                        .foregroundStyle(Color(hex: "D19252"))
                         .fontWeight(.bold)
                 }
        
                 Text("\(name)")
                     .font(.system(size: 30))
-                    .foregroundStyle(Utils.textColor(colorScheme))
+                    .foregroundStyle(Color(hex: "D19252"))
                     .fontWeight(.bold)
                 Spacer()
-                Image("leaves")
-                     .resizable()
-                     .frame(width: 50, height: 50)
-               
+        
 
                 
                     
