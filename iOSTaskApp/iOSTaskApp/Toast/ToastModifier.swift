@@ -12,6 +12,7 @@ import SwiftUI
 struct ToastModifier: ViewModifier {
   
   @Binding var toast: Toast?
+    var someAction:() -> Void
   @State private var workItem: DispatchWorkItem?
   
   func body(content: Content) -> some View {
@@ -35,7 +36,9 @@ struct ToastModifier: ViewModifier {
         ToastView(
           style: toast.style,
           message: toast.message,
-          width: toast.width
+          width: toast.width,
+          doOutsideFunction: someAction,
+          doOutsideFunctonImage: toast.doOutsideFunctonImage
         ) {
           dismissToast()
         }

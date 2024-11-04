@@ -107,7 +107,9 @@ struct ListTripView: View {
                     
                     
                 
-            }.toastView(toast: $toast)
+            }.toastView(toast: $toast) {
+                
+            }
         }
     }
 }

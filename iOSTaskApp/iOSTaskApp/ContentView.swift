@@ -86,30 +86,34 @@ struct HomeView: View {
     @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver: Bool = false
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
+    
     @Binding var name: String
     @State var isAddModuleOpen: Bool = false
 
     var body: some View {
 
-        GeometryReader { GeometryProxy in
-            ZStack {
-                VStack {
-                    NavigationStack {
+        ZStack {
+            VStack {
+                NavigationStack {
+                    GeometryReader { GeometryProxy in
                         CustomNavBar(
                             isWelcomeScreenOver: $isWelcomeScreenOver,
                             name: $name, isAddModuleOpen: $isAddModuleOpen
                         )
+
                         .frame(width: GeometryProxy.size.width - 30)
+                        .frame(maxWidth: .infinity, alignment: .center)
 
-                        ScrollView {
-                            PackageModuleHomeView()
+                    }.frame(height: 70)
 
-                            Spacer()
+                    ScrollView {
+                        PackageModuleHomeView()
 
-                        }
-                        Spacer()
+                        PlantsModuleHomeView()
+                            
 
                     }
+
                 }
 
                 .sheet(isPresented: $isAddModuleOpen) {
@@ -121,6 +125,7 @@ struct HomeView: View {
         }
 
     }
+ 
 }
 
 struct AddModuleView: View {
@@ -181,10 +186,26 @@ struct AddModuleView: View {
 
     }
 }
+extension Color {
+    init(hex: String) {
+        var cleanHexCode = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        cleanHexCode = cleanHexCode.replacingOccurrences(of: "#", with: "")
+        print(cleanHexCode)
+        var rgb: UInt64 = 0
+        
+        Scanner(string: cleanHexCode).scanHexInt64(&rgb)
+        
+        let redValue = Double((rgb >> 16) & 0xFF) / 255.0
+        let greenValue = Double((rgb >> 8) & 0xFF) / 255.0
+        let blueValue = Double(rgb & 0xFF) / 255.0
+        self.init(red: redValue, green: greenValue, blue: blueValue)
+    }
+}
 
 #Preview {
     ContentView()
         .modelContainer(for: [
             Trip.self, PackingModuleDataClass.self, CreatingModuleData.self,
+            PlantsModuleDataClass.self,
         ])
 }
