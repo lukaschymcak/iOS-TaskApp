@@ -24,8 +24,8 @@ struct PackingModule: View {
         ZStack{
            
             RoundedRectangle(cornerRadius: 20)
-                .fill(colorScheme == .dark ? packingModule.color.opacity(0.3) : .clear)
-                .stroke(packingModule.color,lineWidth: 7)
+                .fill(Color(hex: "22577A"))
+                .stroke(.orange,lineWidth: 4)
                 .frame(maxWidth: UIScreen.main.bounds.width - 25,maxHeight: packingModule.trips.isEmpty ? 150 : 180)
                
             VStack(spacing: 10){
@@ -36,7 +36,7 @@ struct PackingModule: View {
                                 packingModule.name)
                         .font(.largeTitle)
                         .fontWeight(.bold)
-                        .foregroundStyle(packingModule.color)
+                        .foregroundStyle(.white)
                         Spacer()
                         Button {
                             showAlert.toggle()
@@ -44,7 +44,7 @@ struct PackingModule: View {
                             Image(systemName: "minus")
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundStyle(packingModule.color)
+                                .foregroundStyle(.white)
                         }.alert(isPresented: $showAlert){
                             Alert(title: Text("Remove module ?") ,message: Text("This will delete all your trips , and your trip history."),primaryButton: .destructive(Text("Confirm") ,action: {
                                 context.delete(packingModule)
@@ -69,13 +69,13 @@ struct PackingModule: View {
                                 Text("next trip:")
                                     .font(.system(size: 23))
                                     .fontWeight(.bold)
-                                    .foregroundStyle(packingModule.color)
+                                    .foregroundStyle(.white)
                                     
                             if packingModule.trips.isEmpty {
                                 Text("No trips")
                                     .font(.system(size: 30))
                                     .fontWeight(.bold)
-                                    .foregroundStyle(packingModule.color)
+                                    .foregroundStyle(.white)
                                     .multilineTextAlignment(.center)
                                     .lineLimit(2)
                         
@@ -87,12 +87,12 @@ struct PackingModule: View {
                                         Text("Trip")
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
-                                            .foregroundStyle(packingModule.color)
+                                            .foregroundStyle(.white)
                                     } else{
                                         Text(firstTrip.name)
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
-                                            .foregroundStyle(packingModule.color)
+                                            .foregroundStyle(.white)
                                             .lineLimit(1)
                                     }
                                     
@@ -100,12 +100,12 @@ struct PackingModule: View {
                                         Text("Today")
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
-                                            .foregroundStyle(packingModule.color)
+                                            .foregroundStyle(.white)
                                     } else{
                                         Text("in \(firstTrip.dayDifference()) days")
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
-                                            .foregroundStyle(packingModule.color)
+                                            .foregroundStyle(.white)
                                     }
                                 }
                                 
@@ -120,7 +120,7 @@ struct PackingModule: View {
                                     if !packingModule.trips.isEmpty{
                                         Text("\(packingModule.percentage)% \n packed")
                                             .font(.system(size: 30))
-                                            .foregroundStyle(packingModule.color)
+                                            .foregroundStyle(.white)
                                             .fontWeight(.bold)
                                             .multilineTextAlignment(.trailing)
                                         

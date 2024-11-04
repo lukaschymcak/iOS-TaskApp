@@ -36,10 +36,10 @@ struct TripCell: View {
                 
                 VStack(alignment:.center) {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(colorScheme == .dark ? module.color.opacity(0.3) : .clear)
-                        .stroke(color,lineWidth: 6)
+                        .fill(Color(hex: "1E6091"))
+                        .stroke(Color(hex: "168AAD"),lineWidth: 6)
                     
-                        .frame(width: GeometryProxy.size.width - 30, height: 140)
+                        .frame(width: GeometryProxy.size.width - 40, height: 140)
                         .padding(.top,10)
                 }.frame(maxWidth: .infinity)
                 VStack(alignment:.leading){
@@ -92,7 +92,7 @@ struct TripCell: View {
                     }
                     
                 }.padding(9)
-                    .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
+                    .frame(width: GeometryProxy.size.width - 85, height: 110,alignment: .topLeading)
             }
         }.frame(height: 150)
        
@@ -105,8 +105,7 @@ struct TripCell: View {
                 
                 VStack(alignment:.center) {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(colorScheme == .dark ? module.color.opacity(0.3) : .clear)
-                        .stroke(color,lineWidth: 6)
+                        .fill(Color(hex: "1E6091"))
                         
                         .frame(width: GeometryProxy.size.width - 30, height: 140)
                         .padding(.top,10)
@@ -116,13 +115,13 @@ struct TripCell: View {
                     HStack{
                         Text(trip.dateFrom,format: .dateTime.day().month().year())
                             .font(.headline)
-                            .foregroundStyle(color)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                         Text("-")
                             .font(.headline)
-                            .foregroundStyle(color)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                         Text(trip.dateTo,format: .dateTime.day().month().year())
                             .font(.headline)
-                            .foregroundStyle(color)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                         Spacer()
                         Button {
                             if trip.percentage == 100 {
@@ -136,7 +135,7 @@ struct TripCell: View {
                             Image(systemName: trip.percentage == 100 ? "checkmark":"minus")
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundStyle(color)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
                         }.alert(isPresented: $showDeleteAlert) {
                             if showAddToHistoryAlert {
                                 Alert(title: Text("Complete trip ?"), message: Text("This will complete the trip , and add it to your history"), primaryButton: .destructive(Text("Confirm"), action: {
@@ -165,12 +164,12 @@ struct TripCell: View {
                         Text(trip.name == "" ? "Trip" : trip.name)
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundStyle(color)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                         Spacer()
                         Text("\(trip.percentage)%")
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundStyle(color)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                     }
                     
                 }.padding(9)
