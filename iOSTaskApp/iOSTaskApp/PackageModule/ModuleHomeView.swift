@@ -28,7 +28,7 @@ struct PackageModuleHomeView: View {
                     
                        
                  
-                }
+            }
             .padding(.horizontal)
             .padding(.vertical,5)
                     

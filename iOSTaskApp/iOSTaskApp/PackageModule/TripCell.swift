@@ -37,7 +37,7 @@ struct TripCell: View {
                 VStack(alignment:.center) {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color(hex: "1E6091"))
-                        .stroke(Color(hex: "168AAD"),lineWidth: 6)
+        
                     
                         .frame(width: GeometryProxy.size.width - 40, height: 140)
                         .padding(.top,10)
@@ -46,13 +46,13 @@ struct TripCell: View {
                     HStack{
                         Text(trip.dateFrom,format: .dateTime.day().month().year())
                             .font(.headline)
-                            .foregroundStyle(color)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                         Text("-")
                             .font(.headline)
-                            .foregroundStyle(color)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                         Text(trip.dateTo,format: .dateTime.day().month().year())
                             .font(.headline)
-                            .foregroundStyle(color)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                         Spacer()
                         Button {
                             
@@ -63,7 +63,7 @@ struct TripCell: View {
                             Image(systemName: "minus")
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundStyle(color)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
                         }.alert(isPresented: $showDeleteAlert) {
                             Alert(title: Text("Are you sure"), message: Text("delete"),
                                   primaryButton: .destructive(Text("yes"), action: {
@@ -83,12 +83,12 @@ struct TripCell: View {
                         Text(trip.name == "" ? "Trip" : trip.name)
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundStyle(color)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                         Spacer()
                         Text("\(trip.percentage)%")
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundStyle(color)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                     }
                     
                 }.padding(9)

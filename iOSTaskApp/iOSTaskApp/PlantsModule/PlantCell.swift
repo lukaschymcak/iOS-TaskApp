@@ -11,7 +11,8 @@ struct PlantCell: View {
     var plantModule: PlantsModuleDataClass
     @Binding var selectedPlant: PlantModel?
     @State var plantCell: PlantModel
-    @State var showAlert: Bool = false
+    @State var showWaterAlert: Bool = false
+    @State var showDeleteAlert: Bool = false
     @State var alertMessage: String = ""
     @State var color: Color = .red
     @Binding  var toast: Toast?
@@ -50,7 +51,7 @@ struct PlantCell: View {
                             Spacer()
                             VStack(spacing: 10) {
                                 Button {
-                                    showAlert.toggle()
+                                    showDeleteAlert.toggle()
                                     
                                 } label: {
                                     Image(systemName: "minus")
@@ -58,7 +59,7 @@ struct PlantCell: View {
                                         .fontWeight(.bold)
                                         .foregroundStyle(Color(hex: "FEFAE0"))
                                 }.offset(y: -5)
-                                    .alert(isPresented: $showAlert) {
+                                .alert(isPresented: $showDeleteAlert) {
                                         Alert(title: Text("Remove Plant ?"), primaryButton: .destructive(Text("Confirm"), action: {
                                             toast = Toast(style: .success, message: "Plant Removed",doOutsideFunctonImage: "")
                                             plantModule.removePlants(a: plantCell)
@@ -69,9 +70,14 @@ struct PlantCell: View {
                                 if Calendar.current.isDateInToday(plantCell.waterDate) || plantCell.waterDate.isBeforeToday() {
 
                                     Button {
-                                        plantCell.prepare()
-                                        toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                                        selectedPlant = plantCell
+                                        if plantCell.waterDate.isBeforeToday() {
+                                            showWaterAlert.toggle()
+                                            
+                                        }else {
+                                            plantCell.prepare()
+                                            toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                                            selectedPlant = plantCell
+                                        }
                                     } label: {
                                         Image(
                                             systemName: plantCell.prepared
@@ -80,7 +86,7 @@ struct PlantCell: View {
                                         .font(.system(size: 50))
                                         .foregroundStyle(Color(hex: "FEFAE0"))
                                     }.padding(.horizontal)
-                                        .alert(isPresented: $showAlert) {
+                                        .alert(isPresented: $showWaterAlert) {
                                             Alert(title: Text("Water Plant ?"), primaryButton: .destructive(Text("You forgot to water this plant , once watered next watering date will be calculated from today"), action: {
                                                 plantCell.prepare()
                                                 toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
@@ -113,10 +119,14 @@ struct PlantCell: View {
 }
 extension Date {
     func isBeforeToday() -> Bool {
-        let today = Date.now
-        let strippedDate = Calendar.current.dateComponents(
-            [.year, .month, .day], from: today)
-        return self < Calendar.current.date(from: strippedDate)!
+        let calendar = Calendar.current
+        let now = Date()
+        
+        if let daysDifference = calendar.dateComponents([.day], from: self, to: now).day {
+            return daysDifference > 0
+        }
+        
+        return false
     }
 
     func isToday() -> Bool {

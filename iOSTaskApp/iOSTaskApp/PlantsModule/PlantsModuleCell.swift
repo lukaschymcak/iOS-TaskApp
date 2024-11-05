@@ -56,22 +56,20 @@ struct PlantsModuleCell: View {
                                 
                                 HStack(spacing: 20){
                                     
-                                    ForEach(plantsModule.wateredLocations.sorted(by: { $0.value.count > $1.value.count }).filter({ (key: houseLocation, value: [PlantModel]) in
-                                        value.allSatisfy { PlantModel in
-                                            !PlantModel.prepared
-                                        }
-                                    }),id: \.key.id) { location , value  in
+                                    ForEach(plantsModule.wateredLocations.sorted(by: { $0.value.count > $1.value.count }),id: \.key.id) { location , value  in
+                                        if value.filter({$0.prepared == false && $0.waterDate.isToday()}).count > 0 {
+                                            
                                             VStack{
                                                 Text("\(location.id)")
                                                     .font(.headline)
                                                     .fontWeight(.bold)
                                                     .foregroundStyle(Color(hex: "606C38"))
-                                                Text("\(value.count)")
+                                                Text("\(value.filter({$0.prepared == false && $0.waterDate.isToday()}).count)")
                                                     .font(.title2)
                                                     .fontWeight(.bold)
                                                     .foregroundStyle(Color(hex: "606C38"))
                                             }
-                                            
+                                        }
                                         
                                     }
                                 }

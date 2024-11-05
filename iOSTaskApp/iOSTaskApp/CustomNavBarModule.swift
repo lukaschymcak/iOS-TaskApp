@@ -26,9 +26,6 @@ struct CustomNavBarModule: View {
 
     @ViewBuilder
     var packingNavBar: some View {
-        ZStack {
-            Color(hex: "22577A")
-                .ignoresSafeArea()
             NavigationStack {
                 HStack {
                     Button {
@@ -44,33 +41,26 @@ struct CustomNavBarModule: View {
                         .font(.system(size: 30))
                         .foregroundStyle(Utils.textColor(colorScheme))
                         .fontWeight(.bold)
-
+                    Spacer()
                     
-                }
-       
-                Text("\(name)")
-                    .font(.system(size: 30))
-                    .foregroundStyle(Utils.textColor(colorScheme))
-                    .fontWeight(.bold)
-                Spacer()
-                Image("leaves")
-                     .resizable()
-                     .frame(width: 50, height: 50)
+                }         .frame(height: 50)
+                .background(Color(hex: "22577A"))
+             
+              
+    
                
 
                 
                     
-            }.padding(.top,5)
-            .frame(maxWidth: .infinity,alignment: .leading)
+            }
                 
                 
-                Spacer()
+
             
 
             
-            }
-        .frame(height: 50)
-            Spacer()
+            
+  
         }
     @ViewBuilder
     var plantsNavbar: some View {
@@ -82,24 +72,21 @@ struct CustomNavBarModule: View {
                     Image(systemName: "chevron.left")
                
                         .font(.largeTitle)
-                        .foregroundStyle(Color(hex: "D19252"))
+                        .foregroundStyle(Color(hex: "FEFAE0"))
                         .fontWeight(.bold)
                 }
        
                 Text("\(name)")
                     .font(.system(size: 30))
-                    .foregroundStyle(Color(hex: "D19252"))
+                    .foregroundStyle(Color(hex: "FEFAE0"))
                     .fontWeight(.bold)
                 Spacer()
         
 
                 
 
-                    Spacer()
-                    Image("leaves")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                }.background(Color(hex: "22577A"))
+                  
+                }
                 
             }
                 .frame(height: 50)
@@ -114,6 +101,6 @@ struct CustomNavBarModule: View {
 
 #Preview {
 
-    CustomNavBarModule(module: "Plants", name: "Plants")
+    CustomNavBarModule(module: "Packing", name: "Plants")
 
 }

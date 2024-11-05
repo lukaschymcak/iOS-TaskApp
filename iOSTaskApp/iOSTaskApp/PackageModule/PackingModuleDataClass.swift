@@ -23,9 +23,9 @@ class PackingModuleDataClass{
     private(set) var trips  = [Trip]().sorted(by: {$0.dateTo < $1.dateTo})
     @Relationship(deleteRule: .cascade)
     private(set) var tripHistory  = [Trip]().sorted(by: {$0.dateTo < $1.dateTo})
-    init(name: String = "Packing", colorName: String) {
+    init(name: String = "Packing",tripHistory:[Trip] = [] ,colorName: String) {
         self.name = name
-      
+        self.tripHistory = tripHistory
         self.colorName = colorName
     }
     var color:Color {
@@ -59,12 +59,15 @@ class PackingModuleDataClass{
             self.tripHistory.remove(at: index)
         }
     }
+    func sortTrips(){
+        self.trips = self.trips.sorted(by: {$0.dateTo < $1.dateTo})
+    }
    
 }
 
 
 struct PackingMockData{
-    static let packingMock = PackingModuleDataClass(name: "Packing", colorName: "orange" )
+    static let packingMock = PackingModuleDataClass(name: "Packing",colorName: "orange")
     
     
     

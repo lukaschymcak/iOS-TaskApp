@@ -10,7 +10,7 @@ import SwiftUI
 struct PlantsModuleOpen: View {
     var plantsModule: PlantsModuleDataClass
     @Environment(\.colorScheme) var colorScheme
-    @State var selectedLocation: houseLocation = .bathroom
+    @State var selectedLocation: houseLocation = .all
     @State var addingPlant: Bool = false
     var body: some View {
         NavigationStack {
@@ -27,9 +27,9 @@ struct PlantsModuleOpen: View {
                         .frame(
                             height: GeometryProxy.size.height
                                 - (!plantsModule.wateredLocations.isEmpty
-                                    ? 160 : 0))
+                                    ? 65 : 0))
 
-                    VStack {
+                    VStack(spacing: 0) {
 
                         HStack {
                             CustomNavBarModule(
@@ -60,7 +60,9 @@ struct PlantsModuleOpen: View {
                             .frame(maxWidth: .infinity, alignment: .center)
 
                         if plantsModule.wateredLocations.isEmpty {
-                            VStack {
+                  
+                            VStack(alignment: .center) {
+                    
                                 Text("Let's water some plants!")
                                     .font(.largeTitle)
                                     .foregroundStyle(Color(hex: "D19252"))
@@ -85,18 +87,39 @@ struct PlantsModuleOpen: View {
                                     }
 
                                 }
-                            }.padding(.top, 50)
-                        } else {
-                            PlantList(
-                                plantsModule: plantsModule,
-                                selectedLocation: $selectedLocation
-                            )
-                            .frame(height: 80)
-                            .onChange(of: plantsModule.plants) { _, newValue in
-                                if let first = newValue.last {
-                                    selectedLocation = first.location
-                                }
+                              
                             }
+                        } else {
+                            ScrollViewReader { ScrollViewProxy in
+                                PlantList(
+                                    plantsModule: plantsModule,
+                                    selectedLocation: $selectedLocation
+                                ).frame(height: 70)
+                                    .onChange(of: plantsModule.plants) { old,new in
+                                        if new.count > old.count {
+                                            if let last = new.last {
+                                                selectedLocation = last.location
+                                                ScrollViewProxy.scrollTo(selectedLocation,anchor: .leading)
+                                            }
+                                        } else {
+                                            if let first = new.first(where: { PlantModel in
+                                                PlantModel.location == selectedLocation
+                                            })
+                                            {
+                                                selectedLocation = first.location
+                                                ScrollViewProxy.scrollTo(selectedLocation,anchor: .leading)
+                                            } else {
+                                                selectedLocation = new.first?.location ?? .bathroom
+                                                ScrollViewProxy.scrollTo(selectedLocation,anchor: .leading)
+                                            }
+                                        }
+                                        
+                                    }
+                            }
+                           
+                            
+                            
+                            
 
                             VStack {
 
@@ -129,6 +152,44 @@ struct PlantList: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 ScrollViewReader { proxy in
                     HStack(spacing: 15) {
+                        ZStack(alignment: .trailing) {
+
+                            Button {
+                                withAnimation {
+                                    proxy.scrollTo(
+                                        houseLocation.all,
+                                        anchor: .center)
+                                    selectedLocation =
+                                    houseLocation.all
+                                }
+
+                            } label: {
+                                ZStack {
+
+                                    RoundedRectangle(
+                                        cornerRadius: 20
+                                    )
+                                    .stroke(
+                                        Color(hex: "C77F3C"),
+                                        lineWidth: selectedLocation
+                                        == houseLocation.all ? 5 : 0
+                                    )
+                                    .frame(height: 50)
+
+                                    Text(houseLocation.all.rawValue)
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(
+                                            Color(hex: "C77F3C")
+                                        )
+                                        .background(.clear)
+                                        .padding(8)
+
+                                }
+                            }
+                         
+
+                        }.frame(height: 60)
 
                         ForEach(
                             plantsModule.wateredLocations.sorted(by: {
@@ -175,27 +236,29 @@ struct PlantList: View {
 
                                     }
                                 }
-                                if value.filter({ $0.prepared == false }).count
+                                if value.filter({ $0.prepared == false && $0.waterDate.isToday() }).count
                                     > 0
                                 {
                                     Circle()
                                         .fill(
-                                            .red
+                                            
+                                                Color(hex: "C77F3C")
                                         )
                                         .frame(
-                                            width: 20,
-                                            height: 20
+                                            width: 25,
+                                            height: 25
                                         )
                                         .overlay {
                                             Text(
-                                                "\(value.filter({$0.prepared == false}).count)  "
+                                                "\(value.filter({$0.prepared == false && $0.waterDate.isToday()}).count)  "
                                             )
                                             .foregroundStyle(
                                                 .white
                                             )
+                                            .multilineTextAlignment(.center)
                                             .padding(1)
 
-                                        }.offset(x: 151, y: -15)
+                                        }.offset(x: 10, y: -15)
 
                                 }
 
@@ -203,18 +266,14 @@ struct PlantList: View {
 
                         }
 
-                    }
-                }.padding(.trailing, 18)
-                    .padding(.leading, 8)
-                    .padding(.vertical, 5)
+                    }.padding(.horizontal)
+                }
 
-            }.clipShape(.rect(cornerRadius: 20))
-                .background(
-                    RoundedRectangle(cornerRadius: 20).fill(
-                        Color(hex: "FEFAE0"))
-                )
-                .frame(width: UIScreen.main.bounds.width - 30)
+            }.clipShape(RoundedRectangle(cornerRadius: 20))
+               
+        
                 .frame(maxWidth: .infinity, alignment: .center)
+         
 
         }
     }

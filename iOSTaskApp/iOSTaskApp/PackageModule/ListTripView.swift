@@ -23,6 +23,7 @@ struct ListTripView: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .padding(.vertical,15)
+                        .foregroundStyle(Color(hex: "22577A"))
                 
                     Spacer()
                     if !showHistory {
@@ -32,7 +33,7 @@ struct ListTripView: View {
                             Image(systemName: "plus")
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundStyle(color)
+                                .foregroundStyle(.orange)
                         }
                     }
                     
@@ -47,6 +48,9 @@ struct ListTripView: View {
                                 if module.tripHistory  == []{
                                     Text("No trips yet")
                                         .frame(maxWidth: .infinity)
+                                        .foregroundStyle(Color(hex: "22577A"))
+                                        .font(.title)
+                                        .fontWeight(.bold)
                                 } else {
                                     ForEach(module.tripHistory.sorted(by: {$0.dateTo < $1.dateTo}),id: \.id) { trip in
                                         
@@ -74,6 +78,9 @@ struct ListTripView: View {
                                 if module.trips  == []{
                                     Text("No trips yet")
                                         .frame(maxWidth: .infinity)
+                                        .foregroundStyle(Color(hex: "22577A"))
+                                        .font(.title)
+                                        .fontWeight(.bold)
                                 } else {
                                     ForEach(module.trips.sorted(by: {$0.dateTo < $1.dateTo}),id: \.id) { trip in
                                         

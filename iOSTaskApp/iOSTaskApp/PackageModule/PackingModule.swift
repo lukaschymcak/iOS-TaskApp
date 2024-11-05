@@ -25,7 +25,7 @@ struct PackingModule: View {
            
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color(hex: "22577A"))
-                .stroke(.orange,lineWidth: 4)
+                .stroke(.orange,lineWidth: 7)
                 .frame(maxWidth: UIScreen.main.bounds.width - 25,maxHeight: packingModule.trips.isEmpty ? 150 : 180)
                
             VStack(spacing: 10){
@@ -138,6 +138,8 @@ struct PackingModule: View {
                 
                 
             }.padding(.vertical,20)
+        }.onAppear {
+            packingModule.sortTrips()
         }
     }
     }

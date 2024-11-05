@@ -42,7 +42,7 @@ class PlantsModuleDataClass {
     var needWatering: Int {
         var counter: Int = 0
         for plant in plants {
-            if !plant.prepared {
+            if !plant.prepared && plant.waterDate.isToday() {
                 counter += 1
             }
         }
@@ -122,6 +122,10 @@ class PlantsModuleDataClass {
             plant.waterDate.isBeforeToday() && plant.location == location
         }.sorted { $0.waterDate < $1.waterDate}
         }
+    
+    func getAllPlants() -> [PlantModel] {
+        return plants.sorted { $0.waterDate < $1.waterDate }
+    }
     func waterPlants() {
         plants.filter { plant in
             plant.prepared
@@ -141,7 +145,7 @@ class PlantsModuleDataClass {
 
 struct MockPlantsModule {
     static let moduleA = PlantsModuleDataClass(
-        name: "Plant", colorName: "red",plants: MockPlants.mockedPlants)
+        name: "Plant", colorName: "red")
 }
 
 enum houseLocation: String, Codable, CaseIterable, Identifiable {
@@ -151,6 +155,7 @@ enum houseLocation: String, Codable, CaseIterable, Identifiable {
     case bathroom = "Bathroom"
     case diningRoom = "Dining Room"
     case kidsRoom = "Kids Room"
+    case all = "All"
 
     var id: String { self.rawValue }
 
