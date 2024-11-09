@@ -33,13 +33,13 @@ struct CustomNavBarModule: View {
                     } label: {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 30))
-                            .foregroundStyle(Utils.textColor(colorScheme))
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                             .fontWeight(.bold)
                     }
                     
                     Text("\(name)")
                         .font(.system(size: 30))
-                        .foregroundStyle(Utils.textColor(colorScheme))
+                        .foregroundStyle(Color(hex: "FEFAE0"))
                         .fontWeight(.bold)
                     Spacer()
                     

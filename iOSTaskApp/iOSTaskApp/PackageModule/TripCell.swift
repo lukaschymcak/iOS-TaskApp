@@ -12,7 +12,6 @@ struct TripCell: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var historyView: Bool
     let trip:Trip
-    var color:Color
     @State var showDeleteAlert:Bool = false
     @State var showAddToHistoryAlert:Bool = false
     @State var module:PackingModuleDataClass

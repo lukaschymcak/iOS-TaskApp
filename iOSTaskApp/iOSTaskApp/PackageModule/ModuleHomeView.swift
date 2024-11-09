@@ -11,28 +11,24 @@ import SwiftData
 struct PackageModuleHomeView: View {
     @Namespace private var namespace
     @Query var packingModule :[PackingModuleDataClass]
+    var packinModule: PackingModuleDataClass? { packingModule.first }
+
 
     var body: some View {
-        
-        ForEach(packingModule){ module in
+        if let onlyModule = packinModule {
             NavigationLink {
-                PackingModuleOpen(module:module)
+                PackingModuleOpen(module: onlyModule)
                     .navigationTransition(.zoom(sourceID: "world", in: namespace))
                     .navigationBarBackButtonHidden(true)
+         
             } label: {
-             
-                   
-                        PackingModule(packingModule: module)
-                        
-               
-                    
-                       
-                 
+                PackingModule(packingModule: onlyModule)
+            
             }
             .padding(.horizontal)
             .padding(.vertical,5)
-                    
         }
+        
         
         }
         
@@ -45,6 +41,8 @@ struct PackageModuleHomeView: View {
             
         
     }
+
+
 
 #Preview {
     PackageModuleHomeView()

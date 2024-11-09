@@ -11,9 +11,9 @@ import SwiftData
 struct BagsView: View {
     @Environment(\.modelContext) var context
     @Environment(\.colorScheme) var colorScheme
+    @Binding var historyView:Bool
     var trip:Trip
     var color:Color = .orange
-    @Binding var historyView:Bool
     @State var isCollapsed:Bool = true
     @State var showAlert:Bool = false
     @State var bagName:String = ""
@@ -49,7 +49,7 @@ struct BagsView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .frame(width: GeometryProxy.size.width - 40)
-                    if historyView{
+                    if historyView {
                         historyBags
                     } else {
                         currentBags
@@ -82,7 +82,7 @@ struct BagsView: View {
             ScrollView(showsIndicators: false){
                 VStack{
                     ForEach(trip.bags){ bag in
-                        CollapsableBag(colorScheme: colorScheme, bag: bag, color: color, historyView: $historyView, isCollapsed: $isCollapsed, trip: trip)
+                        CollapsableBag(historyView: $historyView, colorScheme: colorScheme, bag: bag, color: color, isCollapsed: $isCollapsed, trip: trip)
                             .transition(.move(edge: .bottom))
                         
                     }
@@ -100,86 +100,83 @@ struct BagsView: View {
     
     @ViewBuilder
     var currentBags: some View {
-        HStack {
-            Text("MY BAGS:")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding(.vertical,10)
-                .foregroundStyle(Color(hex: "FEFAE0"))
-            Spacer()
-        }
-        
-        
-        VStack{
-                    ScrollView(showsIndicators: false){
-                 
-                            ForEach(trip.bags){ bag in
-                                CollapsableBag(colorScheme: colorScheme, bag: bag, color: color, historyView: $historyView, isCollapsed: $isCollapsed, trip: trip)
-                                    .transition(.move(edge: .bottom))
-                                
-                            }
-                    
-                    }.frame(maxHeight: .none)
-           
-                
-            
-            if isCollapsed {
-                collapsed
-            }else {
-                collapsed.hidden()
-                    .frame(height: 0)
-                
+        VStack {
+            HStack {
+                Text("MY BAGS:")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.vertical,10)
+                    .foregroundStyle(Color(hex: "FEFAE0"))
+                Spacer()
             }
             
-        }
-        
-        
-    }
-    @ViewBuilder
-    var collapsed: some View {
-
             
             
-            HStack{
-                TextField("Bag1", text: $bagName)
-                    .padding(10)
-                    .frame(height: 40)
-                    .foregroundStyle(Color(hex: "22577A"))
-                    .background(Color(hex: "FEFAE0"))
-                    .clipShape(.rect(cornerRadius: 10))
-                    .focused($nameIsFocused)
-                
-                
-                
-                
-                Button {
-                    withAnimation {
-                        if !trip.validBag(name: bagName){
-                            showAlert = true
+            VStack{
+                ScrollView(showsIndicators: false){
+                    ScrollViewReader{ proxy in
+                        
+                        ForEach(trip.bags){ bag in
+                            CollapsableBag(historyView: $historyView, colorScheme: colorScheme, bag: bag, color: color, isCollapsed: $isCollapsed, trip: trip)
+                                .transition(.move(edge: .bottom))
                             
-                        } else{
-                            let newBag = Bags(name: bagName, trip: trip)
-                            trip.addBags(a: newBag)
-                            nameIsFocused = false
-                            bagName = ""
+                        }.onChange(of: trip.bags.count) { _,_ in
+                            withAnimation {
+                                proxy.scrollTo(trip.bags.last?.id,anchor: .bottom)
+                            }
                         }
                     }
-                    
-                    
-                } label: {
-                    Image(systemName: "plus")
-                        .foregroundStyle(.white)
-                        .padding(10)
-                        .background(.orange)
-                        .clipShape(.rect(cornerRadius: 10))
-                    
                 }
-                .alert("\(trip.alertMessage(name:bagName))" ,isPresented: $showAlert) {
-                    
-                }.sensoryFeedback(.increase, trigger: trip.bags.count)
                 
-            }.padding(.bottom,10)
+                
+                
+                if isCollapsed {
+                    HStack{
+                        TextField("Bag1", text: $bagName)
+                            .padding(10)
+                            .frame(height: 40)
+                            .foregroundStyle(Color(hex: "22577A"))
+                            .background(Color(hex: "FEFAE0"))
+                            .clipShape(.rect(cornerRadius: 10))
+                            .focused($nameIsFocused)
+                        
+                        
+                        
+                        
+                        Button {
+                            withAnimation {
+                                if !trip.validBag(name: bagName){
+                                    showAlert = true
+                                    
+                                } else{
+                                    let newBag = Bags(name: bagName, trip: trip)
+                                    trip.addBags(a: newBag)
+                                    nameIsFocused = false
+                                    bagName = ""
+                                }
+                            }
+                            
+                            
+                        } label: {
+                            Image(systemName: "plus")
+                                .foregroundStyle(.white)
+                                .padding(10)
+                                .background(.orange)
+                                .clipShape(.rect(cornerRadius: 10))
+                            
+                        }
+                        .alert("\(trip.alertMessage(name:bagName))" ,isPresented: $showAlert) {
+                            
+                        }.sensoryFeedback(.increase, trigger: trip.bags.count)
+                        
+                    }.padding(.bottom,10)
+                }
+                
+            }
         }
+        
+    }
+   
     
 
     
@@ -187,6 +184,7 @@ struct BagsView: View {
     
     
 }
+
 
 struct ItemCell:View {
     @Environment(\.colorScheme) var colorScheme
@@ -228,10 +226,10 @@ struct ItemCell:View {
 }
 
 struct CollapsableBag:View {
+    @Binding var historyView:Bool
     var colorScheme : ColorScheme
     var bag:Bags
     var color:Color = .orange
-    @Binding var historyView:Bool
     @Binding var isCollapsed:Bool
     @State var selectedItem:String = ""
     @State var item:Item = Item(name: "",isChecked: false)
@@ -257,9 +255,6 @@ struct CollapsableBag:View {
                 .stroke(Color.orange, lineWidth: 4)
                 .frame(maxHeight: bag.isCollapsed ? 60 : .none)
             VStack(spacing: 5){
-                
-        
-                       
                         HStack{
                             Text(bag.name)
                                 .font(.title3)
@@ -270,32 +265,19 @@ struct CollapsableBag:View {
                                 .foregroundStyle(Color(hex: "22577A"))
                                 .font(.headline)
                                 .fontWeight(.bold)
-                         
-                    
-    
-       
-                    
-                 
-                    
+                  
                 }.padding()
                 if bag.isCollapsed {
                     VStack {
                     }.frame(height: 0)
                 }else {
                     VStack {
-              
                             ForEach(bag.items){ item in
                                 ItemCell(bag:bag,historyView: $historyView, item: item)
                         
                             }.padding(.bottom,20)
                             .padding(.horizontal)
-                            
-                            
-                            
-                   
-                       
-                        
-                        
+        
                     }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight:.none)
                         .clipped()
                         .background(.clear)
@@ -312,102 +294,106 @@ struct CollapsableBag:View {
     }
     @ViewBuilder
     var currentBags: some View {
-        ZStack(alignment: .top){
-            RoundedRectangle(cornerRadius: 15)
-                .fill(Color(hex: "FEFAE0"))
-                .stroke(Color.orange, lineWidth: 4)
-                .frame(maxHeight: bag.isCollapsed ? 60 : .none)
-            VStack{
-                HStack{
-                    Button {
-                        bag.toggleCollapsed()
-                        isCollapsed = bag.isCollapsed
-                    } label: {
-                        
-                        
-                        HStack{
-                            Text(bag.name)
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color(hex: "22577A"))
-                            Spacer()
-                            Text("\(bag.packedItems)/\(bag.numberOfItems)")
-                                .foregroundStyle(Color(hex: "22577A"))
-                                .font(.headline)
-                                .fontWeight(.bold)
-                            Image(systemName: bag.isCollapsed ? "chevron.down" : "chevron.up")
-                                .foregroundStyle(Color(hex: "22577A"))
-                                .font(.headline)
-                                .fontWeight(.bold)
-                        }.padding()
-                    }
-                    
-                    
-                    Button {
-                        showAlert.toggle()
-                    } label: {
-                        Image(systemName: "x.circle")
-                            .font(.title)
-                            .foregroundStyle(Color(hex: "22577A"))
-                            .padding(5)
-                            .padding(.trailing,12)
-                            .fontWeight(.bold)
-                        
-                    }.alert(isPresented: $showAlert){
-                        Alert(title: Text("Remove bag ?") ,message: Text("This will delete the Bag , and your items."),primaryButton: .destructive(Text("Confirm") ,action: {
-                            trip.removeBags(a: bag)
-                        }),secondaryButton: .cancel())
-                    }
-                }
-                
-                if bag.isCollapsed {
-                    VStack {
-                    }.frame(height: 0)
-                }else {
-                    VStack(spacing: 5){
-                        VStack{
-                            ForEach(bag.items){ item in
-                                ItemCell(bag:bag,historyView: $historyView, item: item)
-                            }
+        VStack {
+            ZStack(alignment: .top){
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color(hex: "FEFAE0"))
+                    .stroke(Color.orange, lineWidth: 4)
+                    .frame(maxHeight: bag.isCollapsed ? 60 : .none)
+                VStack{
+                    HStack{
+                        Button {
+                            bag.toggleCollapsed()
+                            isCollapsed = bag.isCollapsed
+                        } label: {
                             
-                            HStack {
-                                TextField("Item", text: $itemName)
-                                    .padding(10)
-                                    .frame(height: 40)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
-                                    .background(Color(hex: "22577A"))
-                                    .clipShape(.rect(cornerRadius: 10))
-                                    .focused($itemNameIsFocused)
-                                Button {
-                                    item = Item(name: itemName, isChecked: false)
-                                    bag.addItem(a: item)
-                                    itemNameIsFocused = false
-                                    itemName = ""
-                                } label: {
-                                    Image(systemName: "plus")
-                                        .foregroundStyle(.white)
-                                        .padding(2)
-                                        .background(color)
-                                        .clipShape(.rect(cornerRadius: 10))
-                                }.sensoryFeedback(.increase, trigger: bag.items.count)
+                            
+                            HStack{
+                                Text(bag.name)
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color(hex: "22577A"))
+                                Spacer()
+                                Text("\(bag.packedItems)/\(bag.numberOfItems)")
+                                    .foregroundStyle(Color(hex: "22577A"))
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                                Image(systemName: bag.isCollapsed ? "chevron.down" : "chevron.up")
+                                    .foregroundStyle(Color(hex: "22577A"))
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                            }.padding()
+                        }
+                        
+                        
+                        Button {
+                            showAlert.toggle()
+                        } label: {
+                            Image(systemName: "x.circle")
+                                .font(.title)
+                                .foregroundStyle(Color(hex: "22577A"))
+                                .padding(5)
+                                .padding(.trailing,12)
+                                .fontWeight(.bold)
+                            
+                        }.alert(isPresented: $showAlert){
+                            Alert(title: Text("Remove bag ?") ,message: Text("This will delete the Bag , and your items."),primaryButton: .destructive(Text("Confirm") ,action: {
+                                trip.removeBags(a: bag)
+                            }),secondaryButton: .cancel())
+                        }
+                    }
+                    
+                    if bag.isCollapsed {
+                        VStack {
+                        }
+                    }else {
+                        VStack(spacing: 5){
+                            VStack{
+                                ForEach(bag.items){ item in
+                                    ItemCell(bag:bag,historyView: $historyView, item: item)
+                                }
                                 
-                            }.frame(width: UIScreen.main.bounds.width - 80)
-                                .frame(maxWidth: .infinity,alignment: .leading)
-                                .padding(.bottom,10)
+                                HStack {
+                                    TextField("Item", text: $itemName)
+                                        .padding(10)
+                                        .frame(height: 40)
+                                        .foregroundStyle(Color(hex: "22577A"))
+                                        .clipShape(.rect(cornerRadius: 10))
+                                        .focused($itemNameIsFocused)
+                                    Button {
+                                        item = Item(name: itemName, isChecked: false)
+                                        bag.addItem(a: item)
+                                        itemNameIsFocused = false
+                                        itemName = ""
+                                    } label: {
+                                        Image(systemName: "plus")
+                                            .foregroundStyle(.white)
+                                            .padding(2)
+                                            .background(color)
+                                            .clipShape(.rect(cornerRadius: 10))
+                                    }.sensoryFeedback(.increase, trigger: bag.items.count)
+                                        .padding(.trailing,10)
+                                    
+                                }.frame(width: UIScreen.main.bounds.width - 80)
+                                    .frame(maxWidth: .infinity,alignment: .leading)
+                                    .background(RoundedRectangle(cornerRadius: 10).stroke(.orange,lineWidth: 4))
+                                    .padding(10)
+                                    .clipShape(.rect(cornerRadius: 20))
+                                
+                                
+                            }.padding(.horizontal)
                             
                             
-                        }.padding(.horizontal)
+                        }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight:.none)
+                            .clipped()
+                            .background(.clear)
                         
                         
-                    }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight:.none)
-                        .clipped()
-                        .background(.clear)
-                    
+                    }
                     
                 }
-                
-            }
-        }.padding(5)
+            }.padding(5)
+        }
        
         
       
@@ -418,6 +404,6 @@ struct CollapsableBag:View {
 
 
 #Preview {
-    BagsView(trip: MockData.tripData, historyView: .constant(false))
+    BagsView(historyView: .constant(false), trip: MockData.tripData)
         .modelContainer(for:[Item.self,Bags.self,PackingModuleDataClass.self])
 }

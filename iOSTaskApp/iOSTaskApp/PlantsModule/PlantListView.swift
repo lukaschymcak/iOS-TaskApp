@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct PlantListView: View {
-    var plantsModule: PlantsModuleDataClass
+    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
     @State var plant: PlantModel?
-    var location: houseLocation
+    @Binding var vmChild: houseLocation
     @State private var toast: Toast? = nil
+    
     var body: some View {
+        
         
         GeometryReader { GeometryProxy in
             ScrollView(showsIndicators: false){
                 VStack(alignment:.leading){
-                    if location == .all{
+                    if vmChild == .all{
                         Text("All:")
                             .font(.largeTitle)
                             .foregroundStyle(Color(hex: "C77F3C"))
@@ -25,13 +27,13 @@ struct PlantListView: View {
                             .padding(.top,10)
                             .padding(.horizontal,10)
                         
-                        ForEach(plantsModule.getAllPlants(),id: \.self){ plant in
-                            PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
+                        ForEach(plantsModuleModel.getAllPlants(),id: \.id){ plant in
+                            PlantCell(selectedPlant: $plant, plantCell: plant, toast: $toast)
                                 .frame(height: 130)
                         }
                         
                     } else {
-                        if !plantsModule.getForgottenPlants(location: location).isEmpty{
+                        if !plantsModuleModel.getForgottenPlants(location: vmChild).isEmpty{
                             Text("Forgotten:")
                                 .font(.largeTitle)
                                 .foregroundStyle(Color(hex: "C77F3C"))
@@ -39,14 +41,14 @@ struct PlantListView: View {
                                 .padding(.top,10)
                                 .padding(.horizontal,10)
                             
-                            ForEach(plantsModule.getForgottenPlants(location: location),id: \.self){ plant in
-                                PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
+                            ForEach(plantsModuleModel.getForgottenPlants(location:  vmChild),id: \.id){ plant in
+                                PlantCell( selectedPlant: $plant, plantCell: plant, toast: $toast)
                                     .frame(height: 130)
                                 
                             }
                             
                         }
-                        if !plantsModule.getTodayPlants(location: location).isEmpty{
+                        if !plantsModuleModel.filterByDateAndLocation(when: .today, location:  vmChild).isEmpty{
                             Text("Today:")
                                 .font(.largeTitle)
                                 .foregroundStyle(Color(hex: "C77F3C"))
@@ -55,16 +57,14 @@ struct PlantListView: View {
                                 .padding(.horizontal,5)
                             
                             
-                            ForEach(plantsModule.wateredLocations.filter({$0.key == location}),id: \.key.id){ location, value in
-                                ForEach(value){ plant in
-                                    if Calendar.current.isDateInToday(plant.waterDate){
-                                        PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
+                            ForEach(plantsModuleModel.filterByDateAndLocation(when: .today, location:  vmChild),id: \.id){ plant in
+                                        PlantCell(selectedPlant: $plant, plantCell: plant,toast: $toast)
                                             .frame(height: 130)
                                     }
-                                }
-                            }
+                                
+                            
                         }
-                        if !self.plantsModule.getTmrwPlants(location: location).isEmpty{
+                        if !plantsModuleModel.filterByDateAndLocation(when: .tomorrow, location:  vmChild).isEmpty{
                             Text("Tommorow:")
                                 .font(.largeTitle)
                                 .foregroundStyle(Color(hex: "C77F3C"))
@@ -72,14 +72,14 @@ struct PlantListView: View {
                                 .padding(.top,10)
                                 .padding(.horizontal,10)
                             
-                            ForEach(plantsModule.getTmrwPlants(location: location),id: \.self){ plant in
-                                PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
+                            ForEach(plantsModuleModel.filterByDateAndLocation(when: .tomorrow, location:  vmChild),id: \.id){ plant in
+                                PlantCell(selectedPlant: $plant, plantCell: plant,toast: $toast)
                                     .frame(height: 130)
                                 
                             }
                         }
-                        if let weekPlants = plantsModule.getWeekPlants(location: location) {
-                            if !weekPlants.isEmpty{
+                        if  !plantsModuleModel.filterByDateAndLocation(when: .thisWeek, location:  vmChild).isEmpty{
+                         
                                 Text("This Week:")
                                     .font(.largeTitle)
                                     .foregroundStyle(Color(hex: "C77F3C"))
@@ -87,25 +87,25 @@ struct PlantListView: View {
                                     .padding(.top,10)
                                     .padding(.horizontal,10)
                                 
-                                ForEach(weekPlants,id: \.self){ plant in
-                                    PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
+                                ForEach(plantsModuleModel.filterByDateAndLocation(when: .thisWeek, location:  vmChild),id: \.id){ plant in
+                                    PlantCell( selectedPlant: $plant, plantCell: plant,  toast: $toast)
                                         .frame(height: 130)
                                 }
-                            }
+                            
                         }
-                        if let restPlants = plantsModule.getRestPlants(location: location){
-                            if !restPlants.isEmpty{
+                        if !plantsModuleModel.filterByDateAndLocation(when: .afterWeek, location:  vmChild).isEmpty{
+         
                                 Text("After this week:")
                                     .font(.largeTitle)
                                     .foregroundStyle(Color(hex: "C77F3C"))
                                     .fontWeight(.bold)
                                     .padding(.top,10)
                                     .padding(.horizontal,10)
-                                ForEach(restPlants,id: \.self){ plant in
-                                    PlantCell(plantModule: plantsModule, selectedPlant: $plant, plantCell: plant, color: plantsModule.color, toast: $toast)
+                                ForEach(plantsModuleModel.filterByDateAndLocation(when: .afterWeek, location:  vmChild),id: \.id){ plant in
+                                    PlantCell( selectedPlant: $plant, plantCell: plant, toast: $toast)
                                         .frame(height: 130)
                                 }
-                            }
+                            
                         }
                     }
                     
@@ -118,9 +118,10 @@ struct PlantListView: View {
     }
    
    
+
     
     
 }
 #Preview {
-    PlantListView(plantsModule: MockPlantsModule.moduleA,location: .bathroom)
+    PlantListView(vmChild: .constant(.all))
 }

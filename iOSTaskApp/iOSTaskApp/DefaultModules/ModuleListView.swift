@@ -9,12 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct ModuleListView: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var isAddingModuleOpen: Bool
     @Environment(\.modelContext) var context
     @Query(sort:\CreatingModuleData.name,order: .forward) var availableModules: [CreatingModuleData]
-    @Query var module : [PackingModuleDataClass]
-    @State var selectedModule: CreatingModuleData = CreatingModuleData(name: "", colorName: "")
-  
+    @StateObject var vm = ViewModel()
     
     var body: some View {
        
@@ -22,33 +21,28 @@ struct ModuleListView: View {
                 
                     
                     ScrollView{
-                    ForEach(availableModules){ module in
-                        VStack{
-                        ModuleViewCell(module: module)
-                            .padding(6)
-                            .onTapGesture {
-                                isAddingModuleOpen.toggle()
-                                selectedModule = module
-                            }.frame(height: 170)
-                            .sheet(isPresented: $isAddingModuleOpen) {
-                                AddingModuleView(module: selectedModule)
+                        ForEach(availableModules){ module in
+                            VStack{
+                                ModuleViewCell(module: module)
+                                    .padding(6)
+                                    .onTapGesture {
+                                        isAddingModuleOpen.toggle()
+                                        vm.selectedModule = module
+                                        vm.showAlert.toggle()
+                                    }.frame(height: 170)
+                                    .alert(isPresented: $vm.showAlert) {
+                                        Alert(title: Text("Add module ?"), message: Text("This will add module to your home screen."), primaryButton: .default(Text("Confirm"), action: {
+                                            vm.addModuleToHome(context: context)
+                                            dismiss()
+                                            
+                                        }), secondaryButton: .cancel())
+                                    }
+                                
+                                
                             }
-                        
-                        
-                    }
-                    
-                    
-                }.onAppear {
-                    if availableModules.isEmpty {
-                        for module in DefaultModules.defaults {
-                            context.insert(module)
+                            
+                            
                         }
-                        
-                        
-                        
-                    }
-                    
-                }
                 }
             
             
@@ -56,10 +50,31 @@ struct ModuleListView: View {
     }
 }
 
+extension ModuleListView{
+    class ViewModel:ObservableObject {
+        @Published var selectedModule: CreatingModuleData = CreatingModuleData(name: "", colorName: "")
+        @Published var showAlert:Bool = false
+        
+        func addModuleToHome(context:ModelContext){
+            switch selectedModule.name {
+            case "Packing":
+                let PackingModule = PackingModuleDataClass(name: "Packing")
+                context.insert(PackingModule)
+            case "Plants":
+                let PlantsModule = PlantsModuleDataClass()
+                context.insert(PlantsModule)
+            default:
+                return}
+        }
+                
+                
+    }
+}
+
 
 
 
 #Preview {
-    ModuleListView(isAddingModuleOpen: .constant(false), selectedModule: DefaultModules.gymTracker)
+    ModuleListView(isAddingModuleOpen: .constant(false))
         .modelContainer(for:CreatingModuleData.self)
 }

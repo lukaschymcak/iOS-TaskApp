@@ -10,9 +10,11 @@ import SwiftData
 import SwiftUI
 
 @Model
-class PackingModuleDataClass{
+class PackingModuleDataClass:Module , Identifiable{
+    func amIaModule() -> Bool {
+        return true
+    }
   private(set) var name: String
-  private(set)  var colorName: String
   var percentage:Int {
       if let firstTrip = trips.first {
           return firstTrip.percentage
@@ -23,23 +25,12 @@ class PackingModuleDataClass{
     private(set) var trips  = [Trip]().sorted(by: {$0.dateTo < $1.dateTo})
     @Relationship(deleteRule: .cascade)
     private(set) var tripHistory  = [Trip]().sorted(by: {$0.dateTo < $1.dateTo})
-    init(name: String = "Packing",tripHistory:[Trip] = [] ,colorName: String) {
+    init(name: String = "Packing",tripHistory:[Trip] = [] ) {
         self.name = name
         self.tripHistory = tripHistory
-        self.colorName = colorName
+
     }
-    var color:Color {
-        switch colorName {
-        case "orange": return .orange
-        case "yellow": return .yellow
-        case "green": return .green
-        default: return .red
-        }
-    }
-    
-    func setColor(a:String){
-        self.colorName = a
-    }
+
     func setName(a:String){
         self.name = a
     }
@@ -67,7 +58,7 @@ class PackingModuleDataClass{
 
 
 struct PackingMockData{
-    static let packingMock = PackingModuleDataClass(name: "Packing",colorName: "orange")
+    static let packingMock = PackingModuleDataClass(name: "Packing")
     
     
     

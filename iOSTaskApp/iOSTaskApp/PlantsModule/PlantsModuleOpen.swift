@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct PlantsModuleOpen: View {
-    var plantsModule: PlantsModuleDataClass
+    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
     @Environment(\.colorScheme) var colorScheme
-    @State var selectedLocation: houseLocation = .all
-    @State var addingPlant: Bool = false
+    @StateObject var vmParent = ViewModel()
+    
+
     var body: some View {
         NavigationStack {
             GeometryReader { GeometryProxy in
@@ -26,7 +27,7 @@ struct PlantsModuleOpen: View {
                         .ignoresSafeArea()
                         .frame(
                             height: GeometryProxy.size.height
-                                - (!plantsModule.wateredLocations.isEmpty
+                            - (!plantsModuleModel.selectedModule.wateredLocations.isEmpty
                                     ? 65 : 0))
 
                     VStack(spacing: 0) {
@@ -34,9 +35,9 @@ struct PlantsModuleOpen: View {
                         HStack {
                             CustomNavBarModule(
                                 module: "Plants", name: "Plants")
-                            if !plantsModule.wateredLocations.isEmpty {
+                            if !plantsModuleModel.selectedModule.wateredLocations.isEmpty {
                                 Button {
-                                    addingPlant.toggle()
+                                    vmParent.toggleAddingPlants()
                                 } label: {
                                     ZStack {
                                         Image("pot")
@@ -59,7 +60,7 @@ struct PlantsModuleOpen: View {
                             .frame(width: GeometryProxy.size.width - 30)
                             .frame(maxWidth: .infinity, alignment: .center)
 
-                        if plantsModule.wateredLocations.isEmpty {
+                        if plantsModuleModel.selectedModule.wateredLocations.isEmpty {
                   
                             VStack(alignment: .center) {
                     
@@ -70,7 +71,7 @@ struct PlantsModuleOpen: View {
                                     .multilineTextAlignment(.leading)
                                     .padding()
                                 Button {
-                                    addingPlant.toggle()
+                                    vmParent.toggleAddingPlants()
                                 } label: {
                                     ZStack {
                                         Image("pot")
@@ -92,28 +93,10 @@ struct PlantsModuleOpen: View {
                         } else {
                             ScrollViewReader { ScrollViewProxy in
                                 PlantList(
-                                    plantsModule: plantsModule,
-                                    selectedLocation: $selectedLocation
                                 ).frame(height: 70)
-                                    .onChange(of: plantsModule.plants) { old,new in
-                                        if new.count > old.count {
-                                            if let last = new.last {
-                                                selectedLocation = last.location
-                                                ScrollViewProxy.scrollTo(selectedLocation,anchor: .leading)
-                                            }
-                                        } else {
-                                            if let first = new.first(where: { PlantModel in
-                                                PlantModel.location == selectedLocation
-                                            })
-                                            {
-                                                selectedLocation = first.location
-                                                ScrollViewProxy.scrollTo(selectedLocation,anchor: .leading)
-                                            } else {
-                                                selectedLocation = new.first?.location ?? .bathroom
-                                                ScrollViewProxy.scrollTo(selectedLocation,anchor: .leading)
-                                            }
-                                        }
-                                        
+                                    .environmentObject(vmParent)
+                                    .onChange(of: plantsModuleModel.selectedModule.plants) {
+                                        vmParent.addAndScrollTo(old: $0, new: $1, scroll: ScrollViewProxy)
                                     }
                             }
                            
@@ -123,10 +106,9 @@ struct PlantsModuleOpen: View {
 
                             VStack {
 
-                                PlantListView(
-                                    plantsModule: plantsModule,
-                                    location: selectedLocation)
-
+                                PlantListView( vmChild: $vmParent.selectedLocation
+                               )
+                         
                             }
 
                         }
@@ -137,149 +119,75 @@ struct PlantsModuleOpen: View {
                 }.frame(maxWidth: .infinity, alignment: .center)
 
             }
-        }.fullScreenCover(isPresented: $addingPlant) {
-            AddingPlantView(plantsModule: plantsModule)
+        }.onAppear(perform: {
+            vmParent.updateModule(with: plantsModuleModel.selectedModule)
+        })
+        .fullScreenCover(isPresented: $vmParent.addingPlant) {
+            AddingPlantView()
 
         }
     }
 }
-struct PlantList: View {
-    var plantsModule: PlantsModuleDataClass
-    @Binding var selectedLocation: houseLocation
-    var body: some View {
-        GeometryReader { GeometryProxy in
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                ScrollViewReader { proxy in
-                    HStack(spacing: 15) {
-                        ZStack(alignment: .trailing) {
-
-                            Button {
-                                withAnimation {
-                                    proxy.scrollTo(
-                                        houseLocation.all,
-                                        anchor: .center)
-                                    selectedLocation =
-                                    houseLocation.all
-                                }
-
-                            } label: {
-                                ZStack {
-
-                                    RoundedRectangle(
-                                        cornerRadius: 20
-                                    )
-                                    .stroke(
-                                        Color(hex: "C77F3C"),
-                                        lineWidth: selectedLocation
-                                        == houseLocation.all ? 5 : 0
-                                    )
-                                    .frame(height: 50)
-
-                                    Text(houseLocation.all.rawValue)
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(
-                                            Color(hex: "C77F3C")
-                                        )
-                                        .background(.clear)
-                                        .padding(8)
-
-                                }
-                            }
-                         
-
-                        }.frame(height: 60)
-
-                        ForEach(
-                            plantsModule.wateredLocations.sorted(by: {
-                                if $0.value.count == $1.value.count {
-                                    return $0.key.id < $1.key.id
-                                } else {
-                                    return $0.value.count > $1.value.count
-                                }
-                            }), id: \.key
-                        ) { location, value in
-
-                            ZStack(alignment: .trailing) {
-
-                                Button {
-                                    withAnimation {
-                                        proxy.scrollTo(
-                                            location,
-                                            anchor: .center)
-                                        selectedLocation =
-                                            location
-                                    }
-
-                                } label: {
-                                    ZStack {
-
-                                        RoundedRectangle(
-                                            cornerRadius: 20
-                                        )
-                                        .stroke(
-                                            Color(hex: "C77F3C"),
-                                            lineWidth: selectedLocation
-                                                == location ? 5 : 0
-                                        )
-                                        .frame(height: 50)
-
-                                        Text(location.rawValue)
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(
-                                                Color(hex: "C77F3C")
-                                            )
-                                            .background(.clear)
-                                            .padding(8)
-
-                                    }
-                                }
-                                if value.filter({ $0.prepared == false && $0.waterDate.isToday() }).count
-                                    > 0
-                                {
-                                    Circle()
-                                        .fill(
-                                            
-                                                Color(hex: "C77F3C")
-                                        )
-                                        .frame(
-                                            width: 25,
-                                            height: 25
-                                        )
-                                        .overlay {
-                                            Text(
-                                                "\(value.filter({$0.prepared == false && $0.waterDate.isToday()}).count)  "
-                                            )
-                                            .foregroundStyle(
-                                                .white
-                                            )
-                                            .multilineTextAlignment(.center)
-                                            .padding(1)
-
-                                        }.offset(x: 10, y: -15)
-
-                                }
-
-                            }.frame(height: 60)
-
-                        }
-
-                    }.padding(.horizontal)
-                }
-
-            }.clipShape(RoundedRectangle(cornerRadius: 20))
-               
+extension PlantsModuleOpen{
+    
+    class ViewModel:ObservableObject {
+        @Published var selectedModule : PlantsModuleDataClass = MockPlantsModule.moduleA
+        @Published var selectedLocation: houseLocation = .all
+        @Published var addingPlant: Bool = false
         
-                .frame(maxWidth: .infinity, alignment: .center)
-         
-
+        
+        func updateModule(with module: PlantsModuleDataClass){
+            
+            
+            self.selectedModule = module
+            
+            
         }
+        
+        func toggleAddingPlants (){
+            addingPlant.toggle()
+        }
+        func selectLocation(location: houseLocation){
+            selectedLocation = location
+        }
+        @MainActor
+        func addAndScrollTo(old arr1: [PlantModel],new arr2: [PlantModel],scroll: ScrollViewProxy){
+            if arr2.count > arr1.count {
+                if let last = arr2.last {
+                    selectedLocation = last.location
+                    scroll.scrollTo(selectedLocation,anchor: .leading)
+                    
+                }
+            }else if arr2.count < arr1.count {
+                if let firstIndex = arr2.first(where: {$0.location == selectedLocation}){
+                    selectedLocation = firstIndex.location
+                    scroll.scrollTo(selectedLocation,anchor: .leading)
+                } else {
+                    selectedLocation = .all
+                    scroll.scrollTo(selectedLocation,anchor: .leading)
+                }
+            }
+            
+        }
+        
+        
+        var sortedByValue: [(key:houseLocation,value:[PlantModel])] {
+            return selectedModule.wateredLocations.sorted(by: {
+                if $0.value.count == $1.value.count {
+                    return $0.key.id < $1.key.id
+                } else {
+                    return $0.value.count > $1.value.count
+                }
+            })
+        }
+            
+        
     }
 }
+
 
 #Preview {
-    PlantsModuleOpen(plantsModule: MockPlantsModule.moduleA)
+    PlantsModuleOpen()
 }
 

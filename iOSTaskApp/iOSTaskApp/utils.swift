@@ -20,5 +20,18 @@ struct Utils {
         }
         return setLightColor
     }
+   static func check() -> Bool {
+            if let referenceDate = UserDefaults.standard.object(forKey: "reference") as? Date {
+                if !Calendar.current.isDateInToday(referenceDate) {
+                    UserDefaults.standard.set(Date(), forKey: "reference")
+                    return true
+                }
+            } else {
+             
+                UserDefaults.standard.set(Date(), forKey: "reference")
+                return true
+            }
+            return false
+        }
 }
 

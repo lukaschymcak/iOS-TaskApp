@@ -10,57 +10,43 @@ import SwiftData
 
 struct PlantsModuleHomeView: View {
     @Namespace private var namespace
+    @Environment(\.modelContext) var context
     @Query var plantsModule:[PlantsModuleDataClass]
+    var singleModule: PlantsModuleDataClass? { plantsModule.first }
+    @StateObject var plantsModuleModel: ViewModel = ViewModel()
+    
     var body: some View {
-        ForEach(plantsModule){ module in
+    
+        if let singleModule = singleModule{
             NavigationLink {
-                PlantsModuleOpen(plantsModule: module)
+                PlantsModuleOpen()
                     .navigationTransition(.zoom(sourceID: "pot", in: namespace))
                     .navigationBarBackButtonHidden(true)
+                    .environmentObject(plantsModuleModel)
             } label: {
-               
-                    PlantsModuleCell(plantsModule: module)
+                    PlantsModuleCell()
+                    .environmentObject(plantsModuleModel)
                     .onAppear {
-                        if check(){
-                            refreshPlants(a: module)
-                            module.waterPlants()
+            
+                        if Utils.check(){
+                            plantsModuleModel.refreshPlants(a: singleModule)
+                            plantsModuleModel.waterPlants()
                             
                         }
                         
                     }
-                   
-                    
-                       
-                 
-                }
+            }.onAppear(perform: {
+                plantsModuleModel.setSelectedModule(a: singleModule)
+    
+            })
             .padding(.horizontal)
             .padding(.vertical,5)
-                    
-        }
-    }
-    func refreshPlants(a:PlantsModuleDataClass){
-        for plants in a.plants {
-    
-                if plants.watered {
-                    plants.toggleNotWatered()
-                }
-            }
+        } 
         
     }
+
     
-    func check() -> Bool {
-            if let referenceDate = UserDefaults.standard.object(forKey: "reference") as? Date {
-                if !Calendar.current.isDateInToday(referenceDate) {
-                    UserDefaults.standard.set(Date(), forKey: "reference")
-                    return true
-                }
-            } else {
-             
-                UserDefaults.standard.set(Date(), forKey: "reference")
-                return true
-            }
-            return false
-        }
+  
 }
 
 #Preview {

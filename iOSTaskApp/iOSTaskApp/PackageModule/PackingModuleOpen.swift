@@ -10,9 +10,7 @@ import SwiftUI
 struct PackingModuleOpen: View {
     @Environment(\.colorScheme) var colorScheme
     var module:PackingModuleDataClass
-    @State var isAddModuleOpen: Bool = false
-    @State var addingTrip: Bool = false
-    @State var openingHistory : Bool = false
+    @StateObject var vmParent = ViewModel()
     
     var body: some View {
         ZStack {
@@ -25,13 +23,7 @@ struct PackingModuleOpen: View {
                         
                         HStack {
                             CustomNavBarModule(module:"Packing",name:module.name == "" ? "Packing" : module.name)
-                            
-                            
-                            
-                            
-                            
-                            
-                            
+        
                         } .padding(.top,10)
                             .frame(width: GeometryProxy.size.width - 30)
                         
@@ -40,8 +32,8 @@ struct PackingModuleOpen: View {
                                 .stroke(.orange,lineWidth: 5)
                                 .fill(.clear)
                                 .frame(width: 120, height: 50)
-                                .offset(x: openingHistory ? 135 : 15)
-                                .animation(.spring, value: openingHistory)
+                                .offset(x: vmParent.openingHistory ? 135 : 15)
+                                .animation(.spring, value: vmParent.openingHistory)
                                 .zIndex(2)
                             
                             
@@ -51,9 +43,9 @@ struct PackingModuleOpen: View {
                                     
                                 HStack(spacing: 25){
                                     Button {
-                                        withAnimation {
-                                            openingHistory = false
-                                        }
+                                
+                                            vmParent.openingHistory = false
+                                     
                                         
                                         
                                         
@@ -66,9 +58,9 @@ struct PackingModuleOpen: View {
                                     }
                                     
                                     Button {
-                                        withAnimation {
-                                            openingHistory = true
-                                        }
+                                        
+                                            vmParent.openingHistory = true
+                                 
                                         
                                         
                                         
@@ -100,7 +92,8 @@ struct PackingModuleOpen: View {
                     
                             VStack(alignment:.center){
                                
-                                ListTripView(color: module.color,addingTrip: $addingTrip,module:module, showHistory: $openingHistory)
+                                ListTripView(module: module)
+                                    .environmentObject(vmParent)
                                     .zIndex(3)
                                 
                                 
@@ -114,7 +107,7 @@ struct PackingModuleOpen: View {
                     }
                     
                 }
-                .sheet(isPresented: $addingTrip) {
+                .sheet(isPresented: $vmParent.addingTrip) {
                     AddingTripsSheetView(module: module)
                 }
                 
@@ -123,7 +116,24 @@ struct PackingModuleOpen: View {
     }
 }
 
-
+extension PackingModuleOpen {
+    class ViewModel:ObservableObject {
+        @Published var isAddModuleOpen: Bool = false
+        @Published var addingTrip: Bool = false
+        @Published var openingHistory : Bool = false
+        
+        func toggleAddingTrip(){
+            addingTrip.toggle()
+        }
+        func toggleAddingModule(){
+            isAddModuleOpen.toggle()
+        }
+        func openHistory(){
+            openingHistory.toggle()
+        }
+        
+    }
+}
 
 
 

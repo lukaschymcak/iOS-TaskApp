@@ -14,7 +14,7 @@ struct PackingModule: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
     @State var showAlert:Bool = false
-    @State var packingModule: PackingModuleDataClass
+     var packingModule: PackingModuleDataClass
     var textColor : Color {
         colorScheme == .dark ? .white : .black
     }

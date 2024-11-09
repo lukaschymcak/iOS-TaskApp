@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddingPlantView: View {
-    @State var plantsModule: PlantsModuleDataClass
+    @EnvironmentObject var plantsModule: PlantsModuleHomeView.ViewModel
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @State var cancelHit: Bool = false
@@ -38,7 +38,6 @@ struct AddingPlantView: View {
                                         NavigationLink {
 
                                             PresetAddView(
-                                                plantModule: plantsModule,
                                                 plantModel: plant,
                                                 cancelHit: $cancelHit
                                             )
@@ -141,5 +140,5 @@ struct addCustomPlant: View {
 }
 
 #Preview {
-    AddingPlantView(plantsModule: MockPlantsModule.moduleA)
+    AddingPlantView()
 }

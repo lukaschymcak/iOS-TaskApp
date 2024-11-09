@@ -10,8 +10,7 @@ import SwiftUI
 struct PresetAddView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-    @State var color: Color = .green
-    @State var plantModule: PlantsModuleDataClass
+    @EnvironmentObject var plantModuleModel: PlantsModuleHomeView.ViewModel
     @State var plantModel:PlantModel
     @State var infoText: String = ""
     @State var selectedDate:Date = Date.now
@@ -187,8 +186,8 @@ struct PresetAddView: View {
                                             let plantModelCopy = PlantModel(name: plantModel.name,desc: plantModel.getDesc(),location:location, frequency: frequency,image: plantModel.image,waterDate: selectedDate)
                                             
                                             
-                                            plantModule.addPlants(a: plantModelCopy)
-                                            cancelHit = false 
+                                            plantModuleModel.addPlant(a: plantModelCopy)
+                                            cancelHit = false
                                             dismiss()
                                             
                                         } label: {
@@ -236,5 +235,5 @@ struct PresetAddView: View {
 
 
 #Preview {
-    PresetAddView(plantModule: MockPlantsModule.moduleA, plantModel: DefaultPlants.monstera, cancelHit: .constant(true))
+    PresetAddView(plantModel: DefaultPlants.monstera, cancelHit: .constant(true))
 }

@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct PlantCell: View {
-    var plantModule: PlantsModuleDataClass
+    @EnvironmentObject var plantModuleModel: PlantsModuleHomeView.ViewModel
     @Binding var selectedPlant: PlantModel?
     @State var plantCell: PlantModel
     @State var showWaterAlert: Bool = false
     @State var showDeleteAlert: Bool = false
     @State var alertMessage: String = ""
-    @State var color: Color = .red
     @Binding  var toast: Toast?
     var body: some View {
         GeometryReader { GeometryProxy in
@@ -29,7 +28,12 @@ struct PlantCell: View {
                                 .resizable()
                                 .frame(width: 80, height: 80)
                                 .padding()
-                            VStack(spacing: 10) {
+                            VStack(alignment:.leading,spacing: 5) {
+                                Text(plantCell.location.rawValue)
+                                    .font(.footnote)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .padding(0)
                                 Text(plantCell.name)
                                     .font(.title)
                                     .fontWeight(.bold)
@@ -62,45 +66,12 @@ struct PlantCell: View {
                                 .alert(isPresented: $showDeleteAlert) {
                                         Alert(title: Text("Remove Plant ?"), primaryButton: .destructive(Text("Confirm"), action: {
                                             toast = Toast(style: .success, message: "Plant Removed",doOutsideFunctonImage: "")
-                                            plantModule.removePlants(a: plantCell)
+                                            plantModuleModel.removePlant(a: plantCell)
                                        
                                         }) , secondaryButton: .cancel())
                                     }
+                                wateringButton
 
-                                if Calendar.current.isDateInToday(plantCell.waterDate) || plantCell.waterDate.isBeforeToday() {
-
-                                    Button {
-                                        if plantCell.waterDate.isBeforeToday() {
-                                            showWaterAlert.toggle()
-                                            
-                                        }else {
-                                            plantCell.prepare()
-                                            toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                                            selectedPlant = plantCell
-                                        }
-                                    } label: {
-                                        Image(
-                                            systemName: plantCell.prepared
-                                            ? "checkmark.circle" : "drop.circle"
-                                        )
-                                        .font(.system(size: 50))
-                                        .foregroundStyle(Color(hex: "FEFAE0"))
-                                    }.padding(.horizontal)
-                                        .alert(isPresented: $showWaterAlert) {
-                                            Alert(title: Text("Water Plant ?"), primaryButton: .destructive(Text("You forgot to water this plant , once watered next watering date will be calculated from today"), action: {
-                                                plantCell.prepare()
-                                                toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                                                selectedPlant = plantCell
-                                            }) , secondaryButton: .cancel())
-                                        }.disabled(plantCell.prepared)
-                                } else {
-                                    Image(
-                                        systemName: "clock"
-                                    )
-                                    .font(.system(size: 50))
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
-                                    .padding(.horizontal)
-                                }
                             }
 
                         }.frame(maxWidth: .infinity, alignment: .leading)
@@ -115,26 +86,45 @@ struct PlantCell: View {
         }
 
     }
+    @ViewBuilder
+    var wateringButton: some View {
+       
+        if Calendar.current.isDateInToday(plantCell.waterDate) || plantCell.waterDate.isBeforeToday() {
+            Button {
+                if plantCell.waterDate.isBeforeToday() {
+                    showWaterAlert.toggle()
+                    
+                }else {
+                    plantCell.prepare()
+                    toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                    selectedPlant = plantCell
+                }
+            } label: {
+                Image(
+                    systemName: plantCell.prepared
+                    ? "checkmark.circle" : "drop.circle"
+                )
+                .font(.system(size: 50))
+                .foregroundStyle(Color(hex: "FEFAE0"))
+            }.padding(.horizontal)
+                .alert(isPresented: $showWaterAlert) {
+                    Alert(title: Text("Water Plant ?"), primaryButton: .destructive(Text("You forgot to water this plant , once watered next watering date will be calculated from today"), action: {
+                        plantCell.prepare()
+                        toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                        selectedPlant = plantCell
+                    }) , secondaryButton: .cancel())
+                }.disabled(plantCell.prepared)
+        } else {
+            Image(
+                systemName: "clock"
+            )
+            .font(.system(size: 50))
+            .foregroundStyle(Color(hex: "FEFAE0"))
+            .padding(.horizontal)
+        }
+    }
    
 }
-extension Date {
-    func isBeforeToday() -> Bool {
-        let calendar = Calendar.current
-        let now = Date()
-        
-        if let daysDifference = calendar.dateComponents([.day], from: self, to: now).day {
-            return daysDifference > 0
-        }
-        
-        return false
-    }
 
-    func isToday() -> Bool {
-        return Calendar.current.isDate(self, inSameDayAs: Date.now)
-    }
-    func isTmrw() -> Bool {
-        return Calendar.current.isDateInTomorrow(self)
-    }
-}
 
 

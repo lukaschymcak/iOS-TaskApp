@@ -10,7 +10,8 @@ import SwiftData
 
 
 @Model
-class PlantModel {
+class PlantModel:Hashable,Identifiable {
+    @Attribute(.unique) var id: UUID = UUID()
     private(set) var name: String
     private var desc: String
     private(set) var location: houseLocation
@@ -114,3 +115,6 @@ struct DefaultPlants {
     
     static let presetPlants:[PlantModel] = [monstera,orchidea,zzPlant]
 }
+
+
+

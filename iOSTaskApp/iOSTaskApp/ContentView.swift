@@ -22,6 +22,7 @@ struct ContentView: View {
                 } else {
                     WelcomeView(name: $name)
                         .transition(.move(edge: .bottom))
+                    
                 }
             }.animation(.easeInOut, value: isWelcomeScreenOver)
         }
@@ -33,6 +34,7 @@ struct WelcomeView: View {
     @Binding var name: String
     @Environment(\.colorScheme) var colorScheme
     @FocusState private var nameIsFocused: Bool
+
 
     var body: some View {
 
@@ -86,10 +88,9 @@ struct HomeView: View {
     @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver: Bool = false
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-    
+    @Environment(\.modelContext) var context
     @Binding var name: String
     @State var isAddModuleOpen: Bool = false
-
     var body: some View {
 
         ZStack {
@@ -100,26 +101,26 @@ struct HomeView: View {
                             isWelcomeScreenOver: $isWelcomeScreenOver,
                             name: $name, isAddModuleOpen: $isAddModuleOpen
                         )
-
+                        
                         .frame(width: GeometryProxy.size.width - 30)
                         .frame(maxWidth: .infinity, alignment: .center)
-
+                        
                     }.frame(height: 70)
-
+                    
                     ScrollView {
                         PackageModuleHomeView()
-
+                        
                         PlantsModuleHomeView()
-                            
-
+                        
+                        
                     }
-
+                    
                 }
-
+                
                 .sheet(isPresented: $isAddModuleOpen) {
-
+                    
                     AddModuleView(isAddModuleOpen: $isAddModuleOpen)
-
+                    
                 }
             }
         }
@@ -186,26 +187,12 @@ struct AddModuleView: View {
 
     }
 }
-extension Color {
-    init(hex: String) {
-        var cleanHexCode = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        cleanHexCode = cleanHexCode.replacingOccurrences(of: "#", with: "")
-        print(cleanHexCode)
-        var rgb: UInt64 = 0
-        
-        Scanner(string: cleanHexCode).scanHexInt64(&rgb)
-        
-        let redValue = Double((rgb >> 16) & 0xFF) / 255.0
-        let greenValue = Double((rgb >> 8) & 0xFF) / 255.0
-        let blueValue = Double(rgb & 0xFF) / 255.0
-        self.init(red: redValue, green: greenValue, blue: blueValue)
-    }
-}
+
 
 #Preview {
     ContentView()
         .modelContainer(for: [
             Trip.self, PackingModuleDataClass.self, CreatingModuleData.self,
             PlantsModuleDataClass.self,
-        ])
+        ],inMemory: true)
 }

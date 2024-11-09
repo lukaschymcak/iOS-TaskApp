@@ -79,7 +79,7 @@ struct AddingTripsSheetView: View {
                             .padding(13)
                             .font(.title2)
                             .fontWeight(.bold)
-                            .background(module.color)
+                            .background(.orange)
                             .clipShape(.rect(cornerRadius: 10))
                             .foregroundStyle(.white)
                            
