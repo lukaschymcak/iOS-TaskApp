@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 @Model
-class PackingModuleDataClass:Module , Identifiable{
+class PackingModuleDataClass: Identifiable{
     func amIaModule() -> Bool {
         return true
     }

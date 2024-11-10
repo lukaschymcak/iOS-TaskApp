@@ -9,11 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct ModuleListView: View {
+    @AppStorage("IsFirstTimeModuleListViewOpen") var isFirstTimeOpeningModuleView: Bool = true
     @Environment(\.dismiss) var dismiss
     @Binding var isAddingModuleOpen: Bool
     @Environment(\.modelContext) var context
     @Query(sort:\CreatingModuleData.name,order: .forward) var availableModules: [CreatingModuleData]
     @StateObject var vm = ViewModel()
+    
     
     var body: some View {
        
@@ -42,6 +44,13 @@ struct ModuleListView: View {
                             }
                             
                             
+                        }.onAppear {
+                            if isFirstTimeOpeningModuleView {
+                                for module in DefaultModules.defaults {
+                                    context.insert(module)
+                                }
+                                isFirstTimeOpeningModuleView = false
+                            }
                         }
                 }
             
@@ -60,9 +69,11 @@ extension ModuleListView{
             case "Packing":
                 let PackingModule = PackingModuleDataClass(name: "Packing")
                 context.insert(PackingModule)
+                context.delete(DefaultModules.packing)
             case "Plants":
                 let PlantsModule = PlantsModuleDataClass()
                 context.insert(PlantsModule)
+                context.delete(DefaultModules.plants)
             default:
                 return}
         }

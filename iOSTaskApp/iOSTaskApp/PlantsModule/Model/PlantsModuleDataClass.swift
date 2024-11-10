@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 @Model
-class PlantsModuleDataClass: Module,Identifiable {
+class PlantsModuleDataClass:Identifiable {
     func amIaModule() -> Bool {
         return true
     }
