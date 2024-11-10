@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct PlantCell: View {
-    @EnvironmentObject var plantModuleModel: PlantsModuleHomeView.ViewModel
-    @Binding var selectedPlant: PlantModel?
+    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
     @State var plantCell: PlantModel
     @State var showWaterAlert: Bool = false
-    @State var showDeleteAlert: Bool = false
+    @State var showDeletePlantAlert: Bool = false
     @State var alertMessage: String = ""
-    @Binding  var toast: Toast?
     var body: some View {
         GeometryReader { GeometryProxy in
             ZStack {
@@ -55,18 +53,23 @@ struct PlantCell: View {
                             Spacer()
                             VStack(spacing: 10) {
                                 Button {
-                                    showDeleteAlert.toggle()
+                                    showDeletePlantAlert.toggle()
                                     
                                 } label: {
+                                    HStack{
+                                        Text(showDeletePlantAlert.description)
+                                        
+                                    }.frame(width: 0, height: 0)
                                     Image(systemName: "minus")
-                                        .font(.title)
+                                        .font(.largeTitle)
                                         .fontWeight(.bold)
                                         .foregroundStyle(Color(hex: "FEFAE0"))
-                                }.offset(y: -5)
-                                .alert(isPresented: $showDeleteAlert) {
+                                        .offset(x:-3)
+                                }
+                                .alert(isPresented: $showDeletePlantAlert) {
                                         Alert(title: Text("Remove Plant ?"), primaryButton: .destructive(Text("Confirm"), action: {
-                                            toast = Toast(style: .success, message: "Plant Removed",doOutsideFunctonImage: "")
-                                            plantModuleModel.removePlant(a: plantCell)
+                                            plantsModuleModel.toast = Toast(style: .success, message: "Plant Removed",doOutsideFunctonImage: "")
+                                            plantsModuleModel.removePlant(a: plantCell)
                                        
                                         }) , secondaryButton: .cancel())
                                     }
@@ -96,8 +99,8 @@ struct PlantCell: View {
                     
                 }else {
                     plantCell.prepare()
-                    toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                    selectedPlant = plantCell
+                    plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                    plantsModuleModel.selectedPlants = plantCell
                 }
             } label: {
                 Image(
@@ -110,8 +113,8 @@ struct PlantCell: View {
                 .alert(isPresented: $showWaterAlert) {
                     Alert(title: Text("Water Plant ?"), primaryButton: .destructive(Text("You forgot to water this plant , once watered next watering date will be calculated from today"), action: {
                         plantCell.prepare()
-                        toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                        selectedPlant = plantCell
+                        plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                        plantsModuleModel.selectedPlants = plantCell
                     }) , secondaryButton: .cancel())
                 }.disabled(plantCell.prepared)
         } else {

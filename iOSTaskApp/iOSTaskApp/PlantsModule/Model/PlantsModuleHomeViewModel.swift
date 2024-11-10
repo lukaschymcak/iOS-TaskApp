@@ -12,6 +12,8 @@ extension PlantsModuleHomeView {
     class ViewModel:ObservableObject {
         
         @Published var selectedModule:PlantsModuleDataClass
+        @Published var selectedPlants: PlantModel?
+        @Published var toast: Toast?
         
         init(selelectedModule:PlantsModuleDataClass = PlantsModuleDataClass()) {
             
@@ -77,7 +79,7 @@ extension PlantsModuleHomeView {
        
     
             
-            func filterByDateAndLocation(when time:waterTime, location:houseLocation) -> [PlantModel] {
+            func filterByDateAndLocation(when time: waterTime, location:houseLocation) -> [PlantModel] {
                 switch time {
                 case .today:
                  return   getTodayPlants(location: location)

@@ -65,7 +65,10 @@ enum houseLocation: String, Codable, CaseIterable, Identifiable {
 
 }
 enum waterTime: String, Codable,Identifiable {
-    case today,tomorrow,thisWeek,afterWeek
+    case today = "Today"
+    case tomorrow = "Tomorrow"
+    case thisWeek = "This Week"
+    case afterWeek = "More than a week"
     
     var id: Int {self.hashValue}
 }

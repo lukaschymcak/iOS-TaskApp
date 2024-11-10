@@ -135,6 +135,7 @@ extension PlantsModuleOpen{
         @Published var selectedModule : PlantsModuleDataClass = MockPlantsModule.moduleA
         @Published var selectedLocation: houseLocation = .all
         @Published var addingPlant: Bool = false
+        @Published var toast: Toast?
         
         
         func updateModule(with module: PlantsModuleDataClass){

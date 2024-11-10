@@ -16,8 +16,9 @@ class PlantModel:Hashable,Identifiable {
     private var desc: String
     private(set) var location: houseLocation
     private(set) var frequency : Int
-    private var water : String
-    private var light:String
+    private(set) var water : String
+    private(set) var light:String
+    private(set) var temp:String
     private(set) var image: String
     private(set) var watered:Bool
     private(set) var prepared:Bool = false
@@ -25,13 +26,14 @@ class PlantModel:Hashable,Identifiable {
     
     var module:PlantsModuleDataClass?
     
-    init(name: String, desc: String = "",location:houseLocation = .bathroom, frequency: Int = 0, water: String = "", light: String = "", image: String = "",watered:Bool = false,waterDate:Date = Date.now) {
+    init(name: String, desc: String = "",location:houseLocation = .bathroom, frequency: Int = 0, water: String = "", light: String = "",temp:String = "", image: String = "",watered:Bool = false,waterDate:Date = Date.now) {
         self.name = name
         self.desc = desc
         self.location = location
         self.frequency = frequency
         self.water = water
         self.light = light
+        self.temp = temp
         self.image = image
         self.watered = watered
         self.waterDate = waterDate
@@ -107,11 +109,11 @@ struct MockPlants {
     
 }
 struct DefaultPlants {
-    static let monstera = PlantModel(name: "Monstera",desc: "Kvet monstera, známy ako „monstera deliciosa“, je obľúbená izbová rastlina s veľkými listami a charakteristickými otvormi. Pôvodom je z tropických oblastí Strednej a Južnej Ameriky. Kvitne zriedkavo a je známa svojou estetikou a schopnosťou čistiť vzduch.",image: "monstera")
+    static let monstera = PlantModel(name: "Monstera",desc: "Monstera (Monstera deliciosa) is a popular tropical houseplant known for its large, glossy, heart-shaped leaves with unique holes and splits. It thrives in bright, indirect light and is low-maintenance, making it a favorite among plant enthusiasts. As a climbing plant, it can grow tall with proper support and adds a touch of greenery and elegance to indoor spaces.",water:"300ml", light:"Bright,Indirect",temp: "18-29°C" ,image: "monstera")
     
-    static let orchidea = PlantModel(name: "Orchidea",desc: "Orchidea je exotická rastlina známa svojimi pôsobivými kvetmi, ktoré sa vyskytujú v širokej palete farieb a tvarov. Väčšina orchideí pochádza z tropických oblastí, kde rastú na stromoch (epifyticky) alebo v pôde. Vyžadujú vysokú vlhkosť a jemné, rozptýlené svetlo, čo im pripomína prostredie dažďových pralesov. Orchidey sú symbolom krásy, elegancie a lásky a vďaka svojej dlhej životnosti kvetov sú obľúbenými izbovými rastlinami po celom svete.",image: "orchid")
+    static let orchidea = PlantModel(name: "Orchidea",desc: "Orchids (Phalaenopsis) are elegant tropical plants known for their stunning, long-lasting flowers. They thrive in bright, indirect light and require careful watering and humidity. With proper care, they bloom multiple times a year, making them a favorite for indoor spaces.",water:"100ml", light:"Bright,Indirect",temp: "18-29°C" ,image: "orchid")
     
-    static let zzPlant = PlantModel(name: "ZZ Plant",desc: "The ZZ plant (Zamioculcas zamiifolia) is a hardy, low-maintenance indoor plant known for its glossy, dark green leaves and upright, wand-like stems. Native to East Africa, it's drought-tolerant and thrives in low to bright indirect light. This plant is popular for its ability to withstand neglect, making it ideal for beginners or low-light spaces. The ZZ plant also has air-purifying qualities and can grow up to 2-3 feet indoors with minimal watering.",image: "zz-plant")
+    static let zzPlant = PlantModel(name: "ZZ Plant",desc: "The ZZ plant (Zamioculcas zamiifolia) is a hardy, low-maintenance indoor plant known for its glossy, dark green leaves and upright, wand-like stems. Native to East Africa, it's drought-tolerant and thrives in low to bright indirect light. This plant is popular for its ability to withstand neglect, making it ideal for beginners or low-light spaces. The ZZ plant also has air-purifying qualities and can grow up to 2-3 feet indoors with minimal watering.",water:"250ml", light:"Low to bright,indirect",temp: "18-29°C" ,image: "zz-plant")
     
     static let presetPlants:[PlantModel] = [monstera,orchidea,zzPlant]
 }

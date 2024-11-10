@@ -183,9 +183,9 @@ struct PresetAddView: View {
                                                 .clipShape(.rect(cornerRadius: 10))
                                         }
                                         Button {
-                                            let plantModelCopy = PlantModel(name: plantModel.name,desc: plantModel.getDesc(),location:location, frequency: frequency,image: plantModel.image,waterDate: selectedDate)
+                                            let plantModelCopy = PlantModel(name: plantModel.name,desc: plantModel.getDesc(),location:location, frequency: frequency,water: plantModel.water,light:plantModel.light,temp: plantModel.temp,image: plantModel.image,waterDate: selectedDate)
                                             
-                                            
+                                            plantModuleModel.toast = Toast(style: .success, message: "Plant Added",doOutsideFunctonImage: "")
                                             plantModuleModel.addPlant(a: plantModelCopy)
                                             cancelHit = false
                                             dismiss()
@@ -198,7 +198,7 @@ struct PresetAddView: View {
                                                 .padding(10)
                                                 .background(Color(hex: "DCA569"))
                                                 .clipShape(.rect(cornerRadius: 10))
-                                        }
+                                        }  .sensoryFeedback(.increase, trigger: plantModuleModel.selectedModule.plants.count)
                                        
                                     }.frame(maxWidth: .infinity,alignment: .center)
                                         .padding(.top,10)
@@ -236,4 +236,5 @@ struct PresetAddView: View {
 
 #Preview {
     PresetAddView(plantModel: DefaultPlants.monstera, cancelHit: .constant(true))
+        .environmentObject(PlantsModuleHomeView.ViewModel())
 }

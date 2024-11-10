@@ -8,25 +8,28 @@
 import SwiftUI
 
 struct CustomNavBar: View {
+    
+    @State var shake: Bool = false
     @Environment(\.colorScheme) var colorScheme
     @Binding var isWelcomeScreenOver: Bool
     @Binding var name: String
     @Binding var isAddModuleOpen: Bool
     var body: some View {
         HStack{
-            Button {
-                isAddModuleOpen.toggle()
-            } label: {
-                Image(systemName: "slider.vertical.3")
-                    .font(.system(size: 25))
-                    .foregroundStyle(Utils.textColor(colorScheme))
-                    .fontWeight(.bold)
-            }
-
+            VStack{
+                Button {
+                  
+                } label: {
+                    Image(systemName: "slider.vertical.3")
+                        .font(.system(size: 25))
+                        .foregroundStyle(Utils.textColor(colorScheme))
+                        .fontWeight(.bold)
+                }
             
+            }
             Spacer()
             Button {
-       isWelcomeScreenOver.toggle()
+          isWelcomeScreenOver.toggle()
                 
             } label: {
                 Text("hello, \n \(name)")
@@ -37,19 +40,26 @@ struct CustomNavBar: View {
             Spacer()
             Button {
                 isAddModuleOpen.toggle()
-                
+
             } label: {
                 Image(systemName: "plus")
                     .font(.system(size: 25))
                     .foregroundStyle(Utils.textColor(colorScheme))
                     .fontWeight(.bold)
+        
+          
+             
             }
+            
 
         
         }
      
         
         }
+}
+#Preview {
+    CustomNavBar(isWelcomeScreenOver: .constant(false), name: .constant("Lukas"), isAddModuleOpen: .constant(false))
 }
 
 

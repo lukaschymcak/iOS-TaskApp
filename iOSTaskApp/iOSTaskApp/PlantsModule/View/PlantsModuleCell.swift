@@ -20,7 +20,7 @@ struct PlantsModuleCell: View {
                     .fill(Color(hex: "FEFAE0"))
                     .stroke(Color(hex: "606C38"),lineWidth: 7)
                     .frame(maxWidth: UIScreen.main.bounds.width - 25,maxHeight:
-                            plantsModule.selectedModule.plants.isEmpty ? 180 : 180)
+                            plantsModule.selectedModule.plants.isEmpty ? 130 : 180)
                 
                 VStack{
                     VStack(alignment: .leading,spacing: 15) {
