@@ -32,7 +32,8 @@ struct ModuleViewCell: View {
                                     .foregroundStyle(module.color)
                                     .multilineTextAlignment(.leading)
 
-                            }
+                            }.padding()
+                                .background(RoundedRectangle(cornerRadius: 20).stroke(module.color,lineWidth: 6).fill(module.color.opacity(0.1)))
                                 Text(module.desc)
                                 .fontWeight(.bold)
                                 .foregroundStyle(module.color)

@@ -15,9 +15,6 @@ struct PackingModule: View {
     @Environment(\.modelContext) var context
     @State var showAlert:Bool = false
      var packingModule: PackingModuleDataClass
-    var textColor : Color {
-        colorScheme == .dark ? .white : .black
-    }
     var body: some View {
         
         
@@ -32,8 +29,7 @@ struct PackingModule: View {
                 
                 VStack(alignment: .leading) {
                     HStack {
-                        Text(packingModule.name == "" ? "Packing" :
-                                packingModule.name)
+                        Text(packingModule.name)
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)

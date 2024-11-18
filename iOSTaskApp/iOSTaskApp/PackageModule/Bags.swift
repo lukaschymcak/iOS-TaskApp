@@ -53,7 +53,7 @@ class Bags{
 }
 
 struct MockBags {
-    static let bagA = Bags(name: "Bag A", items: [])
+    static let bagA = Bags(name: "Bag A", items: [Item(name: "geg", isChecked: false),Item(name: "geg", isChecked: false)])
    static let bagB = Bags(name: "Bag B", items: [])
     
    static let bags = [bagA, bagB]

@@ -22,7 +22,7 @@ struct PackingModuleOpen: View {
                         
                         
                         HStack {
-                            CustomNavBarModule(module:"Packing",name:module.name == "" ? "Packing" : module.name)
+                            CustomNavBarModule(module:"Packing",name:module.name)
         
                         } .padding(.top,10)
                             .frame(width: GeometryProxy.size.width - 30)
