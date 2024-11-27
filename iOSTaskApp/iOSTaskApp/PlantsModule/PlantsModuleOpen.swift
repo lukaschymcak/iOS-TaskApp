@@ -28,38 +28,20 @@ struct PlantsModuleOpen: View {
                         .frame(
                             height: GeometryProxy.size.height
                             - (!plantsModuleModel.selectedModule.wateredLocations.isEmpty
-                                    ? 65 : 0))
+                                    ? 60 : 0))
 
                     VStack(spacing: 0) {
-
-                        HStack {
+                        
+                        if !plantsModuleModel.selectedModule.wateredLocations.isEmpty{
+                            HStack {
                             CustomNavBarModule(
-                                module: "Plants", name: "Plants")
-                            if !plantsModuleModel.selectedModule.wateredLocations.isEmpty {
-                                Button {
+                                module: "Plants", name: "Plants") {
                                     vmParent.toggleAddingPlants()
-                                } label: {
-                                    ZStack {
-                                        Image("pot")
-                                            .resizable()
-                                            .frame(width: 50, height: 50)
-
-                                        Image(systemName: "plus")
-                                            .resizable()
-                                            .frame(width: 20, height: 20)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(
-                                                Color(hex: "EFD0CA")
-                                            )
-                                            .offset(x: -1, y: 0)
-                                    }
                                 }
-
-                            }
-                        }.padding(.bottom, 20)
-                            .frame(width: GeometryProxy.size.width - 30)
-                            .frame(maxWidth: .infinity, alignment: .center)
-
+                            
+                            }.frame(height: 70)
+                        
+                    }
                         if plantsModuleModel.selectedModule.wateredLocations.isEmpty {
                   
                             VStack(alignment: .center) {
@@ -190,5 +172,6 @@ extension PlantsModuleOpen{
 
 #Preview {
     PlantsModuleOpen()
+        .environmentObject(PlantsModuleHomeView.ViewModel())
 }
 

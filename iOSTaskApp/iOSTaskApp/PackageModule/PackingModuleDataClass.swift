@@ -10,9 +10,9 @@ import SwiftData
 import SwiftUI
 
 @Model
-class PackingModuleDataClass: Identifiable,Module{
+class PackingModuleDataClass{
     
-  private(set) var name: String
+    private(set) var name: String
   var percentage:Int {
       if let firstTrip = trips.first {
           return firstTrip.percentage

@@ -10,8 +10,10 @@ import SwiftUI
 struct CustomNavBarModule: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
+   
     var module: String
     var name: String
+    var addPlant: () -> Void 
     var body: some View {
         switch module {
         case "Packing":
@@ -26,33 +28,46 @@ struct CustomNavBarModule: View {
 
     @ViewBuilder
     var packingNavBar: some View {
-            NavigationStack {
-                HStack {
+        GeometryReader { GeometryProxy in
+            HStack {
+     
                     Button {
                         dismiss()
                     } label: {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 30))
+                            .font(.title)
                             .foregroundStyle(Color(hex: "FEFAE0"))
                             .fontWeight(.bold)
                     }
                     
-                    Text("\(name)")
-                        .font(.system(size: 30))
-                        .foregroundStyle(Color(hex: "FEFAE0"))
-                        .fontWeight(.bold)
-                    Spacer()
-                    
-                }         .frame(height: 50)
-                .background(Color(hex: "22577A"))
              
+                
+                
+                
+                
+                
+                Text(name)
+                    .font(.title)
+                    .foregroundStyle(Color(hex: "FEFAE0"))
+                    .fontWeight(.bold)
+                
+                Spacer()
+               
+                
+                
+                
+            }
+            .frame(width: GeometryProxy.size.width - 30)
+                .frame(maxWidth: .infinity, alignment: .center)
+            .background(Color(hex: "22577A"))
+        }
               
     
                
 
                 
                     
-            }
+            
                 
                 
 
@@ -64,32 +79,86 @@ struct CustomNavBarModule: View {
         }
     @ViewBuilder
     var plantsNavbar: some View {
-        NavigationStack{
-            HStack(alignment:.bottom){
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-               
-                        .font(.largeTitle)
+        GeometryReader { GeometryProxy in
+ 
+                //            HStack(alignment:.bottom){
+                //                Button {
+                //                    dismiss()
+                //                } label: {
+                //                    Image(systemName: "chevron.left")
+                //
+                //                        .font(.largeTitle)
+                //                        .foregroundStyle(Color(hex: "FEFAE0"))
+                //                        .fontWeight(.bold)
+                //                }
+                //
+                //                Text("\(name)")
+                //                    .font(.system(size: 30))
+                //                    .foregroundStyle(Color(hex: "FEFAE0"))
+                //                    .fontWeight(.bold)
+                //                Spacer()
+                //
+                //
+                //
+                //
+                //
+                //                }
+                HStack{
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.title)
+                            .foregroundStyle(Color(hex: "FEFAE0"))
+                            .fontWeight(.bold)
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    Text(name)
+                        .font(.title)
                         .foregroundStyle(Color(hex: "FEFAE0"))
                         .fontWeight(.bold)
-                }
-       
-                Text("\(name)")
-                    .font(.system(size: 30))
-                    .foregroundStyle(Color(hex: "FEFAE0"))
-                    .fontWeight(.bold)
-                Spacer()
         
+           
+                    Spacer()
+                    
+                    Button {
+                        addPlant()
+                        
+                    } label: {
+                        ZStack {
+                            Image("pot")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                            
+                            Image(systemName: "plus")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .fontWeight(.bold)
+                                .foregroundStyle(
+                                    Color(hex: "EFD0CA")
+                                )
+                                .offset(x: -1, y: 0)
+                        }
+                        
+                        
+                    }
+                    
+                    
+                    
+                }.frame(width: GeometryProxy.size.width - 30)
+                .frame(maxWidth: .infinity, alignment: .center)
 
                 
-
-                  
-                }
-                
-            }
-                .frame(height: 50)
+            
+            
+        }.frame(height: 70)
         }
 
     }
@@ -101,6 +170,8 @@ struct CustomNavBarModule: View {
 
 #Preview {
 
-    CustomNavBarModule(module: "Packing", name: "Plants")
+    CustomNavBarModule(module: "Packing", name: "Packing") {
+        
+    }
 
 }

@@ -61,7 +61,7 @@ struct ModuleListView: View {
 
 extension ModuleListView{
     class ViewModel:ObservableObject {
-        @Published var selectedModule: CreatingModuleData = CreatingModuleData(name: "", colorName: "")
+        @Published var selectedModule: CreatingModuleData = CreatingModuleData(name: "", colorName: "", secondaryColorName: "")
         @Published var showAlert:Bool = false
         
         func addModuleToHome(context:ModelContext){

@@ -186,7 +186,7 @@ struct PresetAddView: View {
                                             let plantModelCopy = PlantModel(name: plantModel.name,desc: plantModel.getDesc(),location:location, frequency: frequency,water: plantModel.water,light:plantModel.light,temp: plantModel.temp,image: plantModel.image,waterDate: selectedDate)
                                             
                                             plantModuleModel.toast = Toast(style: .success, message: "Plant Added",doOutsideFunctonImage: "")
-                                            plantModuleModel.addPlant(a: plantModelCopy)
+                                            plantModuleModel.selectedModule.addPlant(a: plantModelCopy)
                                             cancelHit = false
                                             dismiss()
                                             

@@ -28,7 +28,7 @@ struct PlantListView: View {
                                 .padding(.top,10)
                                 .padding(.horizontal,10)
                             
-                            ForEach(plantsModuleModel.getAllPlants(),id: \.id){ plant in
+                            ForEach(plantsModuleModel.selectedModule.getAllPlants(),id: \.id){ plant in
                                 NavigationLink {
                                     PlantDetailView(plantCell: plant)
                                         .environmentObject(plantsModuleModel)
@@ -42,7 +42,7 @@ struct PlantListView: View {
                             }
                             
                         } else {
-                            if !plantsModuleModel.getForgottenPlants(location: vmChild).isEmpty{
+                            if !plantsModuleModel.selectedModule.getForgottenPlants(location: vmChild).isEmpty{
                                 Text("Forgotten:")
                                     .font(.largeTitle)
                                     .foregroundStyle(Color(hex: "C77F3C"))
@@ -50,7 +50,7 @@ struct PlantListView: View {
                                     .padding(.top,10)
                                     .padding(.horizontal,10)
                                 
-                                ForEach(plantsModuleModel.getForgottenPlants(location:  vmChild),id: \.id){ plant in
+                                ForEach(plantsModuleModel.selectedModule.getForgottenPlants(location:  vmChild),id: \.id){ plant in
                                     NavigationLink {
                                         PlantDetailView(plantCell: plant)
                                             .environmentObject(plantsModuleModel)
@@ -88,14 +88,14 @@ struct PlantListView: View {
             NavigationStack{
                 
                 VStack(alignment: .leading){
-                    if !plantsModuleModel.filterByDateAndLocation(when: when, location:  location).isEmpty{
+                    if !plantsModuleModel.selectedModule.filterByDateAndLocation(when: when, location:  location).isEmpty{
                         Text(when.rawValue)
                             .font(.largeTitle)
                             .foregroundStyle(Color(hex: "C77F3C"))
                             .fontWeight(.bold)
                             .padding(.top,10)
                             .padding(.horizontal,10)
-                        ForEach(plantsModuleModel.filterByDateAndLocation(when: when, location:  location),id: \.id){ plant in
+                        ForEach(plantsModuleModel.selectedModule.filterByDateAndLocation(when: when, location:  location),id: \.id){ plant in
                             NavigationLink {
                                 PlantDetailView(plantCell: plant)
                                     .environmentObject(plantsModuleModel)
@@ -115,4 +115,5 @@ struct PlantListView: View {
 }
 #Preview {
     PlantListView(vmChild: .constant(.all))
+        .environmentObject(PlantsModuleHomeView.ViewModel())
 }

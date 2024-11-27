@@ -24,14 +24,15 @@ struct BagsView: View {
                 Color(hex: "22577A")
                     .ignoresSafeArea()
                 GeometryReader { GeometryProxy in
+                    CustomNavBarModule(module: "Packing", name: "") {}
+                 
                     VStack{
-                        VStack(alignment: .center){
-                            CustomNavBarModule(module: "Packing", name: "Trip")
-                            
-                                .frame(width: GeometryProxy.size.width - 30,height: 50)
-                        }.frame(maxWidth: .infinity)
+                     
+                      
+                    
+                        
                         VStack(alignment: .center,spacing: 5){
-                            Text(trip.name)
+                            Text(trip.name == "" ? "Trip" : trip.name )
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color(hex: "FEFAE0"))
@@ -94,7 +95,7 @@ struct BagsView: View {
                         
                     }
                 }
-            }.padding()
+            }
         
     
     }
@@ -233,7 +234,10 @@ struct ItemCell:View {
                 .frame(maxWidth: .infinity,alignment: .leading)
             
                 .onTapGesture {
-                    item.toggleChecked()
+                    if !historyView {
+                        
+                        item.toggleChecked()
+                    }
                 }.sensoryFeedback(.increase, trigger: bag.items.filter({ Item in
                     item.isChecked
                 }).count)
@@ -304,97 +308,7 @@ struct ClosedBag:View {
     
 }
 
-struct OpenBag: View {
-    let bag:Bags
-    @State var item:Item = Item(name: "",isChecked: false)
-    @Environment(\.dismiss) var dismiss
-    @FocusState private var itemNameIsFocused : Bool
-    @Binding var historyView:Bool
-    @State var itemName:String = ""
-    var body: some View {
-        
-        ZStack {
-            Color(hex: "22577A")
-                .ignoresSafeArea()
-            VStack(alignment: .leading){
-                HStack {
-                    Button{
-                        dismiss()
-                        
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                        
-                    }
-                    Text("ITEMS IN \(bag.name.uppercased())")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
-                
-                    
-                }
-                    ZStack {
-                        Color(hex: "FEFAE0")
-                            .clipShape(.rect(cornerRadius: 20))
-                            
-                        VStack{
-                            ForEach(bag.items){ item in
-                                ItemCell(bag:bag,historyView: $historyView, item: item)
-                                    .padding(.horizontal)
-                               
-                            }.offset(y: 10)
-                            Spacer()
-                        }
-                    }
-                    
-                
-                
-                
-                Spacer()
-                HStack{
-                    TextField("Item", text: $itemName)
-                        .padding(10)
-                        .frame(height: 40)
-                        .foregroundStyle(Color(hex: "22577A"))
-                        .background(Color(hex: "FEFAE0"))
-                        .clipShape(.rect(cornerRadius: 10))
-                        .focused($itemNameIsFocused)
-                    
-                    
-                    
-                    
-                    Button {
-                        withAnimation {
-                            
-                            let Item = Item(name: itemName, isChecked: false)
-                            bag.addItem(a: Item)
-                            itemNameIsFocused = false
-                            itemName = ""
-                        }
-                        
-                        
-                        
-                    } label: {
-                        Image(systemName: "plus")
-                            .foregroundStyle(.white)
-                            .padding(10)
-                            .background(.orange)
-                            .clipShape(.rect(cornerRadius: 10))
-                        
-                    }.sensoryFeedback(.increase, trigger: bag.items.count)
-                    
-                }.padding(.bottom,10)
-            }.padding(.horizontal)
-        }
-        
-        
-        
-        
-        
-    }
-}
+
 
 
 #Preview {

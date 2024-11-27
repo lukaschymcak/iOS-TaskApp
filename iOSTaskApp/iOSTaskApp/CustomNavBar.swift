@@ -15,47 +15,49 @@ struct CustomNavBar: View {
     @Binding var name: String
     @Binding var isAddModuleOpen: Bool
     var body: some View {
-        HStack{
-            VStack{
+        GeometryReader { GeometryProxy in
+            HStack{
+                VStack{
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "slider.vertical.3")
+                            .font(.title2)
+                            .foregroundStyle(Utils.textColor(colorScheme))
+                            .fontWeight(.bold)
+                    }
+                    
+                }
+                Spacer()
                 Button {
-                  
+                    isWelcomeScreenOver.toggle()
+                    
                 } label: {
-                    Image(systemName: "slider.vertical.3")
-                        .font(.system(size: 25))
+                    Text("hello, \n \(name)")
+                        .font(.title3)
                         .foregroundStyle(Utils.textColor(colorScheme))
                         .fontWeight(.bold)
+                }.accessibilityIdentifier("welcomeScreenButton")
+                Spacer()
+                Button {
+                    isAddModuleOpen.toggle()
+                    
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.title2)
+                        .foregroundStyle(Utils.textColor(colorScheme))
+                        .fontWeight(.bold)
+                    
+                    
+                    
                 }
-            
-            }
-            Spacer()
-            Button {
-          isWelcomeScreenOver.toggle()
                 
-            } label: {
-                Text("hello, \n \(name)")
-                    .font(.system(size: 20))
-                    .foregroundStyle(Utils.textColor(colorScheme))
-                    .fontWeight(.bold)
-            }.accessibilityIdentifier("welcomeScreenButton")
-            Spacer()
-            Button {
-                isAddModuleOpen.toggle()
-
-            } label: {
-                Image(systemName: "plus")
-                    .font(.system(size: 25))
-                    .foregroundStyle(Utils.textColor(colorScheme))
-                    .fontWeight(.bold)
-        
-          
-             
-            }
+                
+                
+            }  .frame(width: GeometryProxy.size.width - 30)
+                .frame(maxWidth: .infinity, alignment: .center)
             
-
-        
-        }
-     
-        
+        }.frame(height: 70)
         }
 }
 #Preview {

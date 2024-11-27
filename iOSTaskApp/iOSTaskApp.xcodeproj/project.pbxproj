@@ -30,6 +30,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CC1E24472CEB49740048FF67 /* Exceptions for "iOSTaskApp" folder in "iOSTaskAppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				PackageModule/Bags.swift,
+				PackageModule/Item.swift,
+				PackageModule/PackingModuleDataClass.swift,
+				PackageModule/Trip.swift,
+			);
+			target = CCF39D8E2CB7FD2C00F1FFDD /* iOSTaskAppTests */;
+		};
 		CCF39DB02CB7FD8E00F1FFDD /* Exceptions for "iOSTaskApp" folder in "iOSTaskApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -44,6 +54,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				CCF39DB02CB7FD8E00F1FFDD /* Exceptions for "iOSTaskApp" folder in "iOSTaskApp" target */,
+				CC1E24472CEB49740048FF67 /* Exceptions for "iOSTaskApp" folder in "iOSTaskAppTests" target */,
 			);
 			path = iOSTaskApp;
 			sourceTree = "<group>";

@@ -69,7 +69,7 @@ struct PlantCell: View {
                                 .alert(isPresented: $showDeletePlantAlert) {
                                         Alert(title: Text("Remove Plant ?"), primaryButton: .destructive(Text("Confirm"), action: {
                                             plantsModuleModel.toast = Toast(style: .success, message: "Plant Removed",doOutsideFunctonImage: "")
-                                            plantsModuleModel.removePlant(a: plantCell)
+                                            plantsModuleModel.selectedModule.removePlant(a: plantCell)
                                        
                                         }) , secondaryButton: .cancel())
                                     }

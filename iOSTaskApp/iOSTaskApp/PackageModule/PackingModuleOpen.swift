@@ -18,14 +18,20 @@ struct PackingModuleOpen: View {
                 GeometryReader { GeometryProxy in
                     Color(hex: "22577A")
                         .ignoresSafeArea()
+                    
                     VStack{
+                        CustomNavBarModule(module:"Packing",name:module.name) {}
+                            .frame(height: 40)
+              
+      
                         
                         
-                        HStack {
-                            CustomNavBarModule(module:"Packing",name:module.name)
+                
+                   
         
-                        } .padding(.top,10)
-                            .frame(width: GeometryProxy.size.width - 30)
+                
+
+                        
                         
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 20)
@@ -88,7 +94,7 @@ struct PackingModuleOpen: View {
                         ZStack(alignment: .top) {
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(Color(hex: "FEFAE0"))
-                                .frame(width: GeometryProxy.size.width - 20, height: GeometryProxy.size.height - 180)
+                                .frame(width: GeometryProxy.size.width - 20)
                     
                             VStack(alignment:.center){
                                

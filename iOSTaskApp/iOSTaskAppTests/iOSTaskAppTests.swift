@@ -8,41 +8,31 @@
 import Testing
 @testable import iOSTaskApp
 import Foundation
-
+import SwiftData
+import SwiftUI
 @Suite("Packing Module Tests") struct packingModuleTests {
-    let packingModel = PackingModuleDataClass(name: "Packing", colorName: "orange" )
-    let tripA = Trip(name: "Kosice", dateFrom: Date.now, dateTo: Date.now)
-    @Test("Testing if Packing model is created correctly") func packingModelCreated() async throws {
+     var context : ModelContext!
+    let mockTripModule = PackingModuleDataClass()
+    let sampleTrips = [Trip(name: "Kosice", dateFrom: Date.now, dateTo: Date.now + 5),Trip(name: "Bratislava", dateFrom: Date.now, dateTo: Date.now)]
+
+
+    @Test("Testing if Trips are added correctly") func addPlant()  {
+        mockTripModule.addTrip(a:sampleTrips[0])
+        mockTripModule.addTrip(a:sampleTrips[1])
+        #expect(mockTripModule.trips.count == 2)
+    }
+    @Test("Testing if Trips are removed correctly") func removePlant() {
+        mockTripModule.addTrip(a:sampleTrips[0])
+        mockTripModule.addTrip(a:sampleTrips[1])
+        if let first = mockTripModule.trips.first {
+            mockTripModule.removeTrip(a: first)
+        }
+        #expect(mockTripModule.trips.count == 1)
+    }
+    @Test("Testing if trips are added to history") func addHistory() {
+        mockTripModule.addTripHistory(a: sampleTrips[0])
         
-        #expect(packingModel.trips.isEmpty == true)
-        #expect(packingModel.tripHistory.isEmpty == true)
-        #expect(packingModel.color == .orange)
-       
+        #expect(mockTripModule.tripHistory.count == 1)
     }
     
-    @Test("Testing if trip is added correctly , and if it is removed correctly") func tripTestingAddRemove() async throws {
-        
-        packingModel.trips.append(tripA)
-        #expect(packingModel.trips.contains(tripA))
-        if let trip = packingModel.trips.firstIndex(of: tripA){
-            packingModel.trips.remove(at: trip)
-        }
-        #expect(packingModel.trips.contains(tripA) == false)
-        
-        
-    }
-    @Test("Testing if tripHistory is added correctly , and if it is removed correctly") func tripHistoryTestingAddRemove() async throws {
-        
-        packingModel.tripHistory.append(tripA)
-        #expect(packingModel.tripHistory.contains(tripA))
-        if let trip = packingModel.tripHistory.firstIndex(of: tripA){
-            packingModel.tripHistory.remove(at: trip)
-        }
-        #expect(packingModel.tripHistory.contains(tripA) == false)
-        
-        
-    }
-   
-
-
 }

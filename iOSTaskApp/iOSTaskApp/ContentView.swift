@@ -97,16 +97,14 @@ struct HomeView: View {
         ZStack {
             VStack {
                 NavigationStack {
-                    GeometryReader { GeometryProxy in
+                    
                         CustomNavBar(
                             isWelcomeScreenOver: $isWelcomeScreenOver,
                             name: $name, isAddModuleOpen: $isAddModuleOpen
                         )
+           
                         
-                        .frame(width: GeometryProxy.size.width - 30)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        
-                    }.frame(height: 70)
+              
                     
                     ScrollView {
                         PackageModuleHomeView()

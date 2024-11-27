@@ -15,7 +15,9 @@ struct ModuleViewCell: View {
         GeometryReader { GeometryProxy in
             VStack(alignment:.leading){
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(module.color,lineWidth: 6)
+                    .stroke(module.secondaryColor,lineWidth: 12)
+                    .fill(module.color)
+                
                     .frame( width: GeometryProxy.size.width - 30 ,height: 150)
                 
                     .overlay {
@@ -24,20 +26,22 @@ struct ModuleViewCell: View {
                                 Text("\(module.name)")
                                     .font(.system(size: 35))
                                     .fontWeight(.bold)
-                                    .foregroundStyle(module.color)
+                                    .foregroundStyle(module.name == "Plants" ? module.secondaryColor : .white)
                                     .multilineTextAlignment(.leading)
                                 Text("module")
                                     .font(.system(size: 35))
                                     .fontWeight(.bold)
-                                    .foregroundStyle(module.color)
+                                    .foregroundStyle(module.name == "Plants" ? module.secondaryColor : .white)
                                     .multilineTextAlignment(.leading)
 
                             }.padding()
-                                .background(RoundedRectangle(cornerRadius: 20).stroke(module.color,lineWidth: 6).fill(module.color.opacity(0.1)))
+                                .background(RoundedRectangle(cornerRadius: 15).stroke(module.secondaryColor,lineWidth: 11).fill(module.color).frame(maxWidth: .infinity))
+                            Spacer()
                                 Text(module.desc)
                                 .fontWeight(.bold)
-                                .foregroundStyle(module.color)
+                                .foregroundStyle(module.name == "Plants" ? module.secondaryColor : .white)
                         }.frame(width: GeometryProxy.size.width - 50)
+                       
               
                         
 
@@ -54,6 +58,6 @@ struct ModuleViewCell: View {
 }
 
 #Preview {
-    ModuleViewCell(module: DefaultModules.packing)
+    ModuleViewCell(module: DefaultModules.plants)
         .modelContainer(for:CreatingModuleData.self)
 }
