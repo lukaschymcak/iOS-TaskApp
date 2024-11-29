@@ -31,7 +31,7 @@ struct TripCell: View {
     @ViewBuilder
     var tripHistory: some View {
         GeometryReader { GeometryProxy in
-            ZStack(alignment: .center) {
+            ZStack {
                 
                 VStack(alignment:.center) {
                     RoundedRectangle(cornerRadius: 20)
@@ -63,17 +63,15 @@ struct TripCell: View {
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color(hex: "FEFAE0"))
-                        }.alert(isPresented: $showDeleteAlert) {
-                            Alert(title: Text("Are you sure"), message: Text("delete"),
-                                  primaryButton: .destructive(Text("yes"), action: {
-                                toast = Toast(style: .success, message: "Trip deleted from history")
-                            
+                        }.alert("Delete Trip ?", isPresented: $showDeleteAlert) {
+                            Button("Yes", role: .destructive) {
+                                toast = Toast(style: .success, message: "Trip succesfully deleted")
                                 module.removeHistoryTrip(a: trip)
-                              
-                         
-                            }),secondaryButton: .cancel())
-                            
+                            }
+                        } message: {
+                            Text("This will delete the trip from your history")
                         }
+
                         
                     }.padding(.vertical,7)
                         .padding(.bottom,10)
@@ -91,7 +89,7 @@ struct TripCell: View {
                     }
                     
                 }.padding(9)
-                    .frame(width: GeometryProxy.size.width - 85, height: 110,alignment: .topLeading)
+                    .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
             }
         }.frame(height: 150)
        
@@ -125,36 +123,34 @@ struct TripCell: View {
                         Button {
                             if trip.percentage == 100 {
                                 showAddToHistoryAlert.toggle()
-                                showDeleteAlert.toggle()
                             } else {
                                 showDeleteAlert.toggle()
-                               
                             }
                         } label: {
                             Image(systemName: trip.percentage == 100 ? "checkmark":"minus")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color(hex: "FEFAE0"))
-                        }.alert(isPresented: $showDeleteAlert) {
-                            if showAddToHistoryAlert {
-                                Alert(title: Text("Complete trip ?"), message: Text("This will complete the trip , and add it to your history"), primaryButton: .destructive(Text("Confirm"), action: {
-                                    toast = Toast(style: .success, message: "Added to history")
-                                    module.addTripHistory(a: trip)
-                       
-                                    module.removeTrip(a: trip)
-                               
-                                }) , secondaryButton: .cancel())
-                            }else {
-                                Alert(title: Text("Are you sure"), message: Text("delete"),
-                                      primaryButton: .destructive(Text("yes"), action: {
-                                    toast = Toast(style: .success, message: "Trip succesfully deleted")
-                         
-                                    module.removeTrip(a: trip)
-                              
-                                }),secondaryButton: .cancel())
+                        }.alert("Complete Trip?", isPresented: $showAddToHistoryAlert, actions: {
+                            Button("Confirm", role: .destructive) {
+                                toast = Toast(style: .success, message: "Added to history")
+                                module.addTripHistory(a: trip)
+                                module.removeTrip(a: trip)
                             }
-                            
+                        }, message: {
+                            Text("This will complete the trip , and add it to your history")
                         }
+                        ).alert("Delete Trip ?", isPresented: $showDeleteAlert, actions: {
+                            Button("Yes", role: .destructive) {
+                                toast = Toast(style: .success, message: "Trip succesfully deleted")
+                                module.removeTrip(a: trip)
+                            }
+                        }, message: {
+                            Text("This will delete the trip")
+                        
+                            
+                        })
+     
 
                     }.padding(.vertical,7)
                         .padding(.bottom,10)

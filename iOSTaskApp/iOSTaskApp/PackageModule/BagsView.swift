@@ -11,6 +11,7 @@ import SwiftData
 struct BagsView: View {
     @Namespace private var namespace
     @Environment(\.modelContext) var context
+    @Environment(\.dismiss) var dismiss
     @Binding var historyView:Bool
     var trip:Trip
     @State var showAlert:Bool = false
@@ -24,18 +25,9 @@ struct BagsView: View {
                 Color(hex: "22577A")
                     .ignoresSafeArea()
                 GeometryReader { GeometryProxy in
-                    CustomNavBarModule(module: "Packing", name: "") {}
                  
                     VStack{
-                     
-                      
-                    
-                        
-                        VStack(alignment: .center,spacing: 5){
-                            Text(trip.name == "" ? "Trip" : trip.name )
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color(hex: "FEFAE0"))
+                    VStack(alignment: .center,spacing: 5){
                             Color.orange.frame(width: GeometryProxy.size.width - 30, height: 5)
                                 .clipShape(.rect(cornerRadius: 20))
                             HStack{
@@ -59,7 +51,27 @@ struct BagsView: View {
                     
                 }
             }
-        }
+        } .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+ dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color(hex: "FEFAE0"))
+                    
+                }.frame(height: 50)
+            }
+            ToolbarItem(placement: .principal) {
+                Text(trip.name == "" ? "Trip" : trip.name)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color(hex: "FEFAE0"))
+                    .frame(height: 50)
+            }
+                    
+        }.toolbarTitleDisplayMode(.inline)
         
        
         
@@ -84,7 +96,6 @@ struct BagsView: View {
                     ForEach(trip.bags){ bag in
                         NavigationLink {
                            OpenBag(bag: bag, historyView: $historyView)
-                                .navigationTransition(.zoom(sourceID: "world", in: namespace))
                                 .navigationBarBackButtonHidden(true)
                         } label: {
                             ClosedBag(historyView: $historyView, bag: bag,  trip: trip)
@@ -127,7 +138,6 @@ struct BagsView: View {
                         ForEach(trip.bags){ bag in
                             NavigationLink {
                                 OpenBag(bag: bag, historyView: $historyView)
-                                    .navigationTransition(.zoom(sourceID: "world", in: namespace))
                                     .navigationBarBackButtonHidden(true)
                             } label: {
                                 ClosedBag(historyView: $historyView, bag: bag, trip: trip)
@@ -308,7 +318,113 @@ struct ClosedBag:View {
     
 }
 
-
+struct OpenBag: View {
+    let bag:Bags
+    @FocusState private var itemNameIsFocused : Bool
+    @Binding var historyView:Bool
+    @Environment(\.dismiss) var dismiss
+    @State var itemName:String = ""
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                Color(hex: "22577A")
+                    .ignoresSafeArea()
+                VStack(alignment: .leading){
+                    ZStack {
+                        Color(hex: "FEFAE0")
+                            .clipShape(.rect(cornerRadius: 20))
+                        
+                        VStack{
+                            
+                            ScrollView(showsIndicators: false){
+                                VStack{
+                                    ForEach(bag.items.sorted(by: { Item, _ in
+                                        Item.isChecked
+                                    }),id: \.name){ item in
+                                        ItemCell(bag:bag,historyView: $historyView, item: item)
+                                            .padding(.horizontal)
+                                            .padding(.bottom,10)
+                                        
+                                        
+                                    }.offset(y: 10)
+                                }
+                                
+                                
+                                
+                                Spacer()
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                    
+                    Spacer()
+                    if !historyView {
+                        HStack{
+                            TextField("Item", text: $itemName)
+                                .padding(10)
+                                .frame(height: 40)
+                                .foregroundStyle(Color(hex: "22577A"))
+                                .background(Color(hex: "FEFAE0"))
+                                .clipShape(.rect(cornerRadius: 10))
+                                .focused($itemNameIsFocused)
+                            
+                            
+                            
+                            
+                            Button {
+                                withAnimation {
+                                    
+                                    let Item = Item(name: itemName, isChecked: false)
+                                    bag.addItem(a: Item)
+                                    itemNameIsFocused = false
+                                    itemName = ""
+                                }
+                                
+                                
+                                
+                            } label: {
+                                Image(systemName: "plus")
+                                    .foregroundStyle(.white)
+                                    .padding(10)
+                                    .background(.orange)
+                                    .clipShape(.rect(cornerRadius: 10))
+                                
+                            }.sensoryFeedback(.increase, trigger: bag.items.count)
+                            
+                        }.padding(.bottom,10)
+                    }
+                }.padding(.horizontal)
+            }
+            
+            
+            
+            
+            
+        }.toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+ dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color(hex: "FEFAE0"))
+                    
+                }.frame(height: 50)
+            }
+            ToolbarItem(placement: .principal) {
+                Text("Packing")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color(hex: "FEFAE0"))
+                    .frame(height: 50)
+            }
+                    
+        }.toolbarTitleDisplayMode(.inline)
+    }
+}
 
 
 #Preview {

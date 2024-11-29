@@ -14,6 +14,7 @@ struct PlantsModuleHomeView: View {
     @Query var plantsModule:[PlantsModuleDataClass]
     var singleModule: PlantsModuleDataClass? { plantsModule.first }
     @StateObject var plantsModuleModel: ViewModel = ViewModel()
+    
 
     var body: some View {
    
@@ -22,19 +23,16 @@ struct PlantsModuleHomeView: View {
             if let singleModule = singleModule{
                 NavigationLink {
                     PlantsModuleOpen()
-                        .navigationTransition(.zoom(sourceID: "pot", in: namespace))
                         .navigationBarBackButtonHidden(true)
                         .environmentObject(plantsModuleModel)
                 } label: {
                     PlantsModuleCell()
                         .environmentObject(plantsModuleModel)
                         .onAppear {
-                            
-                            if Utils.check(){
-                                plantsModuleModel.selectedModule.refreshPlants(a: singleModule)
-                                plantsModuleModel.selectedModule.waterPlants()
+                            plantsModuleModel.selectedModule.refreshPlants(a: singleModule)
+                            plantsModuleModel.selectedModule.waterPlants()
                                 
-                            }
+                            
                             
                         }
                 }.onAppear(perform: {

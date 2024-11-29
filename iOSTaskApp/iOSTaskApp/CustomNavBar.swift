@@ -14,11 +14,14 @@ struct CustomNavBar: View {
     @Binding var isWelcomeScreenOver: Bool
     @Binding var name: String
     @Binding var isAddModuleOpen: Bool
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         GeometryReader { GeometryProxy in
             HStack{
                 VStack{
-                    Button {
+                    NavigationLink {
+                        SettingsView(name: $name)
+                        
                         
                     } label: {
                         Image(systemName: "slider.vertical.3")
@@ -26,6 +29,8 @@ struct CustomNavBar: View {
                             .foregroundStyle(Utils.textColor(colorScheme))
                             .fontWeight(.bold)
                     }
+
+                  
                     
                 }
                 Spacer()

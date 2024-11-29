@@ -10,13 +10,14 @@ import SwiftData
 
 @Model
 class Trip{
-    var id = UUID()
-    private var module: PackingModuleDataClass?
+    @Attribute(.unique) var Id: UUID = UUID()
+    private(set) var module: PackingModuleDataClass?
     private(set)var name: String
     private(set)var dateFrom: Date
     private(set)var dateTo: Date
     @Relationship(deleteRule: .cascade)
     private(set)var bags = [Bags]()
+    private(set)var notified: Bool = false
     var allItems:Int {
         var allItems:Int = 0
         for bag in bags {
@@ -24,6 +25,7 @@ class Trip{
         }
         return allItems
     }
+  
     
     var allCheckedItems:Int {
         var packedItems:Int = 0
@@ -46,8 +48,7 @@ class Trip{
         }
     }
 
-    init(id: UUID = UUID(), name: String, dateFrom: Date, dateTo: Date , module: PackingModuleDataClass? = nil) {
-        self.id = id
+    init(name: String, dateFrom: Date, dateTo: Date , module: PackingModuleDataClass? = nil) {
         self.name = name
         self.dateFrom = dateFrom
         self.dateTo = dateTo
@@ -55,9 +56,7 @@ class Trip{
        
     }
     
-    func dayDifference() -> Int{
-        return Calendar.current.dateComponents([.day], from: Date.now, to: dateTo).day! + 1
-    }
+   
     func validBag(name:String) -> Bool{
         name.isEmpty || bags.contains(where: { $0.name == name }) ? false : true
     }
@@ -84,6 +83,14 @@ class Trip{
         }
     }
    
+    func wasNotified(){
+        self.notified = true
+    }
+    func wasNotNotified(){
+        self.notified = false
+    }
+    
+  
     
    
 }

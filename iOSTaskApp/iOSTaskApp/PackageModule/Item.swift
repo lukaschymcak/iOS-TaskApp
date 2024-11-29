@@ -10,6 +10,7 @@ import SwiftData
 
 @Model
 final class Item {
+    @Attribute(.unique) var Id: UUID = UUID()
     private(set) var name:String
     private(set) var isChecked:Bool
    private var bag:Bags?

@@ -9,6 +9,7 @@ import Foundation
 import SwiftData
 @Model
 class Bags{
+    @Attribute(.unique) var Id: UUID = UUID()
     private(set)var name: String
     @Relationship(deleteRule: .cascade)
     private(set)var items = [Item]()
@@ -47,7 +48,9 @@ class Bags{
     func toggleCollapsed(){
         isCollapsed.toggle()
     }
-    
+    func getTrip() -> Trip? {
+        return trip
+    }
    
     
 }

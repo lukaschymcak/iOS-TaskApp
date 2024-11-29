@@ -26,7 +26,7 @@ struct PlantCell: View {
                                 .resizable()
                                 .frame(width: 80, height: 80)
                                 .padding()
-                            VStack(alignment:.leading,spacing: 5) {
+                            VStack(alignment: .leading, spacing: 5) {
                                 Text(plantCell.location.rawValue)
                                     .font(.footnote)
                                     .fontWeight(.bold)
@@ -54,25 +54,33 @@ struct PlantCell: View {
                             VStack(spacing: 10) {
                                 Button {
                                     showDeletePlantAlert.toggle()
-                                    
+
                                 } label: {
-                                    HStack{
+                                    HStack {
                                         Text(showDeletePlantAlert.description)
-                                        
+
                                     }.frame(width: 0, height: 0)
                                     Image(systemName: "minus")
                                         .font(.largeTitle)
                                         .fontWeight(.bold)
                                         .foregroundStyle(Color(hex: "FEFAE0"))
-                                        .offset(x:-3)
+                                        .offset(x: -3)
                                 }
                                 .alert(isPresented: $showDeletePlantAlert) {
-                                        Alert(title: Text("Remove Plant ?"), primaryButton: .destructive(Text("Confirm"), action: {
-                                            plantsModuleModel.toast = Toast(style: .success, message: "Plant Removed",doOutsideFunctonImage: "")
-                                            plantsModuleModel.selectedModule.removePlant(a: plantCell)
-                                       
-                                        }) , secondaryButton: .cancel())
-                                    }
+                                    Alert(
+                                        title: Text("Remove Plant ?"),
+                                        primaryButton: .destructive(
+                                            Text("Confirm"),
+                                            action: {
+                                                plantsModuleModel.toast = Toast(
+                                                    style: .success,
+                                                    message: "Plant Removed",
+                                                    doOutsideFunctonImage: "")
+                                                plantsModuleModel.selectedModule
+                                                    .removePlant(a: plantCell)
+
+                                            }), secondaryButton: .cancel())
+                                }
                                 wateringButton
 
                             }
@@ -91,31 +99,49 @@ struct PlantCell: View {
     }
     @ViewBuilder
     var wateringButton: some View {
-       
-        if Calendar.current.isDateInToday(plantCell.waterDate) || plantCell.waterDate.isBeforeToday() {
+
+        if Calendar.current.isDateInToday(plantCell.waterDate)
+            || plantCell.waterDate.isBeforeToday()
+        {
             Button {
                 if plantCell.waterDate.isBeforeToday() {
                     showWaterAlert.toggle()
-                    
-                }else {
+
+                } else {
                     plantCell.prepare()
-                    plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                    plantsModuleModel.toast = Toast(
+                        style: .success, message: "Plant Watered",
+                        doOutsideFunctonImage: "arrow.uturn.backward")
                     plantsModuleModel.selectedPlants = plantCell
                 }
             } label: {
+                HStack {
+                    Text(showWaterAlert.description)
+
+                }.frame(width: 0, height: 0)
                 Image(
                     systemName: plantCell.prepared
-                    ? "checkmark.circle" : "drop.circle"
+                        ? "checkmark.circle" : "drop.circle"
                 )
                 .font(.system(size: 50))
                 .foregroundStyle(Color(hex: "FEFAE0"))
             }.padding(.horizontal)
                 .alert(isPresented: $showWaterAlert) {
-                    Alert(title: Text("Water Plant ?"), primaryButton: .destructive(Text("You forgot to water this plant , once watered next watering date will be calculated from today"), action: {
-                        plantCell.prepare()
-                        plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                        plantsModuleModel.selectedPlants = plantCell
-                    }) , secondaryButton: .cancel())
+                    Alert(
+                        title: Text(
+                            "You forgot to water this plant , once watered next watering date will be calculated from today"
+                        ),
+                        primaryButton: .destructive(
+                            Text("Water"),
+                            action: {
+                                plantCell.prepare()
+                                plantsModuleModel.toast = Toast(
+                                    style: .success, message: "Plant Watered",
+                                    doOutsideFunctonImage:
+                                        "arrow.uturn.backward")
+                                plantsModuleModel.selectedPlants = plantCell
+                                plantCell.setWaterDate(a: Date())
+                            }), secondaryButton: .cancel())
                 }.disabled(plantCell.prepared)
         } else {
             Image(
@@ -126,8 +152,5 @@ struct PlantCell: View {
             .padding(.horizontal)
         }
     }
-   
+
 }
-
-
-

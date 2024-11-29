@@ -7,17 +7,22 @@
 
 import SwiftData
 import SwiftUI
+import UserNotifications
 
 struct ContentView: View {
     @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver: Bool = false
     @State var checkWelcomeScreen: Bool = true
-    @State var name: String = "Lukas"
+    @AppStorage("userName") var name: String  = ""
+    @EnvironmentObject var dateManager: DateManager
+    @EnvironmentObject var packingVM: PackingModuleViewModel
     var body: some View {
         ZStack {
             VStack {
                 if isWelcomeScreenOver {
                     HomeView(name: $name)
                         .transition(.opacity)
+                        .environmentObject(dateManager)
+                        .environmentObject(packingVM)
 
                 } else {
                     WelcomeView(name: $name)
@@ -25,6 +30,15 @@ struct ContentView: View {
                     
                 }
             }.animation(.easeInOut, value: isWelcomeScreenOver)
+        }.onAppear(){
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                if success {
+                    print("Permission approved!")
+                } else if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+            
         }
     }
 
@@ -92,6 +106,9 @@ struct HomeView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var name: String
     @State var isAddModuleOpen: Bool = false
+    @EnvironmentObject var packingVM: PackingModuleViewModel
+    @EnvironmentObject var dateManager: DateManager
+
     var body: some View {
 
         ZStack {
@@ -102,12 +119,18 @@ struct HomeView: View {
                             isWelcomeScreenOver: $isWelcomeScreenOver,
                             name: $name, isAddModuleOpen: $isAddModuleOpen
                         )
+
            
                         
               
                     
                     ScrollView {
                         PackageModuleHomeView()
+                            .environmentObject(dateManager)
+                            .environmentObject(packingVM)
+                   
+                        
+                        
                         
                         PlantsModuleHomeView()
                         

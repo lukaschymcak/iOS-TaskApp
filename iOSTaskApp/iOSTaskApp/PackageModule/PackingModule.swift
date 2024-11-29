@@ -14,7 +14,8 @@ struct PackingModule: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
     @State var showAlert:Bool = false
-     var packingModule: PackingModuleDataClass
+    @EnvironmentObject var dateManager: DateManager
+    var packingModule: PackingModuleDataClass
     var body: some View {
         
         
@@ -78,32 +79,32 @@ struct PackingModule: View {
                        
                  
                             } else {
-                                if let firstTrip = packingModule.trips.first {
-                                    if  firstTrip.name == "" {
+                              
+                                if  packingModule.earliestTrip.name == "" {
                                         Text("Trip")
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
                                             .foregroundStyle(.white)
                                     } else{
-                                        Text(firstTrip.name)
+                                        Text(packingModule.earliestTrip.name)
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
                                             .foregroundStyle(.white)
                                             .lineLimit(1)
                                     }
                                     
-                                    if Calendar.current.isDate(firstTrip.dateTo, inSameDayAs: Date.now){
+                                    if Calendar.current.isDate(packingModule.earliestTrip.dateFrom, inSameDayAs: Date.now){
                                         Text("Today")
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
                                             .foregroundStyle(.white)
                                     } else{
-                                        Text("in \(firstTrip.dayDifference()) \(firstTrip.dayDifference() == 1 ? "day": "days")")
+                                        Text("in \(packingModule.dayDifference) days")
                                             .font(.system(size: 30))
                                             .fontWeight(.bold)
                                             .foregroundStyle(.white)
                                     }
-                                }
+                            
                                 
                                 
                                 
@@ -134,8 +135,6 @@ struct PackingModule: View {
                 
                 
             }.padding(.vertical,20)
-        }.onAppear {
-            packingModule.sortTrips()
         }
     }
     }

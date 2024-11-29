@@ -11,18 +11,33 @@ import SwiftUI
 
 @Model
 class PackingModuleDataClass{
-    
+    @Attribute(.unique) var Id: UUID = UUID()
     private(set) var name: String
-  var percentage:Int {
+    var percentage:Int {
+        print("perc called")
       if let firstTrip = trips.first {
           return firstTrip.percentage
         }
         return 0
     }
+    var dayDifference:Int {
+        if let firstTrip = trips.first {
+            print(" Day difference called")
+            return Calendar.current.dateComponents([.day], from: Date(), to: earliestTrip.dateFrom).day! + 1
+        }
+        return 0
+    }
+    
+    var earliestTrip:Trip {
+        return trips.reduce(trips[0], { $0.dateFrom < $1.dateFrom ? $0 : $1 })
+    }
+       
+    
+        
     @Relationship(deleteRule: .cascade)
-    private(set) var trips  = [Trip]().sorted(by: {$0.dateTo < $1.dateTo})
+    private(set) var trips  = [Trip]()
     @Relationship(deleteRule: .cascade)
-    private(set) var tripHistory  = [Trip]().sorted(by: {$0.dateTo < $1.dateTo})
+    private(set) var tripHistory  = [Trip]()
     init(name: String = "Packing",tripHistory:[Trip] = [],trip:[Trip] = []) {
         self.name = name
         self.tripHistory = tripHistory
@@ -49,14 +64,14 @@ class PackingModuleDataClass{
         }
     }
     func sortTrips(){
-        self.trips = self.trips.sorted(by: {$0.dateTo < $1.dateTo})
+        self.trips = self.trips.sorted(by: {$0.dateFrom < $1.dateFrom})
     }
    
 }
 
 
 struct PackingMockData{
-    static let packingMock = PackingModuleDataClass(name: "Packing",trip: [Trip(id: UUID(), name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now)])
+    static let packingMock = PackingModuleDataClass(name: "Packing",trip: [Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now)])
     
     
     

@@ -137,9 +137,7 @@ struct ListTripView: View {
                                         historyView: $vmChild.openingHistory,
                                         trip: trip
                                     )
-                                    .navigationTransition(
-                                        .zoom(sourceID: "world", in: namespace)
-                                    )
+            
                                     .navigationBarBackButtonHidden(true)
                                 } label: {
                                     TripCell(

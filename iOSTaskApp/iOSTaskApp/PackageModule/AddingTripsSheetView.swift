@@ -72,6 +72,7 @@ struct AddingTripsSheetView: View {
                       
                         let trip = Trip(name: name, dateFrom: dateFrom, dateTo: dateTo,module: module)
                         module.addTrip(a: trip)
+                        module.sortTrips()
                         dismiss()
                         
                     } label: {

@@ -7,9 +7,12 @@
 
 import Foundation
 import SwiftUI
+import BackgroundTasks
 
 
 struct Utils {
+    static let defaults = UserDefaults.standard
+    static let defaultsKey = "lastRefreshday"
    static func textColor(_ color: ColorScheme) -> Color {
         color == .dark ? .white : .black
     }
@@ -20,18 +23,34 @@ struct Utils {
         }
         return setLightColor
     }
-   static func check() -> Bool {
-            if let referenceDate = UserDefaults.standard.object(forKey: "reference") as? Date {
-                if !Calendar.current.isDateInToday(referenceDate) {
-                    UserDefaults.standard.set(Date(), forKey: "reference")
-                    return true
-                }
-            } else {
-             
-                UserDefaults.standard.set(Date(), forKey: "reference")
-                return true
-            }
+    static func check() -> Bool {
+        guard let lastRefreshDate = UserDefaults.standard.object(forKey: defaultsKey) as? Date else {
+            UserDefaults.standard.set(Date(), forKey: defaultsKey)
+            return true
+            
+        }
+        if let diff = Calendar.current.dateComponents([.day], from: lastRefreshDate, to: Date()).day, diff == 1 {
+            UserDefaults.standard.set(Date(), forKey: defaultsKey)
+            return true
+        } else {
             return false
         }
+            
+        
+    }
+    
+    static func scheduleAppRefresh() {
+        let today = Calendar.current.startOfDay(for: .now)
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        
+        let request = BGAppRefreshTaskRequest(identifier: "dateRefresh")
+        request.earliestBeginDate = .now.addingTimeInterval(1 * 60)
+        do {
+            try BGTaskScheduler.shared.submit(request)
+            print("Scheduled app refresh for tomorrow: \(tomorrow)")
+        } catch {
+            print("Could not schedule app refresh: \(error)")
+        }
+    }
 }
 
