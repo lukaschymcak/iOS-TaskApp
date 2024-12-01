@@ -6,7 +6,6 @@
 //
 
 import Foundation
-@MainActor
 class DateManager: ObservableObject {
     static let shared = DateManager()
     private init() {}
@@ -14,12 +13,13 @@ class DateManager: ObservableObject {
 
     @Published var currentDate: Date = Date()
     
-    
+    @MainActor
     func updateDate() {
         currentDate = Date()
         print("Refreshed date \(currentDate)")
 
     }
+    @MainActor
     func fetchDate() -> Date {
         print("Fetched date \(currentDate)")
         return currentDate

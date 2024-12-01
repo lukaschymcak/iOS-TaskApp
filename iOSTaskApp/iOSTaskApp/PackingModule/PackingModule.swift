@@ -79,33 +79,33 @@ struct PackingModule: View {
                        
                  
                             } else {
-                              
-                                if  packingModule.earliestTrip.name == "" {
-                                        Text("Trip")
-                                            .font(.system(size: 30))
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(.white)
-                                    } else{
-                                        Text(packingModule.earliestTrip.name)
-                                            .font(.system(size: 30))
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(.white)
-                                            .lineLimit(1)
-                                    }
-                                    
-                                    if Calendar.current.isDate(packingModule.earliestTrip.dateFrom, inSameDayAs: Date.now){
-                                        Text("Today")
-                                            .font(.system(size: 30))
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(.white)
-                                    } else{
-                                        Text("in \(packingModule.dayDifference) days")
-                                            .font(.system(size: 30))
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(.white)
-                                    }
-                            
+                                if let earliestTrip = packingModule.earliestTrip {
+                                    if  earliestTrip.name == "" {
+                                    Text("Trip")
+                                        .font(.system(size: 30))
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                } else{
+                                    Text(earliestTrip.name)
+                                        .font(.system(size: 30))
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                        .lineLimit(1)
+                                }
                                 
+                                if Calendar.current.isDate(earliestTrip.dateFrom, inSameDayAs: Date.now){
+                                    Text("Today")
+                                        .font(.system(size: 30))
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                } else{
+                                    Text("in \(packingModule.dayDifference) days")
+                                        .font(.system(size: 30))
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                }
+                                
+                            }
                                 
                                 
                                 

@@ -33,10 +33,10 @@
 		CC1E24472CEB49740048FF67 /* Exceptions for "iOSTaskApp" folder in "iOSTaskAppTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				PackageModule/Bags.swift,
-				PackageModule/Item.swift,
-				PackageModule/PackingModuleDataClass.swift,
-				PackageModule/Trip.swift,
+				PackingModule/Bags/Bags.swift,
+				PackingModule/Bags/Item.swift,
+				PackingModule/PackingModuleDataClass.swift,
+				PackingModule/Trip/Trip.swift,
 			);
 			target = CCF39D8E2CB7FD2C00F1FFDD /* iOSTaskAppTests */;
 		};

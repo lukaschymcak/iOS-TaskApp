@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Binding var name:String
     @State var editingName:Bool = false
     @State private var newUserName = ""
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
+    @AppStorage("packingNotif")  var isNotificationForPackingOn = false
+    @AppStorage("plantsNotif")  var isNotificationForPlantsOn = false
     var body: some View {
   
         NavigationStack {
@@ -33,7 +34,7 @@ struct SettingsView: View {
                         }.alert("Enter new name", isPresented: $editingName) {
                             TextField("Enter your name", text: $newUserName)
                             Button("OK") {
-                                name = newUserName
+                                UserDefaults.standard.set(newUserName, forKey: "userName")
                             }
                         }
 
@@ -44,21 +45,39 @@ struct SettingsView: View {
                         .font(.subheadline)
                         
                 }
-
+        
+                    Section {
+                        HStack{
+                            
+                            Image(systemName: "app.badge")
+                            
+                            Toggle("Enable Notifications", isOn: $isNotificationForPackingOn).onChange(of: isNotificationForPackingOn) { _,newValue in
+                                isNotificationForPackingOn = newValue
+                            }
+                               
+                            
+                        }
+                    } header: {
+                        Text("Packing Module Settings")
+                            .fontWeight(.bold)
+                            .font(.subheadline)
+                        
+                    }
                 Section {
                     HStack{
+                        
                         Image(systemName: "app.badge")
-
-               //         Toggle("Enable Notifications", isOn: .)
-                       
+                        
+                        Toggle("Enable Notifications", isOn: $isNotificationForPlantsOn)
+                         
                     }
                 } header: {
                     Text("Plants Module Settings")
                         .fontWeight(.bold)
                         .font(.subheadline)
-                        
+                    
                 }
-
+                
             }
             
         }
@@ -89,6 +108,6 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(name: .constant("Lukas"))
+    SettingsView()
 
 }

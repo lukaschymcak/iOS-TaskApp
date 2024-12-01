@@ -10,22 +10,22 @@ import SwiftUI
 import UserNotifications
 
 struct ContentView: View {
-    @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver: Bool = false
+    @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver = false 
     @State var checkWelcomeScreen: Bool = true
-    @AppStorage("userName") var name: String  = ""
     @EnvironmentObject var dateManager: DateManager
     @EnvironmentObject var packingVM: PackingModuleViewModel
+   
     var body: some View {
         ZStack {
             VStack {
                 if isWelcomeScreenOver {
-                    HomeView(name: $name)
+                    HomeView()
                         .transition(.opacity)
                         .environmentObject(dateManager)
                         .environmentObject(packingVM)
 
                 } else {
-                    WelcomeView(name: $name)
+                    WelcomeView()
                         .transition(.move(edge: .bottom))
                     
                 }
@@ -38,14 +38,15 @@ struct ContentView: View {
                     print(error.localizedDescription)
                 }
             }
+         
             
         }
     }
 
 }
 struct WelcomeView: View {
-    @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver: Bool = false
-    @Binding var name: String
+    @State var isWelcomeSreenOver: Bool = false
+    @State var name: String = ""
     @Environment(\.colorScheme) var colorScheme
     @FocusState private var nameIsFocused: Bool
 
@@ -77,7 +78,8 @@ struct WelcomeView: View {
             Spacer()
 
             Button {
-                isWelcomeScreenOver = true
+                UserDefaults.standard.set(name, forKey: "userName")
+                UserDefaults.standard.set(true, forKey: "isWelcomeScreenOver")
             } label: {
                 Image(systemName: "arrow.down.circle")
                     .renderingMode(.original)
@@ -104,10 +106,10 @@ struct HomeView: View {
     @State var currentStep = 0
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-    @Binding var name: String
     @State var isAddModuleOpen: Bool = false
     @EnvironmentObject var packingVM: PackingModuleViewModel
     @EnvironmentObject var dateManager: DateManager
+    @State var navStack : [String] = []
 
     var body: some View {
 
@@ -117,8 +119,9 @@ struct HomeView: View {
                     
                         CustomNavBar(
                             isWelcomeScreenOver: $isWelcomeScreenOver,
-                            name: $name, isAddModuleOpen: $isAddModuleOpen
-                        )
+                             isAddModuleOpen: $isAddModuleOpen
+                        ).environmentObject(packingVM)
+                    
 
            
                         
@@ -128,6 +131,7 @@ struct HomeView: View {
                         PackageModuleHomeView()
                             .environmentObject(dateManager)
                             .environmentObject(packingVM)
+                        
                    
                         
                         

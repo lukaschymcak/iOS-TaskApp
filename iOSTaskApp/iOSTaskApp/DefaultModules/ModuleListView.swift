@@ -63,6 +63,8 @@ extension ModuleListView{
     class ViewModel:ObservableObject {
         @Published var selectedModule: CreatingModuleData = CreatingModuleData(name: "", colorName: "", secondaryColorName: "")
         @Published var showAlert:Bool = false
+        @AppStorage("isPackingModuleCreated") var isPackingModuleCreated = false
+        @AppStorage("isPlantsModuleCreated") var isPlantsModuleCreated = false
         
         func addModuleToHome(context:ModelContext){
             switch selectedModule.name {
@@ -70,10 +72,12 @@ extension ModuleListView{
                 let PackingModule = PackingModuleDataClass(name: "Packing")
                 context.insert(PackingModule)
                 context.delete(DefaultModules.packing)
+                isPackingModuleCreated = true
             case "Plants":
                 let PlantsModule = PlantsModuleDataClass()
                 context.insert(PlantsModule)
                 context.delete(DefaultModules.plants)
+                isPlantsModuleCreated = true 
             default:
                 return}
         }

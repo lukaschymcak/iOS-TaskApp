@@ -62,7 +62,7 @@ struct ListTripView: View {
                                         historyView: $vmChild.openingHistory,
                                         trip: trip
                                     )
-                                    .navigationBarBackButtonHidden(true)
+                      
                                 } label: {
                                     TripCell(
                                         historyView: $vmChild.openingHistory,

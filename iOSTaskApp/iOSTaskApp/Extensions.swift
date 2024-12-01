@@ -40,3 +40,10 @@ extension Date {
         return Calendar.current.isDateInTomorrow(self)
     }
 }
+
+extension UINavigationController: UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+           super.viewDidLoad()
+           interactivePopGestureRecognizer?.delegate = nil
+       }
+}

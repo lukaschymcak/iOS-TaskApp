@@ -12,15 +12,17 @@ struct CustomNavBar: View {
     @State var shake: Bool = false
     @Environment(\.colorScheme) var colorScheme
     @Binding var isWelcomeScreenOver: Bool
-    @Binding var name: String
+    @AppStorage("userName") var name:String = ""
     @Binding var isAddModuleOpen: Bool
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var packingVM: PackingModuleViewModel
+    
     var body: some View {
         GeometryReader { GeometryProxy in
             HStack{
                 VStack{
                     NavigationLink {
-                        SettingsView(name: $name)
+                        SettingsView()
+                            .environmentObject(packingVM)
                         
                         
                     } label: {
@@ -33,6 +35,13 @@ struct CustomNavBar: View {
                   
                     
                 }
+                Button {
+                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                } label: {
+                    Image(systemName: "bell.slash")
+                        
+                }
+
                 Spacer()
                 Button {
                     isWelcomeScreenOver.toggle()
@@ -66,7 +75,7 @@ struct CustomNavBar: View {
         }
 }
 #Preview {
-    CustomNavBar(isWelcomeScreenOver: .constant(false), name: .constant("Lukas"), isAddModuleOpen: .constant(false))
+    CustomNavBar(isWelcomeScreenOver: .constant(false), name: "Lukas", isAddModuleOpen: .constant(false))
 }
 
 

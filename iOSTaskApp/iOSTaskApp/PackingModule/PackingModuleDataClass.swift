@@ -21,14 +21,20 @@ class PackingModuleDataClass{
         return 0
     }
     var dayDifference:Int {
-        if let firstTrip = trips.first {
-            print(" Day difference called")
-            return Calendar.current.dateComponents([.day], from: Date(), to: earliestTrip.dateFrom).day! + 1
+   
+        if let earliestTrip = earliestTrip {
+            let currentDay = Calendar.current.dateComponents([.day], from: DateManager.shared.currentDate)
+            let tripDay = Calendar.current.dateComponents([.day], from: earliestTrip.dateFrom)
+            return Calendar.current.dateComponents([.day], from: currentDay, to: tripDay).day!
         }
         return 0
     }
     
-    var earliestTrip:Trip {
+    var earliestTrip:Trip? {
+        if trips.isEmpty {
+            return nil
+        }
+            
         return trips.reduce(trips[0], { $0.dateFrom < $1.dateFrom ? $0 : $1 })
     }
        

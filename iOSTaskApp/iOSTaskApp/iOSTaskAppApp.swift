@@ -14,6 +14,9 @@ struct iOSTaskAppApp: App {
     @Environment(\.scenePhase) var scenephase
     @StateObject var packingVM =  PackingModuleViewModel()
     private static let refreshId = "dateRefresh"
+    let packingNotificationManager = PackingNotificationManager.shared
+    var isPackingModuleCreated:Bool { UserDefaults.standard.bool(forKey: "isPackingModuleCreated") }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -23,16 +26,24 @@ struct iOSTaskAppApp: App {
         }.onChange(of: scenephase) { _,phase in
             if phase == .background {
                 scheduleAppRefresh()
+                if isPackingModuleCreated {
+                    packingVM.checkAndAddToHistory()
+                    packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
+  
+                }
                 print("bacground")
             } else if phase == .active {
                 dateManager.updateDate()
+                
             }
         }.backgroundTask(.appRefresh(Self.refreshId)) {
             await scheduleAppRefresh()
             await dateManager.updateDate()
-            await print(packingVM.selectedModule.earliestTrip.dateFrom)
-            await print(packingVM.selectedModule.dayDifference)
-            
+            if await isPackingModuleCreated {
+              await  packingVM.checkAndAddToHistory()
+            //   await packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
+
+            }
             
         }
     }
@@ -41,7 +52,8 @@ struct iOSTaskAppApp: App {
         let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
         BGTaskScheduler.shared.getPendingTaskRequests { request in
             print("\(request.count) BGTask pending.")
-            guard request.isEmpty else { return }
+            guard request.isEmpty else { print("BGTASK ALREADY SET")
+                return }
         }
         
         let request = BGAppRefreshTaskRequest(identifier: Self.refreshId)
@@ -53,15 +65,5 @@ struct iOSTaskAppApp: App {
             print("Could not schedule app refresh: \(error)")
         }
     }
- 
-    private func sampleNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "Hello"
-        content.subtitle = "Hello"
-        content.sound = UNNotificationSound.default
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request)
-    }
+
 }

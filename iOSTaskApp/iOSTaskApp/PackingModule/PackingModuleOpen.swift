@@ -12,7 +12,6 @@ struct PackingModuleOpen: View {
     @Environment(\.dismiss) var dismiss
     var module: PackingModuleDataClass
     @StateObject var vmParent = ViewModel()
-    @EnvironmentObject var notifManager:NotificationService
 
     var body: some View {
         ZStack {
@@ -133,6 +132,8 @@ struct PackingModuleOpen: View {
 
             }.toolbarTitleDisplayMode(.inline)
 
+        }.onAppear {
+      
         }
     }
 }
