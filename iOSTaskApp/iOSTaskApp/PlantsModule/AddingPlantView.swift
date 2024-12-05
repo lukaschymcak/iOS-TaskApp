@@ -19,7 +19,7 @@ struct AddingPlantView: View {
         NavigationStack {
             ZStack {
 
-                Color(hex: "FEFAE0")
+                Color.lightCream
                 
                 .ignoresSafeArea()
                 VStack {
@@ -28,7 +28,7 @@ struct AddingPlantView: View {
                             Text("Choose from a preset")
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundStyle(Color(hex: "D19252"))
+                                .foregroundStyle(.lightOrange)
                                 .padding(.top, 30)
                                 .multilineTextAlignment(.leading)
 
@@ -68,7 +68,7 @@ struct AddingPlantView: View {
                     } label: {
 
                             RoundedRectangle(cornerRadius: 20)
-                                .fill(Color(hex: "9DA091").opacity(0.4))
+                            .fill(.gray.opacity(0.4))
                                 
                                 .frame(
                                     maxWidth: .infinity,
@@ -105,12 +105,12 @@ struct AddingPlantView: View {
                                             .font(.largeTitle)
                                             .fontWeight(.bold)
                                             .foregroundStyle(
-                                                Color(hex: "D19252"))
+                                                .lightOrange)
                                         Text("Go Home")
                                             .font(.largeTitle)
                                             .fontWeight(.bold)
                                             .foregroundStyle(
-                                                Color(hex: "D19252"))
+                                                .lightOrange)
 
                                     }
 

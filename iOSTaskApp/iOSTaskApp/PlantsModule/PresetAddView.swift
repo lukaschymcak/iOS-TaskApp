@@ -24,7 +24,7 @@ struct PresetAddView: View {
             
             ZStack(alignment: .top) {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(hex: "606C38"))
+                    .fill(.darkGreen)
 
                     .ignoresSafeArea()
                 VStack(spacing:20){
@@ -62,7 +62,7 @@ struct PresetAddView: View {
                 VStack {
                     Spacer()
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(Color(hex: "FEFAE0"))
+                        .fill(.lightCream)
                         .ignoresSafeArea()
                         .frame(height: 330)
 
@@ -75,12 +75,12 @@ struct PresetAddView: View {
                                             Text("First Day")
                                                 .font(.title)
                                                 .fontWeight(.bold)
-                                                .foregroundStyle(Color(hex: "FEFAE0"))
+                                                .foregroundStyle(.lightCream)
     
                                             
                                         }
                                         .padding(10)
-                                        .background(Color(hex: "DCA569"))
+                                        .background(.darkCream)
                                         .clipShape(.rect(cornerRadius: 10))
                              
                                     }.frame(height: 60)
@@ -89,7 +89,7 @@ struct PresetAddView: View {
                                         Text("Frequency:")
                                             .font(.title)
                                             .fontWeight(.bold)
-                                            .foregroundStyle(Color(hex: "FEFAE0"))
+                                            .foregroundStyle(.lightCream)
                                         Spacer()
                                         
                                         
@@ -110,8 +110,8 @@ struct PresetAddView: View {
                                                        .resizable()
                                                        .scaledToFit()
                                                        .frame(width: 20, height: 20)
-                                                       .background(Color(hex: "DCA569"))
-                                                       .foregroundStyle(Color(hex: "FEFAE0"))
+                                                       .background(.darkCream)
+                                                       .foregroundStyle(.lightCream)
                                             
                                                        .popover(isPresented: $isPopupShown, attachmentAnchor: .point(.top),arrowEdge: .bottom) {
                                                            VStack{
@@ -120,7 +120,7 @@ struct PresetAddView: View {
                                                            }
                                                            .multilineTextAlignment(.center)
                                                                .lineLimit(0)
-                                                               .foregroundStyle(Color(hex: "FEFAE0"))
+                                                               .foregroundStyle(.lightCream)
                                                                .font(.system(size: 12, weight: .semibold, design: .default))
                                                                .padding(5)
                                                                .presentationCompactAdaptation(.none)
@@ -134,14 +134,14 @@ struct PresetAddView: View {
                                     }.frame(height: 60)
                                         .frame(maxWidth: .infinity,alignment: .leading)
                                         .padding(.horizontal,10)
-                                        .background(Color(hex: "DCA569"))
+                                        .background(.darkCream)
                         
                                         .clipShape(.rect(cornerRadius: 10))
                                     HStack(alignment: .center){
                                         Text("Room:")
                                             .font(.title)
                                             .fontWeight(.bold)
-                                            .foregroundStyle(Color(hex: "FEFAE0"))
+                                            .foregroundStyle(.lightCream)
                                         Spacer()
                                         Menu(location.id){
                                             ForEach(houseLocation.allCases){ loc in
@@ -164,7 +164,7 @@ struct PresetAddView: View {
                  
                                     }.frame(maxWidth: .infinity,alignment: .leading)
                                         .padding(10)
-                                        .background(Color(hex: "DCA569"))
+                                        .background(.darkCream)
                                         .clipShape(.rect(cornerRadius: 10))
                                     
                                     HStack(spacing:15) {
@@ -176,10 +176,10 @@ struct PresetAddView: View {
                                         } label: {
                                             Text("Cancel")
                                                 .font(.title)
-                                                .foregroundStyle(Color(hex: "FEFAE0"))
+                                                .foregroundStyle(.lightCream)
                                                 .fontWeight(.bold)
                                                 .padding(10)
-                                                .background(Color(hex: "DCA569"))
+                                                .background(.darkCream)
                                                 .clipShape(.rect(cornerRadius: 10))
                                         }
                                         Button {
@@ -193,10 +193,10 @@ struct PresetAddView: View {
                                         } label: {
                                             Text("Add Plant")
                                                 .font(.title)
-                                                .foregroundStyle(Color(hex: "FEFAE0"))
+                                                .foregroundStyle(.lightCream)
                                                 .fontWeight(.bold)
                                                 .padding(10)
-                                                .background(Color(hex: "DCA569"))
+                                                .background(.darkCream)
                                                 .clipShape(.rect(cornerRadius: 10))
                                         }  .sensoryFeedback(.increase, trigger: plantModuleModel.selectedModule.plants.count)
                                        

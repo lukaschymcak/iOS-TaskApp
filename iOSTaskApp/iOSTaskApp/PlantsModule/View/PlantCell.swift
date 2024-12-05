@@ -17,7 +17,7 @@ struct PlantCell: View {
         GeometryReader { GeometryProxy in
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(hex: "697442"))
+                    .fill(.lightGreen)
 
                 HStack {
                     VStack(alignment: .leading) {
@@ -30,23 +30,23 @@ struct PlantCell: View {
                                 Text(plantCell.location.rawValue)
                                     .font(.footnote)
                                     .fontWeight(.bold)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .padding(0)
                                 Text(plantCell.name)
                                     .font(.title)
                                     .fontWeight(.bold)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .lineLimit(1)
                                 HStack {
                                     Image(systemName: "drop")
                                         .fontWeight(.bold)
-                                        .foregroundStyle(Color(hex: "FEFAE0"))
+                                        .foregroundStyle(.lightCream)
                                     Text(
                                         plantCell.waterDate,
                                         format: .dateTime.month().day()
                                     )
                                     .font(.title2)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                 }
 
                             }
@@ -63,7 +63,7 @@ struct PlantCell: View {
                                     Image(systemName: "minus")
                                         .font(.largeTitle)
                                         .fontWeight(.bold)
-                                        .foregroundStyle(Color(hex: "FEFAE0"))
+                                        .foregroundStyle(.lightCream)
                                         .offset(x: -3)
                                 }
                                 .alert(isPresented: $showDeletePlantAlert) {
@@ -124,7 +124,7 @@ struct PlantCell: View {
                         ? "checkmark.circle" : "drop.circle"
                 )
                 .font(.system(size: 50))
-                .foregroundStyle(Color(hex: "FEFAE0"))
+                .foregroundStyle(.lightCream)
             }.padding(.horizontal)
                 .alert(isPresented: $showWaterAlert) {
                     Alert(
@@ -148,9 +148,11 @@ struct PlantCell: View {
                 systemName: "clock"
             )
             .font(.system(size: 50))
-            .foregroundStyle(Color(hex: "FEFAE0"))
+            .foregroundStyle(.lightCream)
             .padding(.horizontal)
         }
     }
 
 }
+
+

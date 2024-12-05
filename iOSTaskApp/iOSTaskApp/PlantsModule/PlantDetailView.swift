@@ -17,21 +17,10 @@ struct PlantDetailView: View {
         GeometryReader { GeometryProxy in
             ZStack{
         
-                Color(hex: "FEFAE0")
+                Color.lightCream
                     .ignoresSafeArea()
                 VStack {
-                    HStack{
-                        Button{
-                            dismiss()
-                        }label: {
-                            Image(systemName: "chevron.left")
-                                .foregroundStyle(Color(hex: "606C38"))
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                
-                        }
-                        Spacer()
-                    }.frame(width: GeometryProxy.size.width - 30)
+                    
                     HStack {
                         Image(plantCell.image)
                             .resizable()
@@ -44,7 +33,7 @@ struct PlantDetailView: View {
 
                 ZStack{
                     RoundedRectangle(cornerRadius: 30)
-                        .fill(Color(hex: "606C38"))
+                        .fill(.darkGreen)
                         .ignoresSafeArea()
                         .frame(height: 560)
                         .frame(maxHeight: .infinity,alignment: .bottom)
@@ -53,26 +42,26 @@ struct PlantDetailView: View {
                         Text(plantCell.name)
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
+                            .foregroundStyle(.lightCream)
                 
                             
                         VStack{
                             HStack{
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(height: 80)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .overlay {
                                         HStack{
                                             Image(systemName: "calendar")
-                                                .foregroundStyle(Color(hex: "606C38"))
+                                                .foregroundStyle(.darkGreen)
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
                                                 Text("FREQUENCY")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text("Every \(plantCell.frequency) days")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                     .font(.subheadline)
                                                     
@@ -81,19 +70,19 @@ struct PlantDetailView: View {
                                     }
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(height: 80)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .overlay {
                                         HStack{
                                             Image(systemName: "drop")
-                                                .foregroundStyle(Color(hex: "606C38"))
+                                                .foregroundStyle(.darkGreen)
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
                                                 Text("WATER")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text(plantCell.water)
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                     .font(.subheadline)
                                             }
@@ -105,19 +94,19 @@ struct PlantDetailView: View {
                             HStack{
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(height: 80)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .overlay {
                                         HStack{
                                             Image(systemName: "thermometer.transmission")
-                                                .foregroundStyle(Color(hex: "606C38"))
+                                                .foregroundStyle(.darkGreen)
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
                                                 Text("TEMP")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text(plantCell.temp)
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                     .font(.subheadline)
                                             }
@@ -127,19 +116,19 @@ struct PlantDetailView: View {
                                     }
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(height: 80)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .overlay {
                                         HStack{
                                             Image(systemName: "sun.max")
-                                                .foregroundStyle(Color(hex: "606C38"))
+                                                .foregroundStyle(.darkGreen)
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
                                                 Text("LIGHT")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text(plantCell.light)
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                     .font(.footnote)
                                                     
@@ -152,7 +141,7 @@ struct PlantDetailView: View {
                         ScrollView(showsIndicators: false){
                             Text(plantCell.getDesc())
                                 .font(.title2)
-                                .foregroundStyle(Color(hex: "FEFAE0"))
+                                .foregroundStyle(.lightCream)
                             
              
                         }
@@ -170,6 +159,8 @@ struct PlantDetailView: View {
                 
                 }
             }
+        }.customBackBar(title: "Plants", textColor: .darkGreen) {
+            dismiss()
         }
             
             

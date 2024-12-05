@@ -20,11 +20,11 @@ struct PlantsModuleOpen: View {
                 ZStack(alignment: .bottom) {
 
                     RoundedRectangle(cornerRadius: 30)
-                        .fill(Color(hex: "606C38"))
+                        .fill(.darkGreen)
                         .ignoresSafeArea()
 
                     RoundedRectangle(cornerRadius: 30)
-                        .fill(Color(hex: "FEFAE0"))
+                        .fill(.lightCream)
                         .ignoresSafeArea()
                         .frame(
                             height: GeometryProxy.size.height
@@ -41,7 +41,7 @@ struct PlantsModuleOpen: View {
                     
                                 Text("Time to water some plants!")
                                     .font(.largeTitle)
-                                    .foregroundStyle(Color(hex: "D19252"))
+                                    .foregroundStyle(.lightOrange)
                                     .fontWeight(.bold)
                                     .multilineTextAlignment(.center)
                                     .padding()
@@ -57,7 +57,7 @@ struct PlantsModuleOpen: View {
                                             .resizable()
                                             .frame(width: 50, height: 50)
                                             .fontWeight(.bold)
-                                            .foregroundStyle(.white)
+                                            .foregroundStyle(.lightCream)
                                             .offset(x: -1, y: 15)
 
                                     }
@@ -101,8 +101,32 @@ struct PlantsModuleOpen: View {
         .fullScreenCover(isPresented: $vmParent.addingPlant) {
             AddingPlantView()
    
-        }.customBackBar(title: "Plants", textColor: plantsModuleModel.selectedModule.plants.isEmpty ?          Color(hex: "606C38") : Color(hex: "FEFAE0")) {
+        }.customBackBar(title: "Plants", textColor: plantsModuleModel.selectedModule.plants.isEmpty ? .darkGreen : .lightCream) {
             dismiss()
+        }.toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    vmParent.toggleAddingPlants()
+                    
+                } label: {
+                    ZStack {
+                        Image("pot")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                        
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .fontWeight(.bold)
+                            .foregroundStyle(
+                                .lightCream
+                            )
+                            .offset(x: -1, y: 0)
+                    }
+                    
+                    
+                }
+            }
         }
     }
 }

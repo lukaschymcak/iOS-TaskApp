@@ -28,29 +28,28 @@ struct AddingCustomPlantView: View {
                     Text("Name:")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundStyle(Color(hex: "FEFAE0"))
+                        .foregroundStyle(.lightCream)
                         .padding(10)
                     
                         .clipShape(.rect(cornerRadius: 10))
                     TextField("Plant", text: $plantName)
                         .textFieldStyle(.roundedBorder)
-                        .background(Color(hex: "DCA569"))
                         .padding(10)
                     
                 }.frame(height: 60)
-                    .background(Color(hex: "DCA569"))
+                    .background(.creamOrange)
                     .clipShape(.rect(cornerRadius: 10))
                 HStack {
                     DatePicker(selection: $selectedDate,in: Date.now..., displayedComponents: .date) {
                         Text("First Day")
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
+                            .foregroundStyle(.lightCream)
                         
                         
                     }
                     .padding(10)
-                    .background(Color(hex: "DCA569"))
+                    .background(.creamOrange)
                     .clipShape(.rect(cornerRadius: 10))
                     
                 }.frame(height: 60)
@@ -59,7 +58,7 @@ struct AddingCustomPlantView: View {
                     Text("Frequency:")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundStyle(Color(hex: "FEFAE0"))
+                        .foregroundStyle(.lightCream)
                     Spacer()
                     
                     
@@ -80,8 +79,8 @@ struct AddingCustomPlantView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .background(Color(hex: "DCA569"))
-                            .foregroundStyle(Color(hex: "FEFAE0"))
+                            .background(.creamOrange)
+                            .foregroundStyle(.lightCream)
                         
                             .popover(isPresented: $isPopupShown, attachmentAnchor: .point(.top),arrowEdge: .bottom) {
                                 VStack{
@@ -90,7 +89,7 @@ struct AddingCustomPlantView: View {
                                 }
                                 .multilineTextAlignment(.center)
                                 .lineLimit(0)
-                                .foregroundStyle(Color(hex: "DCA569"))
+                                .foregroundStyle(.creamOrange)
                                 .font(.system(size: 12, weight: .semibold, design: .default))
                                 .padding(.horizontal,10)
                                 .presentationCompactAdaptation(.none)
@@ -104,14 +103,14 @@ struct AddingCustomPlantView: View {
                 }.frame(height: 60)
                     .frame(maxWidth: .infinity,alignment: .leading)
                     .padding(.horizontal,10)
-                    .background(Color(hex: "DCA569"))
+                    .background(.creamOrange)
                 
                     .clipShape(.rect(cornerRadius: 10))
                 HStack(alignment: .center){
                     Text("Room:")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundStyle(Color(hex: "FEFAE0"))
+                        .foregroundStyle(.lightCream)
                     Spacer()
                     Menu(location.id){
                         ForEach(houseLocation.allCases){ loc in
@@ -134,21 +133,21 @@ struct AddingCustomPlantView: View {
                     
                 }.frame(maxWidth: .infinity,alignment: .leading)
                     .padding(10)
-                    .background(Color(hex: "DCA569"))
+                    .background(.creamOrange)
                     .clipShape(.rect(cornerRadius: 10))
                 VStack {
                     Text("Choose an Image :")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundStyle(Color(hex: "FEFAE0"))
+                        .foregroundStyle(.lightCream)
                     ScrollViewReader{ proxy in
                         ScrollView(.horizontal,showsIndicators: false){
                             HStack{
                                 ForEach(DefaultPlants.plantImages, id: \.self){ image in
                                     
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color(hex: "FEFAE0"),lineWidth: selectedImage == image ? 4 : 0)
-                                        .fill(Color(hex: "DCA569"))
+                                        .stroke(.lightCream,lineWidth: selectedImage == image ? 4 : 0)
+                                        .fill(.creamOrange)
                                         .frame(width: 60, height: 60)
                                         .overlay {
                                             Image(image)
@@ -171,7 +170,7 @@ struct AddingCustomPlantView: View {
                     }
                 }.frame(maxWidth: .infinity,alignment: .leading)
                     .padding(10)
-                    .background(Color(hex: "DCA569"))
+                    .background(.creamOrange)
                     .clipShape(.rect(cornerRadius: 10))
                 
                 
@@ -185,10 +184,10 @@ struct AddingCustomPlantView: View {
                     } label: {
                         Text("Cancel")
                             .font(.title)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
+                            .foregroundStyle(.lightCream)
                             .fontWeight(.bold)
                             .padding(10)
-                            .background(Color(hex: "DCA569"))
+                            .background(.creamOrange)
                             .clipShape(.rect(cornerRadius: 10))
                     }
                     Button {
@@ -202,10 +201,10 @@ struct AddingCustomPlantView: View {
                     } label: {
                         Text("Add Plant")
                             .font(.title)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
+                            .foregroundStyle(.lightCream)
                             .fontWeight(.bold)
                             .padding(10)
-                            .background(Color(hex: "DCA569"))
+                            .background(.creamOrange)
                             .clipShape(.rect(cornerRadius: 10))
                     }
                     
@@ -219,7 +218,7 @@ struct AddingCustomPlantView: View {
                 .presentationDetents([.height(600)])
             
                 .presentationCornerRadius(20)
-                .background(Color(hex: "FEFAE0"))
+                .foregroundStyle(.lightCream)
         }.ignoresSafeArea(.keyboard)
     }
 }

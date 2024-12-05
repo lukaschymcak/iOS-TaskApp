@@ -33,7 +33,7 @@ struct PlantList: View {
                                         cornerRadius: 20
                                     )
                                     .stroke(
-                                        Color(hex: "FEFAE0"),
+                                        .lightCream,
                                         lineWidth: vm.selectedLocation
                                         == houseLocation.all ? 5 : 0
                                     )
@@ -43,7 +43,7 @@ struct PlantList: View {
                                         .font(.title)
                                         .fontWeight(.bold)
                                         .foregroundStyle(
-                                            Color(hex: "FEFAE0")
+                                            .lightCream
                                         )
                                         .background(.clear)
                                         .padding(8)
@@ -75,7 +75,7 @@ struct PlantList: View {
                                             cornerRadius: 20
                                         )
                                         .stroke(
-                                            Color(hex: "FEFAE0"),
+                                            .lightCream,
                                             lineWidth: vm.selectedLocation
                                                 == location ? 5 : 0
                                         )
@@ -85,7 +85,7 @@ struct PlantList: View {
                                             .font(.title)
                                             .fontWeight(.bold)
                                             .foregroundStyle(
-                                                Color(hex: "FEFAE0")
+                                                .lightCream
                                             )
                                             .background(.clear)
                                             .padding(8)
@@ -99,7 +99,7 @@ struct PlantList: View {
                                     Circle()
                                         .fill(
                                             
-                                            Color(hex: "C77F3C")
+                                            .lightOrange
                                         )
                                         .frame(
                                             width: 25,
@@ -110,7 +110,7 @@ struct PlantList: View {
                                                 "\(value.filter({$0.prepared == false && $0.waterDate.isToday()}).count)  "
                                             )
                                             .foregroundStyle(
-                                                Color(hex: "FEFAE0")
+                                                .lightCream
                                             )
                                             .multilineTextAlignment(.center)
                                             .padding(1)

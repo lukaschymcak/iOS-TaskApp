@@ -23,7 +23,7 @@ struct PlantListView: View {
                         if vmChild == .all{
                             Text("All:")
                                 .font(.largeTitle)
-                                .foregroundStyle(Color(hex: "C77F3C"))
+                                .foregroundStyle(.lightOrange)
                                 .fontWeight(.bold)
                                 .padding(.top,10)
                                 .padding(.horizontal,10)
@@ -57,7 +57,7 @@ struct PlantListView: View {
                             if !plantsModuleModel.selectedModule.getForgottenPlants(location: vmChild).isEmpty{
                                 Text("Forgotten:")
                                     .font(.largeTitle)
-                                    .foregroundStyle(Color(hex: "C77F3C"))
+                                    .foregroundStyle(.lightOrange)
                                     .fontWeight(.bold)
                                     .padding(.top,10)
                                     .padding(.horizontal,10)
@@ -116,7 +116,7 @@ struct PlantListView: View {
                     if !plantsModuleModel.selectedModule.filterByDateAndLocation(when: when, location:  location).isEmpty{
                         Text(when.rawValue)
                             .font(.largeTitle)
-                            .foregroundStyle(Color(hex: "C77F3C"))
+                            .foregroundStyle(.lightOrange)
                             .fontWeight(.bold)
                             .padding(.top,10)
                             .padding(.horizontal,10)
