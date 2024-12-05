@@ -165,7 +165,7 @@ struct CustomPlantDetailView: View {
                                                 Text(plantCell.light == "" ? "Tap to add Light" : "\(plantCell.light)")
                                                     .foregroundStyle(Color(hex: "606C38"))
                                                     .fontWeight(.bold)
-                                                    .font(.footnote)
+                                                    .font(.subheadline)
                                                     
                                             } .onTapGesture {
                                                 showLightAlert.toggle()
@@ -175,8 +175,11 @@ struct CustomPlantDetailView: View {
                                                     plantCell.setTemp(a: setLight)
                                                 }
                                             }
+                                        
                                         }.frame(maxWidth: 140,alignment: .leading)
                                             .padding(.horizontal)
+                                            
+                                 
                                     }
                             }
                         }
