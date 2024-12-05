@@ -26,7 +26,7 @@ class Trip{
         return allItems
     }
     var dayDifference:Int {
-        let currentDay = Calendar.current.dateComponents([.day], from: DateManager.shared.currentDate)
+        let currentDay = Calendar.current.dateComponents([.day], from: Date())
         let tripDay = Calendar.current.dateComponents([.day], from: self.dateFrom)
         return Calendar.current.dateComponents([.day], from: currentDay, to: tripDay).day!
             }

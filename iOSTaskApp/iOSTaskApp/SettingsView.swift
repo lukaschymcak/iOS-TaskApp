@@ -51,9 +51,8 @@ struct SettingsView: View {
                             
                             Image(systemName: "app.badge")
                             
-                            Toggle("Enable Notifications", isOn: $isNotificationForPackingOn).onChange(of: isNotificationForPackingOn) { _,newValue in
-                                isNotificationForPackingOn = newValue
-                            }
+                            Toggle("Enable Notifications", isOn: $isNotificationForPackingOn)
+                            
                                
                             
                         }

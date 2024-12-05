@@ -31,8 +31,9 @@ struct iOSTaskAppApp: App {
                     packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
   
                 }
-                print("bacground")
+
             } else if phase == .active {
+                UNUserNotificationCenter.current().setBadgeCount(0)
                 dateManager.updateDate()
                 
             }
@@ -41,7 +42,7 @@ struct iOSTaskAppApp: App {
             await dateManager.updateDate()
             if await isPackingModuleCreated {
               await  packingVM.checkAndAddToHistory()
-            //   await packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
+               await packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
 
             }
             
@@ -57,7 +58,7 @@ struct iOSTaskAppApp: App {
         }
         
         let request = BGAppRefreshTaskRequest(identifier: Self.refreshId)
-        request.earliestBeginDate = .now.addingTimeInterval(1 * 60)
+        request.earliestBeginDate = tomorrow
         do {
             try BGTaskScheduler.shared.submit(request)
             print("Scheduled app refresh for tomorrow: \(tomorrow)")

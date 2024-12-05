@@ -10,34 +10,51 @@ import SwiftData
 
 struct PackageModuleHomeView: View {
     @Namespace private var namespace
+    @Environment(\.modelContext) var context
     @Query var packingModule :[PackingModuleDataClass]
     var packinModule: PackingModuleDataClass? { packingModule.first }
     @EnvironmentObject var packingVM: PackingModuleViewModel
     @EnvironmentObject var dateManager: DateManager
+    @State private var cardOffset = CGSize.zero
+    @State private var showDeleteAlert:Bool = false
+    @AppStorage("swipreToDeleteInfo") var swipeToDelete: Bool = false
     
     
     var body: some View {
         if let onlyModule = packinModule {
-            NavigationLink {
-                PackingModuleOpen(module: onlyModule)
-                    .navigationBarBackButtonHidden(true)
+            ZStack(alignment: .trailing){
+                Color.black.opacity(swipeToDelete ? 0 : 0.1).zIndex(2)
+                    HStack(spacing: 0){
+                        
+                        NavigationLink {
+                            PackingModuleOpen(module: onlyModule)
+                                .navigationBarBackButtonHidden(true)
+                            
+                            
+                        } label: {
+                            PackingModule(packingModule: onlyModule)
+                                .environmentObject(dateManager)
+                            
+                            
+                            
+                            
+                            
+                            
+                        }
+                        
+                        .onAppear {
+                            packingVM.setSelectedModule(a: onlyModule)
+                            
+                            
+                        }.frame(maxWidth: .infinity,alignment: .leading)
+                        
+                        
+                        
+                    }
+            
                 
-                
-            } label: {
-                PackingModule(packingModule: onlyModule)
-                    .environmentObject(dateManager)
-    
-                
-                
-                
+
             }
-            .padding(.horizontal)
-            .padding(.vertical,5)
-            .onAppear {
-                packingVM.setSelectedModule(a: onlyModule)
-                
-                
-                }
             
             
             

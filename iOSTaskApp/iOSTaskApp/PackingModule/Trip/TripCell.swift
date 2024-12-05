@@ -15,7 +15,8 @@ struct TripCell: View {
     @State var showDeleteAlert:Bool = false
     @State var showAddToHistoryAlert:Bool = false
     @State var module:PackingModuleDataClass
-    @Binding var toast: Toast? 
+    @Binding var toast: Toast?
+    @State private var cardOffset = CGSize.zero
 
     var body: some View {
         
@@ -31,148 +32,163 @@ struct TripCell: View {
     @ViewBuilder
     var tripHistory: some View {
         GeometryReader { GeometryProxy in
-            ZStack {
-                
-                VStack(alignment:.center) {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color(hex: "1E6091"))
-        
+            ZStack(alignment: .trailing) {
+                ZStack {
                     
-                        .frame(width: GeometryProxy.size.width - 40, height: 140)
-                        .padding(.top,10)
-                }.frame(maxWidth: .infinity)
-                VStack(alignment:.leading){
-                    HStack{
-                        Text(trip.dateFrom,format: .dateTime.day().month().year())
-                            .font(.headline)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
-                        Text("-")
-                            .font(.headline)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
-                        Text(trip.dateTo,format: .dateTime.day().month().year())
-                            .font(.headline)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
-                        Spacer()
-                        Button {
+                    VStack(alignment:.center) {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(hex: "1E6091"))
+                        
+                        
+                            .frame(width: GeometryProxy.size.width - 40, height: 140)
+                    }.frame(maxWidth: .infinity)
+                    VStack(alignment:.leading){
+                        HStack{
+                            Text(trip.dateFrom,format: .dateTime.day().month().year())
+                                .font(.headline)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
+                            Text("-")
+                                .font(.headline)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
+                            Text(trip.dateTo,format: .dateTime.day().month().year())
+                                .font(.headline)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
+                            Spacer()
+                            Button {
+                                
+                                showDeleteAlert.toggle()
+                                
+                                
+                            } label: {
+                                Image(systemName: "minus")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                            }.alert("Delete Trip ?", isPresented: $showDeleteAlert) {
+                                Button("Yes", role: .destructive) {
+                                    toast = Toast(style: .success, message: "Trip succesfully deleted")
+                                    module.removeHistoryTrip(a: trip)
+                                }
+                            } message: {
+                                Text("This will delete the trip from your history")
+                            }
                             
-                            showDeleteAlert.toggle()
-           
                             
-                        } label: {
-                            Image(systemName: "minus")
+                        }.padding(.vertical,7)
+                            .padding(.bottom,10)
+                        
+                        HStack{
+                            Text(trip.name == "" ? "Trip" : trip.name)
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color(hex: "FEFAE0"))
-                        }.alert("Delete Trip ?", isPresented: $showDeleteAlert) {
-                            Button("Yes", role: .destructive) {
-                                toast = Toast(style: .success, message: "Trip succesfully deleted")
-                                module.removeHistoryTrip(a: trip)
-                            }
-                        } message: {
-                            Text("This will delete the trip from your history")
+                            Spacer()
+                            Text("\(trip.percentage)%")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
                         }
-
                         
-                    }.padding(.vertical,7)
-                        .padding(.bottom,10)
-                    
-                    HStack{
-                        Text(trip.name == "" ? "Trip" : trip.name)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
-                        Spacer()
-                        Text("\(trip.percentage)%")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
-                    }
-                    
-                }.padding(9)
-                    .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
+                    }.padding(9)
+                        .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
+                }.dragToDelete(cardOffset: $cardOffset) {
+                    toast = Toast(style: .success, message: "Trip succesfully deleted")
+                    module.removeHistoryTrip(a: trip)
+                }
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.red)
+                    .deleteCardSlow(cardOffset: $cardOffset, customHeight: 140)
             }
-        }.frame(height: 150)
+        }.frame(height: 140)
        
             
     }
     @ViewBuilder
     var tripCurrent: some View {
         GeometryReader { GeometryProxy in
-            ZStack(alignment: .center) {
-                
-                VStack(alignment:.center) {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color(hex: "1E6091"))
-                        
-                        .frame(width: GeometryProxy.size.width - 30, height: 140)
-                        .padding(.top,10)
-                }.frame(maxWidth: .infinity)
+            ZStack(alignment:.trailing){
+                ZStack(alignment: .center) {
                     
-                VStack(alignment:.leading){
-                    HStack{
-                        Text(trip.dateFrom,format: .dateTime.day().month().year())
-                            .font(.headline)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
-                        Text("-")
-                            .font(.headline)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
-                        Text(trip.dateTo,format: .dateTime.day().month().year())
-                            .font(.headline)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
-                        Spacer()
-                        Button {
-                            if trip.percentage == 100 {
-                                showAddToHistoryAlert.toggle()
-                            } else {
-                                showDeleteAlert.toggle()
+                    VStack(alignment:.center) {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color(hex: "1E6091"))
+                        
+                            .frame(width: GeometryProxy.size.width - 40, height: 140)
+                        
+                    }.frame(maxWidth: .infinity)
+                    
+                    VStack(alignment:.leading){
+                        HStack{
+                            Text(trip.dateFrom,format: .dateTime.day().month().year())
+                                .font(.headline)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
+                            Text("-")
+                                .font(.headline)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
+                            Text(trip.dateTo,format: .dateTime.day().month().year())
+                                .font(.headline)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
+                            Spacer()
+                            Button {
+                                if trip.percentage == 100 {
+                                    showAddToHistoryAlert.toggle()
+                                } else {
+                                    showDeleteAlert.toggle()
+                                }
+                            } label: {
+                                Image(systemName: trip.percentage == 100 ? "checkmark":"minus")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                            }.alert("Complete Trip?", isPresented: $showAddToHistoryAlert, actions: {
+                                Button("Confirm", role: .destructive) {
+                                    toast = Toast(style: .success, message: "Added to history")
+                                    module.addTripHistory(a: trip)
+                                    module.removeTrip(a: trip)
+                                }
+                            }, message: {
+                                Text("This will complete the trip , and add it to your history")
                             }
-                        } label: {
-                            Image(systemName: trip.percentage == 100 ? "checkmark":"minus")
+                            ).alert("Delete Trip ?", isPresented: $showDeleteAlert, actions: {
+                                Button("Yes", role: .destructive) {
+                                    toast = Toast(style: .success, message: "Trip succesfully deleted")
+                                    module.removeTrip(a: trip)
+                                }
+                            }, message: {
+                                Text("This will delete the trip")
+                                
+                                
+                            })
+                            
+                            
+                        }.padding(.vertical,7)
+                            .padding(.bottom,10)
+                        
+                        HStack{
+                            Text(trip.name == "" ? "Trip" : trip.name)
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color(hex: "FEFAE0"))
-                        }.alert("Complete Trip?", isPresented: $showAddToHistoryAlert, actions: {
-                            Button("Confirm", role: .destructive) {
-                                toast = Toast(style: .success, message: "Added to history")
-                                module.addTripHistory(a: trip)
-                                module.removeTrip(a: trip)
-                            }
-                        }, message: {
-                            Text("This will complete the trip , and add it to your history")
+                            Spacer()
+                            Text("\(trip.percentage)%")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
                         }
-                        ).alert("Delete Trip ?", isPresented: $showDeleteAlert, actions: {
-                            Button("Yes", role: .destructive) {
-                                toast = Toast(style: .success, message: "Trip succesfully deleted")
-                                module.removeTrip(a: trip)
-                            }
-                        }, message: {
-                            Text("This will delete the trip")
                         
-                            
-                        })
-     
-
-                    }.padding(.vertical,7)
-                        .padding(.bottom,10)
+                    }.padding(9)
+                        .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
                     
-                    HStack{
-                        Text(trip.name == "" ? "Trip" : trip.name)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
-                        Spacer()
-                        Text("\(trip.percentage)%")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
-                    }
                     
-                }.padding(9)
-                .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
-            
-               
+                }.dragToDelete(cardOffset: $cardOffset) {
+                    toast = Toast(style: .success, message: "Trip succesfully deleted")
+                    module.removeTrip(a: trip)
+                }
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.red)
+                    .deleteCardSlow(cardOffset: $cardOffset, customHeight: 140)
             }
-        }.frame(height: 150)
+        }.frame(height: 140)
     }
 }
 

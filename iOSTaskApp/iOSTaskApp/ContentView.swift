@@ -131,6 +131,7 @@ struct HomeView: View {
                         PackageModuleHomeView()
                             .environmentObject(dateManager)
                             .environmentObject(packingVM)
+                         
                         
                    
                         
@@ -416,4 +417,6 @@ struct OnboardingView:View {
             Trip.self, PackingModuleDataClass.self, CreatingModuleData.self,
             PlantsModuleDataClass.self,
         ],inMemory: true)
+        .environmentObject(DateManager())
+        .environmentObject(PackingModuleViewModel())
 }

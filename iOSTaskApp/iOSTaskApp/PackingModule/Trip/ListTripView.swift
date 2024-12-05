@@ -13,6 +13,8 @@ struct ListTripView: View {
     @Namespace private var namespace
     @State var module: PackingModuleDataClass
     @State private var toast: Toast? = nil
+    @State private var cardOffset = CGSize.zero
+    @Environment(\.modelContext) var context
     var body: some View {
 
         if vmChild.openingHistory {
@@ -34,7 +36,7 @@ struct ListTripView: View {
                         .foregroundStyle(Color(hex: "22577A"))
 
                     Spacer()
-                   
+           
 
                 }.frame(
                     width: GeometryProxy.size.width - 30, alignment: .leading
@@ -64,12 +66,21 @@ struct ListTripView: View {
                                     )
                       
                                 } label: {
-                                    TripCell(
-                                        historyView: $vmChild.openingHistory,
-                                        trip: trip, module: module,
-                                        toast: $toast
-                                    )
-                             
+                                    ZStack(alignment: .trailing) {
+                                        TripCell(
+                                            historyView: $vmChild.openingHistory,
+                                            trip: trip, module: module,
+                                            toast: $toast
+                                        )     .dragToDelete(cardOffset: $cardOffset) {
+                                            module.removeTrip(a: trip)
+                                        }
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(.red)
+                                            .deleteCardSlow(cardOffset: $cardOffset,customHeight: 140)
+                                 
+                                    }
+                                    
+                              
 
                                 }
                           
@@ -140,15 +151,24 @@ struct ListTripView: View {
             
                                     .navigationBarBackButtonHidden(true)
                                 } label: {
-                                    TripCell(
-                                        historyView: $vmChild.openingHistory,
-                                        trip: trip, module: module,
-                                        toast: $toast
-                                    )
-                                    .animation(
-                                        .linear, value: vmChild.openingHistory
-                                    )
-                                    .transition(.move(edge: .leading))
+                                    ZStack(alignment: .trailing) {
+                                        TripCell(
+                                            historyView: $vmChild.openingHistory,
+                                            trip: trip, module: module,
+                                            toast: $toast
+                                        )
+                                        .animation(
+                                            .linear, value: vmChild.openingHistory
+                                        )
+                                        .transition(.move(edge: .leading))
+                                        .dragToDelete(cardOffset: $cardOffset) {
+                                            module.removeTrip(a: trip)
+                                        }
+                                        
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(.red)
+                                            .deleteCardSlow(cardOffset: $cardOffset,customHeight: 140)
+                                    }
 
                                 }
                                 .animation(

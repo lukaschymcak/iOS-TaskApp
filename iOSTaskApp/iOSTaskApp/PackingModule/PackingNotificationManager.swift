@@ -22,16 +22,16 @@ class PackingNotificationManager {
     func checkAndcreatePackingNotifications(for module : PackingModuleViewModel ){
         guard let module = module.selectedModule else { return}
         guard let trip = module.earliestTrip else {return }
-        guard isPackingNotfiOn && trip.dayDifference <= 3  else { print("Notification not prepared \(isPackingNotfiOn.description) \(trip.dayDifference)")
+        guard isPackingNotfiOn && trip.dayDifference <= 3 && trip.percentage < 100  else { print("Notification not prepared")
             return }
         
-        print("Notification prepared \(isPackingNotfiOn.description) \(trip.dayDifference) ")
+        print("Notification prepared")
         var date = DateComponents()
         date.hour = 12
         date.minute = 0
-        let identifier = "Trip Notification"
+        let identifier = "TripNotification"
         self.content.title = "Task App"
-        self.content.subtitle = trip.dateFrom.isToday()  ? "Trip \(trip.name) is happening today" : "Trip \(trip.name) is in \(trip.dayDifference) days"
+        self.content.subtitle = trip.dateFrom.isToday()  ? "\(trip.name) is happening today" : " \(trip.name) is happening in \(trip.dayDifference) days"
         self.content.body = "You are \(trip.percentage)% ready"
         self.content.sound = UNNotificationSound.default
         self.content.badge = 1

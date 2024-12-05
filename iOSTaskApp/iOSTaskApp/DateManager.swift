@@ -8,7 +8,7 @@
 import Foundation
 class DateManager: ObservableObject {
     static let shared = DateManager()
-    private init() {}
+     init() {}
     
 
     @Published var currentDate: Date = Date()

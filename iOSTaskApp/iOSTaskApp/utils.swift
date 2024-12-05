@@ -52,5 +52,6 @@ struct Utils {
             print("Could not schedule app refresh: \(error)")
         }
     }
+    
 }
 

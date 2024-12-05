@@ -23,7 +23,7 @@ class PackingModuleDataClass{
     var dayDifference:Int {
    
         if let earliestTrip = earliestTrip {
-            let currentDay = Calendar.current.dateComponents([.day], from: DateManager.shared.currentDate)
+            let currentDay = Calendar.current.dateComponents([.day], from: Date())
             let tripDay = Calendar.current.dateComponents([.day], from: earliestTrip.dateFrom)
             return Calendar.current.dateComponents([.day], from: currentDay, to: tripDay).day!
         }
