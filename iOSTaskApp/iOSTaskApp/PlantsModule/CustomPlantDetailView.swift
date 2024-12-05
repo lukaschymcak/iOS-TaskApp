@@ -1,18 +1,23 @@
 //
-//  PlantDetailView.swift
+//  CustomPlantDetailView.swift
 //  iOSTaskApp
 //
-//  Created by Lukas Chymcak on 10/11/2024.
+//  Created by Lukas Chymcak on 05/12/2024.
 //
 
 import SwiftUI
 
-struct PlantDetailView: View {
-    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
-    var colums: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
+struct CustomPlantDetailView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
     var plantCell:PlantModel
+    @State var showWateringAlert:Bool = false
+    @State var setWater:String = ""
+    @State var setTemp:String = ""
+    @State var setLight:String = ""
     @State var showWaterAlert:Bool = false
+    @State var showTempAlert:Bool = false
+    @State var showLightAlert:Bool = false
     var body: some View {
         GeometryReader { GeometryProxy in
             ZStack{
@@ -89,14 +94,24 @@ struct PlantDetailView: View {
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
-                                                Text("WATER")
+                                                Text("WATER(ml)")
                                                     .foregroundStyle(Color(hex: "606C38"))
                                                     .fontWeight(.bold)
-                                                Text(plantCell.water)
-                                                    .foregroundStyle(Color(hex: "606C38"))
-                                                    .fontWeight(.bold)
-                                                    .font(.subheadline)
+                                                Text(plantCell.water == "" ? "Tap to add Water" : "\(plantCell.water)")
+                                                        .foregroundStyle(Color(hex: "606C38"))
+                                                        .fontWeight(.bold)
+                                                        .font(.subheadline)
+                                                        
+                                                
+                                            }.onTapGesture {
+                                                showWaterAlert.toggle()
+                                            }.alert("Edit Water(ml)", isPresented: $showWaterAlert) {
+                                                TextField("Water", text: $setWater)
+                                                Button("Add") {
+                                                    plantCell.setWater(a: setWater)
+                                                }
                                             }
+                                                
                                         }
                                         .frame(maxWidth: 140,alignment: .leading)
                                         .padding(.horizontal)
@@ -113,13 +128,22 @@ struct PlantDetailView: View {
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
-                                                Text("TEMP")
+                                                Text("TEMP(C)")
                                                     .foregroundStyle(Color(hex: "606C38"))
                                                     .fontWeight(.bold)
-                                                Text(plantCell.temp)
+                                                Text(plantCell.temp == "" ? "Tap to add Temp" : "\(plantCell.temp)")
                                                     .foregroundStyle(Color(hex: "606C38"))
                                                     .fontWeight(.bold)
                                                     .font(.subheadline)
+                                                    
+                                            }
+                                            .onTapGesture {
+                                                showTempAlert.toggle()
+                                            }.alert("Edit Temp", isPresented: $showTempAlert) {
+                                                TextField("Temp", text: $setTemp)
+                                                Button("Add") {
+                                                    plantCell.setTemp(a: setTemp)
+                                                }
                                             }
                                         }.frame(maxWidth: 140,alignment: .leading)
                                             .padding(.horizontal)
@@ -138,11 +162,18 @@ struct PlantDetailView: View {
                                                 Text("LIGHT")
                                                     .foregroundStyle(Color(hex: "606C38"))
                                                     .fontWeight(.bold)
-                                                Text(plantCell.light)
+                                                Text(plantCell.light == "" ? "Tap to add Light" : "\(plantCell.light)")
                                                     .foregroundStyle(Color(hex: "606C38"))
                                                     .fontWeight(.bold)
                                                     .font(.footnote)
                                                     
+                                            } .onTapGesture {
+                                                showLightAlert.toggle()
+                                            }.alert("Edit Light", isPresented: $showLightAlert) {
+                                                TextField("Light", text: $setLight)
+                                                Button("Add") {
+                                                    plantCell.setTemp(a: setLight)
+                                                }
                                             }
                                         }.frame(maxWidth: 140,alignment: .leading)
                                             .padding(.horizontal)
@@ -171,16 +202,14 @@ struct PlantDetailView: View {
                 }
             }
         }
-            
-            
-        }
+    }
     @ViewBuilder
     var wateringButton: some View {
        
         if Calendar.current.isDateInToday(plantCell.waterDate) || plantCell.waterDate.isBeforeToday() {
             Button {
                 if plantCell.waterDate.isBeforeToday() {
-                    showWaterAlert.toggle()
+                    showWateringAlert.toggle()
                     dismiss()
                     
                 }else {
@@ -197,7 +226,7 @@ struct PlantDetailView: View {
                 .font(.system(size: 50))
                 .foregroundStyle(Color(hex: "FEFAE0"))
             }.padding(.horizontal)
-                .alert(isPresented: $showWaterAlert) {
+                .alert(isPresented: $showWateringAlert) {
                     Alert(title: Text("Water Plant ?"), primaryButton: .destructive(Text("You forgot to water this plant , once watered next watering date will be calculated from today"), action: {
                         plantCell.prepare()
                         plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
@@ -213,11 +242,8 @@ struct PlantDetailView: View {
             .padding(.horizontal)
         }
     }
-    
 }
 
-
 #Preview {
-    PlantDetailView(plantCell: DefaultPlants.monstera )
-        .environmentObject(PlantsModuleHomeView.ViewModel())
+    CustomPlantDetailView( plantCell: MockPlants.plantA)
 }

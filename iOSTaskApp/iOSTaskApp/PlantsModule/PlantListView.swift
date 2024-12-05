@@ -107,8 +107,15 @@ struct PlantListView: View {
                                         .frame(height: 130)
                                 }
                             } else {
-                                PlantCell(plantCell: plant)
-                                    .frame(height: 130)
+                                NavigationLink {
+                                    CustomPlantDetailView(plantCell: plant)
+                                        .environmentObject(plantsModuleModel)
+                                        .navigationBarBackButtonHidden(true)
+                                } label: {
+                                    
+                                    PlantCell(plantCell: plant)
+                                        .frame(height: 130)
+                                }
                             }
                             
                         }

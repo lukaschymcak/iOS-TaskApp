@@ -21,22 +21,22 @@ struct AddingCustomPlantView: View {
     @Binding var cancelHit: Bool
     var body: some View {
         
-      
-                
+        
+        GeometryReader { geo in
             VStack(alignment:.leading,spacing: 15){
                 HStack {
                     Text("Name:")
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundStyle(Color(hex: "FEFAE0"))
-                     .padding(10)
-                  
-                    .clipShape(.rect(cornerRadius: 10))
+                        .padding(10)
+                    
+                        .clipShape(.rect(cornerRadius: 10))
                     TextField("", text: $plantName)
                         .textFieldStyle(.roundedBorder)
                         .background(Color(hex: "DCA569"))
                         .padding(10)
-         
+                    
                 }.frame(height: 60)
                     .background(Color(hex: "DCA569"))
                     .clipShape(.rect(cornerRadius: 10))
@@ -46,13 +46,13 @@ struct AddingCustomPlantView: View {
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundStyle(Color(hex: "FEFAE0"))
-
+                        
                         
                     }
                     .padding(10)
                     .background(Color(hex: "DCA569"))
                     .clipShape(.rect(cornerRadius: 10))
-         
+                    
                 }.frame(height: 60)
                 
                 HStack(alignment: .center){
@@ -77,35 +77,35 @@ struct AddingCustomPlantView: View {
                         isPopupShown.toggle()
                     } label: {
                         Image(systemName: "info.circle.fill")
-                                   .resizable()
-                                   .scaledToFit()
-                                   .frame(width: 20, height: 20)
-                                   .background(Color(hex: "DCA569"))
-                                   .foregroundStyle(Color(hex: "FEFAE0"))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            .background(Color(hex: "DCA569"))
+                            .foregroundStyle(Color(hex: "FEFAE0"))
                         
-                                   .popover(isPresented: $isPopupShown, attachmentAnchor: .point(.top),arrowEdge: .bottom) {
-                                       VStack{
-                                           Text("Every X Days")
-                                           Text("e.g  X Days from last watering")
-                                       }
-                                       .multilineTextAlignment(.center)
-                                           .lineLimit(0)
-                                           .foregroundStyle(Color(hex: "FEFAE0"))
-                                           .font(.system(size: 12, weight: .semibold, design: .default))
-                                           .padding(5)
-                                           .presentationCompactAdaptation(.none)
-                                          
-                                   }
+                            .popover(isPresented: $isPopupShown, attachmentAnchor: .point(.top),arrowEdge: .bottom) {
+                                VStack{
+                                    Text("Every X Days")
+                                    Text("e.g  X Days from last watering")
+                                }
+                                .multilineTextAlignment(.center)
+                                .lineLimit(0)
+                                .foregroundStyle(Color(hex: "FEFAE0"))
+                                .font(.system(size: 12, weight: .semibold, design: .default))
+                                .padding(5)
+                                .presentationCompactAdaptation(.none)
+                                
+                            }
                     }
-
                     
                     
-             
+                    
+                    
                 }.frame(height: 60)
                     .frame(maxWidth: .infinity,alignment: .leading)
                     .padding(.horizontal,10)
                     .background(Color(hex: "DCA569"))
-    
+                
                     .clipShape(.rect(cornerRadius: 10))
                 HStack(alignment: .center){
                     Text("Room:")
@@ -131,7 +131,7 @@ struct AddingCustomPlantView: View {
                     .foregroundStyle(Color.white)
                     .background(RoundedRectangle(cornerRadius: 16).fill(.gray.opacity(0.3)))
                     
-
+                    
                 }.frame(maxWidth: .infinity,alignment: .leading)
                     .padding(10)
                     .background(Color(hex: "DCA569"))
@@ -142,43 +142,43 @@ struct AddingCustomPlantView: View {
                         .fontWeight(.bold)
                         .foregroundStyle(Color(hex: "FEFAE0"))
                     ScrollViewReader{ proxy in
-                    ScrollView(.horizontal,showsIndicators: false){
-                        HStack{
-                            ForEach(DefaultPlants.plantImages, id: \.self){ image in
-                                
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color(hex: "FEFAE0"),lineWidth: selectedImage == image ? 4 : 0)
-                                    .fill(Color(hex: "DCA569"))
-                                    .frame(width: 60, height: 60)
-                                    .overlay {
-                                        Image(image)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 50, height: 50)
-                                        
-                                    }.padding(3)
-                                    .onTapGesture {
-                                   
+                        ScrollView(.horizontal,showsIndicators: false){
+                            HStack{
+                                ForEach(DefaultPlants.plantImages, id: \.self){ image in
+                                    
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color(hex: "FEFAE0"),lineWidth: selectedImage == image ? 4 : 0)
+                                        .fill(Color(hex: "DCA569"))
+                                        .frame(width: 60, height: 60)
+                                        .overlay {
+                                            Image(image)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 50, height: 50)
+                                            
+                                        }.padding(3)
+                                        .onTapGesture {
+                                            
                                             selectedImage = image
                                             proxy.scrollTo(image, anchor: .center)
-                     
-                                        
-                                    }
-                                
+                                            
+                                            
+                                        }
+                                    
+                                }
                             }
                         }
                     }
-                }
-                    }.frame(maxWidth: .infinity,alignment: .leading)
-                        .padding(10)
-                        .background(Color(hex: "DCA569"))
-                        .clipShape(.rect(cornerRadius: 10))
-                    
+                }.frame(maxWidth: .infinity,alignment: .leading)
+                    .padding(10)
+                    .background(Color(hex: "DCA569"))
+                    .clipShape(.rect(cornerRadius: 10))
+                
                 
                 
                 HStack(spacing:15) {
                     Button {
-
+                        
                         dismiss()
                         cancelHit = true
                         
@@ -197,7 +197,7 @@ struct AddingCustomPlantView: View {
                         plantsModule.selectedModule.addPlant(a: customPlant)
                         dismiss()
                         cancelHit = false
- 
+                        
                     } label: {
                         Text("Add Plant")
                             .font(.title)
@@ -207,7 +207,7 @@ struct AddingCustomPlantView: View {
                             .background(Color(hex: "DCA569"))
                             .clipShape(.rect(cornerRadius: 10))
                     }
-                   
+                    
                 }.frame(maxWidth: .infinity,alignment: .center)
                     .padding(.top,10)
                 Spacer()
@@ -219,6 +219,7 @@ struct AddingCustomPlantView: View {
             
                 .presentationCornerRadius(20)
                 .background(Color(hex: "FEFAE0"))
+        }.ignoresSafeArea(.keyboard)
     }
 }
 

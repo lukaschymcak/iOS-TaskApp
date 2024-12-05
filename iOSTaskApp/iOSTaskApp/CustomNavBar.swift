@@ -76,6 +76,7 @@ struct CustomNavBar: View {
 }
 #Preview {
     CustomNavBar(isWelcomeScreenOver: .constant(false), name: "Lukas", isAddModuleOpen: .constant(false))
+        .environmentObject(PackingModuleViewModel())
 }
 
 

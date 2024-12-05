@@ -70,6 +70,8 @@ struct DeleteCardSlow: ViewModifier {
     }
 }
 
+
+
 extension View {
     func dragToDelete(cardOffset: Binding<CGSize>, perform: @escaping () -> Void ) -> some View {
         self.modifier(DragToDelete(cardOffset: cardOffset,deleteAction: perform))
