@@ -54,11 +54,11 @@ struct WelcomeView: View {
     var body: some View {
 
         VStack(alignment: .center, spacing: 0) {
-            Image("AppLogo")
+            Image(colorScheme == .dark ? "WelcomeLogoLight" : "WelcomeLogoDark")
                 .resizable()
-                .frame(width: 170, height: 170)
-                .padding(.top, 50)
-                .padding(.bottom, 50)
+             
+                .frame(width: 250, height: 250)
+                .padding(.top, 20)
             Text("Welcome,")
                 .font(.system(size: 60))
                 .fontWeight(.heavy)
@@ -75,7 +75,7 @@ struct WelcomeView: View {
                 .clipShape(.rect(cornerRadius: 10))
                 .autocorrectionDisabled()
 
-            Spacer()
+                .padding(.bottom,30)
 
             Button {
                 UserDefaults.standard.set(name, forKey: "userName")

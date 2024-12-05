@@ -96,12 +96,17 @@ struct PlantListView: View {
                             .padding(.top,10)
                             .padding(.horizontal,10)
                         ForEach(plantsModuleModel.selectedModule.filterByDateAndLocation(when: when, location:  location),id: \.id){ plant in
-                            NavigationLink {
-                                PlantDetailView(plantCell: plant)
-                                    .environmentObject(plantsModuleModel)
-                                    .navigationBarBackButtonHidden(true)
-                            } label: {
-                                
+                            if !plant.isCustom {
+                                NavigationLink {
+                                    PlantDetailView(plantCell: plant)
+                                        .environmentObject(plantsModuleModel)
+                                        .navigationBarBackButtonHidden(true)
+                                } label: {
+                                    
+                                    PlantCell(plantCell: plant)
+                                        .frame(height: 130)
+                                }
+                            } else {
                                 PlantCell(plantCell: plant)
                                     .frame(height: 130)
                             }

@@ -23,10 +23,11 @@ class PlantModel:Hashable,Identifiable {
     private(set) var watered:Bool
     private(set) var prepared:Bool = false
     private(set) var waterDate:Date = Date.now
+    private(set) var isCustom:Bool = false
     
     var module:PlantsModuleDataClass?
     
-    init(name: String, desc: String = "",location:houseLocation = .bathroom, frequency: Int = 0, water: String = "", light: String = "",temp:String = "", image: String = "",watered:Bool = false,waterDate:Date = Date.now) {
+    init(name: String, desc: String = "",location:houseLocation = .bathroom, frequency: Int = 0, water: String = "", light: String = "",temp:String = "", image: String = "",watered:Bool = false,waterDate:Date = Date.now,isCustom:Bool = false) {
         self.name = name
         self.desc = desc
         self.location = location
@@ -37,6 +38,8 @@ class PlantModel:Hashable,Identifiable {
         self.image = image
         self.watered = watered
         self.waterDate = waterDate
+        self.isCustom = isCustom
+        
     }
     
     func setName(a:String){
@@ -114,8 +117,42 @@ struct DefaultPlants {
     static let orchidea = PlantModel(name: "Orchidea",desc: "Orchids (Phalaenopsis) are elegant tropical plants known for their stunning, long-lasting flowers. They thrive in bright, indirect light and require careful watering and humidity. With proper care, they bloom multiple times a year, making them a favorite for indoor spaces.",water:"100ml", light:"Bright,Indirect",temp: "18-29°C" ,image: "orchid")
     
     static let zzPlant = PlantModel(name: "ZZ Plant",desc: "The ZZ plant (Zamioculcas zamiifolia) is a hardy, low-maintenance indoor plant known for its glossy, dark green leaves and upright, wand-like stems. Native to East Africa, it's drought-tolerant and thrives in low to bright indirect light. This plant is popular for its ability to withstand neglect, making it ideal for beginners or low-light spaces. The ZZ plant also has air-purifying qualities and can grow up to 2-3 feet indoors with minimal watering.",water:"250ml", light:"Low to bright,indirect",temp: "18-29°C" ,image: "zz-plant")
+    static let snakePlant = PlantModel(
+        name: "Snake Plant",
+        desc: "The Snake Plant (Dracaena trifasciata) is a resilient and low-maintenance plant with tall, sword-like leaves featuring green and yellow variegation. Known for its air-purifying qualities, it thrives in a variety of lighting conditions and requires minimal watering. Ideal for bedrooms or low-light areas, it can grow up to 2-3 feet indoors.",
+        water: "300ml",
+        light: "Low to bright, indirect",
+        temp: "15-27°C",
+        image: "snake-plant"
+    )
+    static let spiderPlant = PlantModel(
+        name: "Spider Plant",
+        desc: "The Spider Plant (Chlorophytum comosum) is a hardy and adaptable houseplant with long, arching, variegated leaves. It’s known for producing small baby plants on stems and is perfect for hanging planters. It’s an excellent choice for beginners and grows up to 2 feet tall and wide.",
+        water: "300ml",
+        light: "Bright, indirect",
+        temp: "15-24°C",
+        image: "spider-plant"
+    )
+    static let aloeVera = PlantModel(
+        name: "Aloe Vera",
+        desc: "Aloe Vera (Aloe barbadensis) is a versatile succulent with thick, fleshy leaves filled with gel known for its medicinal and skincare benefits. It thrives in bright light and requires minimal care, growing up to 2 feet indoors.",
+        water: "200ml",
+        light: "Bright, indirect to direct",
+        temp: "13-27°C",
+        image: "aloe-vera"
+    )
+    static let africanViolet = PlantModel(
+        name: "African Violet",
+        desc: "The African Violet (Saintpaulia) is a compact houseplant with fuzzy leaves and vibrant flowers in purple, pink, or white. Known for its continuous blooms under proper care, it’s a popular choice for tabletops and windowsills.",
+        water: "200ml",
+        light: "Bright, indirect",
+        temp: "18-24°C",
+        image: "african-violet"
+    )
     
-    static let presetPlants:[PlantModel] = [monstera,orchidea,zzPlant]
+    static let plantImages = ["monstera","orchid","zz-plant","snake-plant","spider-plant","aloe-vera","african-violet"]
+    
+    static let presetPlants:[PlantModel] = [monstera,orchidea,zzPlant,snakePlant,spiderPlant,aloeVera,africanViolet]
 }
 
 

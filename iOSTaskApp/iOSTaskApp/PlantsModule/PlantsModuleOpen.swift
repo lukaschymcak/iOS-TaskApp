@@ -45,12 +45,13 @@ struct PlantsModuleOpen: View {
                         if plantsModuleModel.selectedModule.wateredLocations.isEmpty {
                   
                             VStack(alignment: .center) {
+                                Spacer()
                     
-                                Text("Let's water some plants!")
+                                Text("Time to water some plants!")
                                     .font(.largeTitle)
                                     .foregroundStyle(Color(hex: "D19252"))
                                     .fontWeight(.bold)
-                                    .multilineTextAlignment(.leading)
+                                    .multilineTextAlignment(.center)
                                     .padding()
                                 Button {
                                     vmParent.toggleAddingPlants()
@@ -58,19 +59,19 @@ struct PlantsModuleOpen: View {
                                     ZStack {
                                         Image("pot")
                                             .resizable()
-                                            .frame(width: 100, height: 100)
+                                            .frame(width: 150, height: 150)
 
                                         Image(systemName: "plus")
                                             .resizable()
-                                            .frame(width: 30, height: 30)
+                                            .frame(width: 50, height: 50)
                                             .fontWeight(.bold)
                                             .foregroundStyle(.white)
-                                            .offset(x: -1, y: 9)
+                                            .offset(x: -1, y: 15)
 
                                     }
 
                                 }
-                              
+                                Spacer()
                             }
                         } else {
                             ScrollViewReader { ScrollViewProxy in

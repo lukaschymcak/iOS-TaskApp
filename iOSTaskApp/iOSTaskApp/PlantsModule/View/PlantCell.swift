@@ -36,7 +36,7 @@ struct PlantCell: View {
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color(hex: "FEFAE0"))
-                                    .lineLimit(2)
+                                    .lineLimit(1)
                                 HStack {
                                     Image(systemName: "drop")
                                         .fontWeight(.bold)

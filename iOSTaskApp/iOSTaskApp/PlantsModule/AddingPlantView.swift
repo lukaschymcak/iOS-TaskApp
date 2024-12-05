@@ -13,6 +13,7 @@ struct AddingPlantView: View {
     @Environment(\.dismiss) var dismiss
     @State var cancelHit: Bool = false
     @State var presetView: Bool = true
+    @State var addingCustomPlant: Bool = false
     var body: some View {
 
         NavigationStack {
@@ -23,7 +24,7 @@ struct AddingPlantView: View {
                 .ignoresSafeArea()
                 VStack {
                     VStack {
-                        if presetView {
+                
                             Text("Choose from a preset")
                                 .font(.title)
                                 .fontWeight(.bold)
@@ -54,44 +55,40 @@ struct AddingPlantView: View {
 
                                     }
                                 }.padding(.top, 20)
-                                GeometryReader { GeometryProxy in
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color(hex: "9DA091").opacity(0.4))
-
-                                        .frame(
-                                            width: GeometryProxy.size.width
-                                                - 50, height: 80
-                                        )
-                                        .frame(
-                                            maxWidth: .infinity,
-                                            alignment: .center
-                                        )
-                                        .padding()
-                                        .overlay {
-                                            HStack {
-                                                Image(systemName: "pencil")
-                                                    .font(.largeTitle)
-                                                    .fontWeight(.bold)
-                                                    .foregroundStyle(.white)
-                                                Text("Add a custom plant")
-                                                    .font(.title)
-                                                    .fontWeight(.bold)
-                                                    .foregroundStyle(.white)
-                                            }
-                                        }
-                                }
+                             
+                             
 
                             }.frame(height: 500)
 
-                        } else {
-                            Text("Add a plant")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .foregroundStyle(.white)
-                                .padding(.top, 20)
-
-                        }
+                      
                         Spacer()
+                    }
+                    Button {
+                        addingCustomPlant.toggle()
+                    } label: {
+
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color(hex: "9DA091").opacity(0.4))
+                                
+                                .frame(
+                                    maxWidth: .infinity,
+                                    alignment: .center
+                                )
+                                .frame(height: 80)
+                                .padding()
+                                .overlay {
+                                    HStack {
+                                        Image(systemName: "pencil")
+                                            .font(.largeTitle)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(.white)
+                                        Text("Add a custom plant")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(.white)
+                                    }
+                                }
+                        
                     }
 
                     VStack {
@@ -121,23 +118,17 @@ struct AddingPlantView: View {
                         }.padding(.bottom, 30)
                         Spacer()
                     }
-
+                    
                 }
+            }.sheet(isPresented: $addingCustomPlant) {
+                AddingCustomPlantView(cancelHit: $cancelHit)
+                    .environmentObject(plantsModule)
+                    
             }
         }
     }
 }
 
-struct addPresetPlant: View {
-    var body: some View {
-        Text("Hello")
-    }
-}
-struct addCustomPlant: View {
-    var body: some View {
-        Text("Hello")
-    }
-}
 
 #Preview {
     AddingPlantView()

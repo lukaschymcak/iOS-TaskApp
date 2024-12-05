@@ -35,12 +35,12 @@ struct CustomNavBar: View {
                   
                     
                 }
-                Button {
-                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                } label: {
-                    Image(systemName: "bell.slash")
-                        
-                }
+//                Button {
+//                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//                } label: {
+//                    Image(systemName: "bell.slash")
+//                        
+//                }
 
                 Spacer()
                 Button {
