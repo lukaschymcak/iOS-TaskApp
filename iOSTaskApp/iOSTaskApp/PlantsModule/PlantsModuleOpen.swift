@@ -11,6 +11,7 @@ struct PlantsModuleOpen: View {
     @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
     @Environment(\.colorScheme) var colorScheme
     @StateObject var vmParent = ViewModel()
+    @Environment(\.dismiss) var dismiss
     
 
     var body: some View {
@@ -28,20 +29,11 @@ struct PlantsModuleOpen: View {
                         .frame(
                             height: GeometryProxy.size.height
                             - (!plantsModuleModel.selectedModule.wateredLocations.isEmpty
-                                    ? 60 : 0))
+                                    ? 85 : 0))
 
                     VStack(spacing: 0) {
                         
-                        if !plantsModuleModel.selectedModule.wateredLocations.isEmpty{
-                            HStack {
-                            CustomNavBarModule(
-                                module: "Plants", name: "Plants") {
-                                    vmParent.toggleAddingPlants()
-                                }
-                            
-                            }.frame(height: 70)
-                        
-                    }
+                      
                         if plantsModuleModel.selectedModule.wateredLocations.isEmpty {
                   
                             VStack(alignment: .center) {
@@ -80,7 +72,7 @@ struct PlantsModuleOpen: View {
                                     .environmentObject(vmParent)
                                     .onChange(of: plantsModuleModel.selectedModule.plants) {
                                         vmParent.addAndScrollTo(old: $0, new: $1, scroll: ScrollViewProxy)
-                                    }
+                                    }.padding()
                             }
                            
                             
@@ -91,6 +83,7 @@ struct PlantsModuleOpen: View {
 
                                 PlantListView( vmChild: $vmParent.selectedLocation
                                )
+                                
                          
                             }
 
@@ -107,7 +100,9 @@ struct PlantsModuleOpen: View {
         })
         .fullScreenCover(isPresented: $vmParent.addingPlant) {
             AddingPlantView()
-
+   
+        }.customBackBar(title: "Plants", textColor: plantsModuleModel.selectedModule.plants.isEmpty ?          Color(hex: "606C38") : Color(hex: "FEFAE0")) {
+            dismiss()
         }
     }
 }
@@ -175,4 +170,5 @@ extension PlantsModuleOpen{
     PlantsModuleOpen()
         .environmentObject(PlantsModuleHomeView.ViewModel())
 }
+
 

@@ -29,14 +29,26 @@ struct PlantListView: View {
                                 .padding(.horizontal,10)
                             
                             ForEach(plantsModuleModel.selectedModule.getAllPlants(),id: \.id){ plant in
-                                NavigationLink {
-                                    PlantDetailView(plantCell: plant)
-                                        .environmentObject(plantsModuleModel)
-                                        .navigationBarBackButtonHidden(true)
-                                } label: {
-                                    
-                                    PlantCell(plantCell: plant )
-                                        .frame(height: 130)
+                                if !plant.isCustom {
+                                    NavigationLink {
+                                        PlantDetailView(plantCell: plant)
+                                            .environmentObject(plantsModuleModel)
+                                            .navigationBarBackButtonHidden(true)
+                                    } label: {
+                                        
+                                        PlantCell(plantCell: plant)
+                                            .frame(height: 130)
+                                    }
+                                } else {
+                                    NavigationLink {
+                                        CustomPlantDetailView(plantCell: plant)
+                                            .environmentObject(plantsModuleModel)
+                                            .navigationBarBackButtonHidden(true)
+                                    } label: {
+                                        
+                                        PlantCell(plantCell: plant)
+                                            .frame(height: 130)
+                                    }
                                 }
 
                             }
@@ -51,14 +63,26 @@ struct PlantListView: View {
                                     .padding(.horizontal,10)
                                 
                                 ForEach(plantsModuleModel.selectedModule.getForgottenPlants(location:  vmChild),id: \.id){ plant in
-                                    NavigationLink {
-                                        PlantDetailView(plantCell: plant)
-                                            .environmentObject(plantsModuleModel)
-                                            .navigationBarBackButtonHidden(true)
-                                    } label: {
-                                        
-                                        PlantCell(plantCell: plant )
-                                            .frame(height: 130)
+                                    if !plant.isCustom {
+                                        NavigationLink {
+                                            PlantDetailView(plantCell: plant)
+                                                .environmentObject(plantsModuleModel)
+                                                .navigationBarBackButtonHidden(true)
+                                        } label: {
+                                            
+                                            PlantCell(plantCell: plant)
+                                                .frame(height: 130)
+                                        }
+                                    } else {
+                                        NavigationLink {
+                                            CustomPlantDetailView(plantCell: plant)
+                                                .environmentObject(plantsModuleModel)
+                                                .navigationBarBackButtonHidden(true)
+                                        } label: {
+                                            
+                                            PlantCell(plantCell: plant)
+                                                .frame(height: 130)
+                                        }
                                     }
                                     
                                 }
@@ -78,6 +102,7 @@ struct PlantListView: View {
             }
             
         }.toastView(toast: $plantsModuleModel.toast, someAction: {plantsModuleModel.selectedPlants?.unPrepare()})
+          
     }
    
     struct showPlantsByDateAndLocation: View {

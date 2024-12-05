@@ -21,29 +21,21 @@ struct CustomPlantDetailView: View {
     var body: some View {
         GeometryReader { GeometryProxy in
             ZStack{
-        
+            
                 Color(hex: "FEFAE0")
                     .ignoresSafeArea()
-                VStack {
-                    HStack{
-                        Button{
-                            dismiss()
-                        }label: {
-                            Image(systemName: "chevron.left")
-                                .foregroundStyle(Color(hex: "606C38"))
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                
-                        }
-                        Spacer()
-                    }.frame(width: GeometryProxy.size.width - 30)
+                VStack(){
+                  
                     HStack {
                         Image(plantCell.image)
                             .resizable()
                             .frame(width: 200, height: 200)
                             .offset(x: -5, y: 5)
-                    }.frame(maxWidth: GeometryProxy.size.width ,alignment: .center)
-                        .frame(maxHeight: .infinity,alignment: .top)
+                    }.frame(maxWidth: .infinity,alignment: .center)
+                        .frame(height: 400,alignment: .top)
+                        
+                      
+                    
                 }
        
 
@@ -51,10 +43,11 @@ struct CustomPlantDetailView: View {
                     RoundedRectangle(cornerRadius: 30)
                         .fill(Color(hex: "606C38"))
                         .ignoresSafeArea()
-                        .frame(height: 560)
+                        .frame(height:350)
                         .frame(maxHeight: .infinity,alignment: .bottom)
-               
+            
                     VStack(alignment: .leading, spacing: 20){
+                        Spacer()
                         Text(plantCell.name)
                             .font(.largeTitle)
                             .fontWeight(.bold)
@@ -183,19 +176,14 @@ struct CustomPlantDetailView: View {
                                     }
                             }
                         }
-                        ScrollView(showsIndicators: false){
-                            Text(plantCell.getDesc())
-                                .font(.title2)
-                                .foregroundStyle(Color(hex: "FEFAE0"))
-                            
-             
-                        }
-                            .frame(height: 220,alignment: .top)
+
                         HStack {
                             wateringButton
                         }.frame(maxWidth: .infinity,alignment: .center)
+                            .padding(.bottom,10)
+                            .padding(.top,10)
                            
-                    }.frame(width: GeometryProxy.size.width - 50,height: GeometryProxy.size.height,alignment: .bottom)
+                    }.frame(width: GeometryProxy.size.width - 50)
                     
                        
                    
@@ -204,7 +192,10 @@ struct CustomPlantDetailView: View {
                 
                 }
             }
-        }
+        }.ignoresSafeArea(.keyboard)
+            .customBackBar(title: "Plants", textColor: Color(hex: "606C38")) {
+                dismiss()
+            }
     }
     @ViewBuilder
     var wateringButton: some View {
@@ -248,5 +239,5 @@ struct CustomPlantDetailView: View {
 }
 
 #Preview {
-    CustomPlantDetailView( plantCell: MockPlants.plantA)
+    CustomPlantDetailView( plantCell: DefaultPlants.africanViolet)
 }

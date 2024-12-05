@@ -32,7 +32,7 @@ struct AddingCustomPlantView: View {
                         .padding(10)
                     
                         .clipShape(.rect(cornerRadius: 10))
-                    TextField("", text: $plantName)
+                    TextField("Plant", text: $plantName)
                         .textFieldStyle(.roundedBorder)
                         .background(Color(hex: "DCA569"))
                         .padding(10)
@@ -90,9 +90,9 @@ struct AddingCustomPlantView: View {
                                 }
                                 .multilineTextAlignment(.center)
                                 .lineLimit(0)
-                                .foregroundStyle(Color(hex: "FEFAE0"))
+                                .foregroundStyle(Color(hex: "DCA569"))
                                 .font(.system(size: 12, weight: .semibold, design: .default))
-                                .padding(5)
+                                .padding(.horizontal,10)
                                 .presentationCompactAdaptation(.none)
                                 
                             }
@@ -193,8 +193,9 @@ struct AddingCustomPlantView: View {
                     }
                     Button {
                         
-                        let customPlant = PlantModel(name: plantName,location: location, frequency: frequency, image:selectedImage, waterDate: selectedDate,isCustom: true)
+                        let customPlant = PlantModel(name: plantName == "" ? "Plant" : plantName,location: location, frequency: frequency, image: selectedImage == "" ? "african-violet" : selectedImage, waterDate: selectedDate,isCustom: true)
                         plantsModule.selectedModule.addPlant(a: customPlant)
+                        plantsModule.toast = Toast(style: .success, message: "Plant Added", duration: 2)
                         dismiss()
                         cancelHit = false
                         
