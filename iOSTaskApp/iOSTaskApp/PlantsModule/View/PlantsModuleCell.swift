@@ -12,6 +12,7 @@ struct PlantsModuleCell: View {
     @EnvironmentObject var plantsModule: PlantsModuleHomeView.ViewModel
     @StateObject var vm = ViewModel()
     @AppStorage("swipreToDeleteInfo") var swipeToDelete: Bool = false
+    @AppStorage("isPlantsModuleCreated") var isPlantsModuleCreated = false
     @State private var cardOffset = CGSize.zero
 
     
@@ -47,6 +48,7 @@ struct PlantsModuleCell: View {
                                         .foregroundStyle(.darkGreen)
                                 }.alert(isPresented: $vm.showAlert){
                                     Alert(title: Text("Remove module ?") ,message: Text("This will delete all your plants"),primaryButton: .destructive(Text("Confirm") ,action: {
+                                        isPlantsModuleCreated = false
                                         context.delete(plantsModule.selectedModule)
                                         context.insert(DefaultModules.plants)
                                         

@@ -17,6 +17,7 @@ struct PackingModule: View {
     @EnvironmentObject var dateManager: DateManager
     var packingModule: PackingModuleDataClass
     @AppStorage("swipreToDeleteInfo") var swipeToDelete: Bool = false
+    @AppStorage("isPackingModuleCreated") var isPackingModuleCreated = false
     @State private var cardOffset = CGSize.zero
     var body: some View {
         
@@ -49,6 +50,7 @@ struct PackingModule: View {
                                         .foregroundStyle(.white)
                                 }.alert(isPresented: $showAlert){
                                     Alert(title: Text("Remove module ?") ,message: Text("This will delete all your trips , and your trip history."),primaryButton: .destructive(Text("Confirm") ,action: {
+                                        isPackingModuleCreated = false
                                         context.delete(packingModule)
                                         context.insert(DefaultModules.packing)
                                     }),secondaryButton: .cancel())
@@ -142,6 +144,7 @@ struct PackingModule: View {
                     }.padding(.vertical,20)
                         .frame(maxWidth: .infinity, alignment: .center)
                 }.dragToDelete(cardOffset: $cardOffset) {
+                    isPackingModuleCreated = false
                     context.delete(packingModule)
                     context.insert(DefaultModules.packing)
                     

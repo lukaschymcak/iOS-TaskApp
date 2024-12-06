@@ -28,16 +28,26 @@ struct ModuleListView: View {
                                 ModuleViewCell(module: module)
                                     .padding(6)
                                     .onTapGesture {
-                                        isAddingModuleOpen.toggle()
                                         vm.selectedModule = module
                                         vm.showAlert.toggle()
                                     }.frame(height: 170)
-                                    .alert(isPresented: $vm.showAlert) {
-                                        Alert(title: Text("Add module ?"), message: Text("This will add module to your home screen."), primaryButton: .default(Text("Confirm"), action: {
-                                            vm.addModuleToHome(context: context)
-                                            dismiss()
+                                    .alert("Add Module ?", isPresented: $vm.showAlert, actions: {
+                                        Button("Confirm") {
+                                            if vm.addModuleToHome(context: context) {
+                                                dismiss()
+                                                }
+                                         
                                             
-                                        }), secondaryButton: .cancel())
+                                        }
+                                        Button("Cancel", role: .cancel) {
+                                        }
+
+                                    } ,message: {
+                                        Text("This will add module to your home screen.")
+                                    }
+                                    ).alert("Module Already Exists", isPresented: $vm.moduleAlreadyExists) {
+                                        Button("Ok") {
+                                        }
                                     }
                                 
                                 
@@ -63,23 +73,33 @@ extension ModuleListView{
     class ViewModel:ObservableObject {
         @Published var selectedModule: CreatingModuleData = CreatingModuleData(name: "", colorName: "", secondaryColorName: "")
         @Published var showAlert:Bool = false
+        @Published var moduleAlreadyExists:Bool = false
         @AppStorage("isPackingModuleCreated") var isPackingModuleCreated = false
         @AppStorage("isPlantsModuleCreated") var isPlantsModuleCreated = false
         
-        func addModuleToHome(context:ModelContext){
+        func addModuleToHome(context:ModelContext) -> Bool {
             switch selectedModule.name {
             case "Packing":
                 let PackingModule = PackingModuleDataClass(name: "Packing")
+                if isPackingModuleCreated {
+                    moduleAlreadyExists.toggle()
+               return false
+                }
                 context.insert(PackingModule)
-                context.delete(DefaultModules.packing)
                 isPackingModuleCreated = true
+                return true
             case "Plants":
                 let PlantsModule = PlantsModuleDataClass()
+                if isPlantsModuleCreated {
+                    moduleAlreadyExists.toggle()
+                    return false
+                }
                 context.insert(PlantsModule)
-                context.delete(DefaultModules.plants)
-                isPlantsModuleCreated = true 
+                isPlantsModuleCreated = true
+                return true
             default:
-                return}
+                return false }
+     
         }
                 
                 
