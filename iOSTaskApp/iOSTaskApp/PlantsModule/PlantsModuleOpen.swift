@@ -12,6 +12,7 @@ struct PlantsModuleOpen: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var vmParent = ViewModel()
     @Environment(\.dismiss) var dismiss
+    @AppStorage("isPlantsOnboardingShown") var isPlantsOnboardingShown: Bool = true
     
 
     var body: some View {
@@ -127,6 +128,8 @@ struct PlantsModuleOpen: View {
                     
                 }
             }
+        }.sheet(isPresented: $isPlantsOnboardingShown) {
+            PlantsOnboarding()
         }
     }
 }

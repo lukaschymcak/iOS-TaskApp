@@ -119,6 +119,7 @@ struct PlantDetailView: View {
                                     .foregroundStyle(.lightCream)
                                     .overlay {
                                         HStack{
+                                            
                                             Image(systemName: "sun.max")
                                                 .foregroundStyle(.darkGreen)
                                                 .fontWeight(.bold)
@@ -127,11 +128,12 @@ struct PlantDetailView: View {
                                                 Text("LIGHT")
                                                     .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
-                                                Text(plantCell.light)
-                                                    .foregroundStyle(.darkGreen)
-                                                    .fontWeight(.bold)
-                                                    .font(.footnote)
-                                                    
+                                                ScrollView(.horizontal,showsIndicators: false){
+                                                    Text(plantCell.light)
+                                                        .foregroundStyle(.darkGreen)
+                                                        .fontWeight(.bold)
+                                                        .font(.footnote)
+                                                }.frame(height: 5)
                                             }
                                         }.frame(maxWidth: 140,alignment: .leading)
                                             .padding(.horizontal)

@@ -73,7 +73,7 @@ struct PackingOnboarding: View {
     }
 }
 
-struct PackingPages: Identifiable {
+struct Pages: Identifiable {
     var id = UUID()
     var title = ""
     var description = ""
@@ -84,10 +84,10 @@ struct PackingPages: Identifiable {
 }
 
 let packingpages = [
-    PackingPages(title: "Welcome to the Packing Module", description: "Let me show you how it works!", imageName: "suitcase"),
-    PackingPages(title: "Going on a trip ? ", description: "Here you can create a trip , set the date and start packing for it!", imageName: "tripOnboardPage2"),
-    PackingPages(title: "Don't forget anything!", description: "Just create a bag , click on it , and start adding stuff!",imageName: "tripOnboardpage3", imageHeight: 450,imageWidth: 350),
-    PackingPages(title: "Enjoy!", description: "Remember , everything is still work in progress , so please let us know anyhting that might improve the experience. Thanks a lot!", imageName: "thanks",isLastPage: true)
+    Pages(title: "Welcome to the Packing Module", description: "Let me show you how it works!", imageName: "suitcase"),
+    Pages(title: "Going on a trip ? ", description: "Here you can create a trip, set the date and start packing for it!", imageName: "tripOnboardPage2"),
+    Pages(title: "Don't forget anything!", description: "Just create a bag, click on it, and start adding stuff!",imageName: "tripOnboardpage3", imageHeight: 450,imageWidth: 350),
+    Pages(title: "Enjoy!", description: "Remember, everything is still work in progress, so please let us know anything that might improve the experience. Thanks a lot!", imageName: "thanks",isLastPage: true)
 ]
 #Preview {
     PackingOnboarding()
