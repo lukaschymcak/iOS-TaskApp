@@ -21,22 +21,25 @@ struct PackingOnboarding: View {
                     ForEach(packingpages) { page in
                         
                         VStack{
-                            
-                            Text(page.title)
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                .foregroundStyle(.white)
-                                .padding()
-                            Text(page.description)
-                                .font(.title2)
-                                .foregroundStyle(.white)
-                                .padding()
-                                .fontWeight(.bold)
                             Image(page.imageName)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: page.imageWidth == 0 ? 200 : page.imageWidth, height: page.imageHeight == 0 ? 200 : page.imageHeight)
-                                .padding()
+                              
+                            Text(page.title)
+                                .font(.system(size: 40))
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white)
+                                .padding(.vertical,5)
+                                .multilineTextAlignment(.center)
+                            Text(page.description)
+                                .font(.title)
+                                .foregroundStyle(.white)
+                                .padding(.horizontal)
+                                .padding(.vertical,5)
+                                .fontWeight(.bold)
+                                .multilineTextAlignment(.center)
+                       
                             if page.isLastPage {
                                 Button {
                                     dismiss()
@@ -50,6 +53,7 @@ struct PackingOnboarding: View {
                                                 .font(.title)
                                                 .fontWeight(.bold)
                                         }
+                                        .padding()
                                 }
 
                             }
