@@ -78,7 +78,7 @@ struct PlantDetailView: View {
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
-                                                Text("WATER")
+                                                Text("WATER(ml)")
                                                     .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text(plantCell.water)
@@ -102,7 +102,7 @@ struct PlantDetailView: View {
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
-                                                Text("TEMP")
+                                                Text("TEMP(C)")
                                                     .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text(plantCell.temp)

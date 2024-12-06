@@ -28,7 +28,7 @@ struct PlantsModuleCell: View {
                         .fill(.lightCream)
                         .stroke(.darkGreen,lineWidth: 7)
                         .frame(maxWidth: UIScreen.main.bounds.width - 25,maxHeight:
-                                plantsModule.selectedModule.wateredLocations.isEmpty ? 150 : 180)
+                                vm.selectedModule.needWatering == 0  ? 150 : 180)
                     
                     VStack{
                         VStack(alignment: .leading,spacing: 15) {
