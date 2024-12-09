@@ -156,6 +156,7 @@ struct PlantsModuleCell: View {
               
             }
         }.frame(maxWidth: .infinity, alignment: .center)
+            .padding(.bottom,5)
                 
                 
             

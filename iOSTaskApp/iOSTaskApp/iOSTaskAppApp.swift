@@ -20,7 +20,7 @@ struct iOSTaskAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: [PackingModuleDataClass.self,Trip.self,CreatingModuleData.self,PlantsModuleDataClass.self],inMemory: true)
+                .modelContainer(for: [PackingModuleDataClass.self,Trip.self,CreatingModuleData.self,PlantsModuleDataClass.self],inMemory: false)
                 .environmentObject(dateManager)
                 .environmentObject(packingVM)
         }.onChange(of: scenephase) { _,phase in

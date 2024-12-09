@@ -203,6 +203,7 @@ struct PackingModule: View {
             }
      
         }.frame(maxWidth: .infinity, alignment: .center)
+            .padding(.bottom,5)
             
     }
     }

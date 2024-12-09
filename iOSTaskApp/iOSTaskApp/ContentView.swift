@@ -118,7 +118,7 @@ struct HomeView: View {
                     NavigationStack {
                         ZStack {
                      
-                            VStack{
+                            VStack() {
                                 CustomNavBar(
                                     isWelcomeScreenOver: $isWelcomeScreenOver,
                                     isAddModuleOpen: $isAddModuleOpen
@@ -134,6 +134,7 @@ struct HomeView: View {
                                     PackageModuleHomeView()
                                         .environmentObject(dateManager)
                                         .environmentObject(packingVM)
+                               
                                     
                                     
                                     

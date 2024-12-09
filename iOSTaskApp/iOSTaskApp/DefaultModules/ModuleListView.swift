@@ -9,7 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct ModuleListView: View {
-    @AppStorage("IsFirstTimeModuleListViewOpen") var isFirstTimeOpeningModuleView: Bool = true
     @Environment(\.dismiss) var dismiss
     @Binding var isAddingModuleOpen: Bool
     @Environment(\.modelContext) var context
@@ -23,7 +22,7 @@ struct ModuleListView: View {
                 
                     
                     ScrollView{
-                        ForEach(availableModules){ module in
+                        ForEach(DefaultModules.defaults){ module in
                             VStack{
                                 ModuleViewCell(module: module)
                                     .padding(6)
@@ -54,13 +53,6 @@ struct ModuleListView: View {
                             }
                             
                             
-                        }.onAppear {
-                            if isFirstTimeOpeningModuleView {
-                                for module in DefaultModules.defaults {
-                                    context.insert(module)
-                                }
-                                isFirstTimeOpeningModuleView = false
-                            }
                         }
                 }
             
