@@ -8,8 +8,7 @@
 import Foundation
 import SwiftData
 
-extension PlantsModuleHomeView {
-    class ViewModel:ObservableObject {
+class PlantsModuleViewModel:ObservableObject {
         
         @Published var selectedModule:PlantsModuleDataClass
         @Published var selectedPlants: PlantModel?
@@ -36,5 +35,5 @@ extension PlantsModuleHomeView {
             
             
         }
-    }
+    
 

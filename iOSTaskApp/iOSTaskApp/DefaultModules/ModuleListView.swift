@@ -12,7 +12,6 @@ struct ModuleListView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var isAddingModuleOpen: Bool
     @Environment(\.modelContext) var context
-    @Query(sort:\CreatingModuleData.name,order: .forward) var availableModules: [CreatingModuleData]
     @StateObject var vm = ViewModel()
     
     
@@ -22,7 +21,7 @@ struct ModuleListView: View {
                 
                     
                     ScrollView{
-                        ForEach(DefaultModules.defaults){ module in
+                        ForEach(DefaultModules.defaults,id: \.id){ module in
                             VStack{
                                 ModuleViewCell(module: module)
                                     .padding(6)
@@ -103,5 +102,5 @@ extension ModuleListView{
 
 #Preview {
     ModuleListView(isAddingModuleOpen: .constant(false))
-        .modelContainer(for:CreatingModuleData.self)
+
 }

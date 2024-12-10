@@ -52,7 +52,7 @@ struct PackingModule: View {
                                     Alert(title: Text("Remove module ?") ,message: Text("This will delete all your trips , and your trip history."),primaryButton: .destructive(Text("Confirm") ,action: {
                                         isPackingModuleCreated = false
                                         context.delete(packingModule)
-                                        context.insert(DefaultModules.packing)
+                                     
                                     }),secondaryButton: .cancel())
                                 }
                                 
@@ -146,7 +146,7 @@ struct PackingModule: View {
                 }.dragToDelete(cardOffset: $cardOffset) {
                     isPackingModuleCreated = false
                     context.delete(packingModule)
-                    context.insert(DefaultModules.packing)
+             
                     
                 }
                 RoundedRectangle(cornerRadius: 20)

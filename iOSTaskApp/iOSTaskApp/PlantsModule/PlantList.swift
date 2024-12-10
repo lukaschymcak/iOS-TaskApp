@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PlantList: View {
-    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
     @EnvironmentObject var vm: PlantsModuleOpen.ViewModel
     
     var body: some View {
@@ -93,7 +92,7 @@ struct PlantList: View {
                                     }
                                   
                                 }
-                                if value.filter({ $0.prepared == false && $0.waterDate.isToday() }).count
+                                if value.filter({ $0.watered == false && $0.waterDate.isToday() }).count
                                     > 0
                                 {
                                     Circle()
@@ -137,6 +136,5 @@ struct PlantList: View {
 
 #Preview {
     PlantList()
-        .environmentObject(PlantsModuleHomeView.ViewModel())
         .environmentObject(PlantsModuleOpen.ViewModel())
 }

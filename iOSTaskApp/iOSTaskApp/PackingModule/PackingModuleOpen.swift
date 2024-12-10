@@ -70,7 +70,7 @@ struct PackingModuleOpen: View {
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(Color(hex: "FEFAE0"))
                                     .frame(
-                                        width: GeometryProxy.size.width - 130,
+                                        width: 270,
                                         height: 65
                                     )
                             }

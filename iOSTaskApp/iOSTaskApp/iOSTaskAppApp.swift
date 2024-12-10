@@ -13,6 +13,7 @@ struct iOSTaskAppApp: App {
     @StateObject var dateManager = DateManager.shared
     @Environment(\.scenePhase) var scenephase
     @StateObject var packingVM =  PackingModuleViewModel()
+    @StateObject var plantsVM = PlantsModuleViewModel()
     private static let refreshId = "dateRefresh"
     let packingNotificationManager = PackingNotificationManager.shared
     var isPackingModuleCreated:Bool { UserDefaults.standard.bool(forKey: "isPackingModuleCreated") }
@@ -20,9 +21,10 @@ struct iOSTaskAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: [PackingModuleDataClass.self,Trip.self,CreatingModuleData.self,PlantsModuleDataClass.self],inMemory: false)
+                .modelContainer(for: [PackingModuleDataClass.self,Trip.self,PlantsModuleDataClass.self],inMemory: false)
                 .environmentObject(dateManager)
                 .environmentObject(packingVM)
+                .environmentObject(plantsVM)
         }.onChange(of: scenephase) { _,phase in
             if phase == .background {
                 scheduleAppRefresh()

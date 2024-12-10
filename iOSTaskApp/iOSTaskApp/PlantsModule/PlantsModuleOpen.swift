@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlantsModuleOpen: View {
-    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @Environment(\.colorScheme) var colorScheme
     @StateObject var vmParent = ViewModel()
     @Environment(\.dismiss) var dismiss
@@ -29,49 +29,23 @@ struct PlantsModuleOpen: View {
                         .ignoresSafeArea()
                         .frame(
                             height: GeometryProxy.size.height
-                            - (!plantsModuleModel.selectedModule.wateredLocations.isEmpty
+                            - (!plantsVM.selectedModule.wateredLocations.isEmpty
                                     ? 85 : 0))
 
                     VStack(spacing: 0) {
                         
                       
-                        if plantsModuleModel.selectedModule.wateredLocations.isEmpty {
-                  
-                            VStack(alignment: .center) {
-                                Spacer()
-                    
-                                Text("Time to water some plants!")
-                                    .font(.largeTitle)
-                                    .foregroundStyle(.lightOrange)
-                                    .fontWeight(.bold)
-                                    .multilineTextAlignment(.center)
-                                    .padding()
-                                Button {
-                                    vmParent.toggleAddingPlants()
-                                } label: {
-                                    ZStack {
-                                        Image("pot")
-                                            .resizable()
-                                            .frame(width: 150, height: 150)
-
-                                        Image(systemName: "plus")
-                                            .resizable()
-                                            .frame(width: 50, height: 50)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(.lightCream)
-                                            .offset(x: -1, y: 15)
-
-                                    }
-
-                                }
-                                Spacer()
+                        if plantsVM.selectedModule.wateredLocations.isEmpty {
+                            VStack {
+                            }.onAppear {
+                                vmParent.addingPlant = true
                             }
                         } else {
                             ScrollViewReader { ScrollViewProxy in
                                 PlantList(
                                 ).frame(height: 70)
                                     .environmentObject(vmParent)
-                                    .onChange(of: plantsModuleModel.selectedModule.plants) {
+                                    .onChange(of: plantsVM.selectedModule.plants) {
                                         vmParent.addAndScrollTo(old: $0, new: $1, scroll: ScrollViewProxy)
                                     }.padding()
                             }
@@ -97,12 +71,13 @@ struct PlantsModuleOpen: View {
 
             }
         }.onAppear(perform: {
-            vmParent.updateModule(with: plantsModuleModel.selectedModule)
+            vmParent.updateModule(with: plantsVM.selectedModule)
         })
         .fullScreenCover(isPresented: $vmParent.addingPlant) {
             AddingPlantView()
+                .environmentObject(plantsVM)    
    
-        }.customBackBar(title: "Plants", textColor: plantsModuleModel.selectedModule.plants.isEmpty ? .darkGreen : .lightCream) {
+        }.customBackBar(title: "Plants", textColor: plantsVM.selectedModule.plants.isEmpty ? .darkGreen : .lightCream) {
             dismiss()
         }.toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -195,7 +170,7 @@ extension PlantsModuleOpen{
 
 #Preview {
     PlantsModuleOpen()
-        .environmentObject(PlantsModuleHomeView.ViewModel())
+        .environmentObject(PlantsModuleViewModel())
 }
 
 

@@ -10,7 +10,7 @@ import SwiftUI
 struct PresetAddView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var plantModuleModel: PlantsModuleHomeView.ViewModel
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @State var plantModel:PlantModel
     @State var infoText: String = ""
     @State var selectedDate:Date = Date.now
@@ -23,8 +23,8 @@ struct PresetAddView: View {
         GeometryReader { GeometryProxy in
             
             ZStack(alignment: .top) {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.darkGreen)
+                
+                Color.darkGreen
 
                     .ignoresSafeArea()
                 VStack(spacing:20){
@@ -185,8 +185,8 @@ struct PresetAddView: View {
                                         Button {
                                             let plantModelCopy = PlantModel(name: plantModel.name,desc: plantModel.getDesc(),location:location, frequency: frequency,water: plantModel.water,light:plantModel.light,temp: plantModel.temp,image: plantModel.image,waterDate: selectedDate)
                                             
-                                            plantModuleModel.toast = Toast(style: .success, message: "Plant Added",duration: 3)
-                                            plantModuleModel.selectedModule.addPlant(a: plantModelCopy)
+                                            plantsVM.toast = Toast(style: .success, message: "Plant Added",duration: 3)
+                                            plantsVM.selectedModule.addPlant(a: plantModelCopy)
                                             cancelHit = false
                                             dismiss()
                                             
@@ -198,7 +198,7 @@ struct PresetAddView: View {
                                                 .padding(10)
                                                 .background(.darkCream)
                                                 .clipShape(.rect(cornerRadius: 10))
-                                        }  .sensoryFeedback(.increase, trigger: plantModuleModel.selectedModule.plants.count)
+                                        }  .sensoryFeedback(.increase, trigger: plantsVM.selectedModule.plants.count)
                                        
                                     }.frame(maxWidth: .infinity,alignment: .center)
                                         .padding(.top,10)
@@ -236,5 +236,5 @@ struct PresetAddView: View {
 
 #Preview {
     PresetAddView(plantModel: DefaultPlants.monstera, cancelHit: .constant(true))
-        .environmentObject(PlantsModuleHomeView.ViewModel())
+        .environmentObject(PlantsModuleViewModel())
 }

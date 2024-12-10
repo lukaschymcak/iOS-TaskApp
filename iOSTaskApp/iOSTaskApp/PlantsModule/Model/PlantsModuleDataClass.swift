@@ -29,11 +29,12 @@ class PlantsModuleDataClass:Identifiable {
             plant.prepared
         }
     }
+    
 
     var needWatering: Int {
         var counter: Int = 0
         for plant in plants {
-            if !plant.prepared && plant.waterDate.isToday() {
+            if !plant.watered && (plant.waterDate.isToday() || plant.waterDate.isBeforeToday()) {
                 counter += 1
             }
         }
@@ -166,7 +167,7 @@ extension PlantsModuleDataClass {
         func refreshPlants(a:PlantsModuleDataClass){
             for plants in a.plants {
                 
-                if plants.watered {
+                if plants.watered  && plants.waterDate.isToday() || plants.waterDate.isBeforeToday() {
                     plants.toggleNotWatered()
                 }
             }

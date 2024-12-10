@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 struct PlantsModuleCell: View {
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var plantsModule: PlantsModuleHomeView.ViewModel
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @StateObject var vm = ViewModel()
     @AppStorage("swipreToDeleteInfo") var swipeToDelete: Bool = false
     @AppStorage("isPlantsModuleCreated") var isPlantsModuleCreated = false
@@ -34,7 +34,7 @@ struct PlantsModuleCell: View {
                     VStack{
                         VStack(alignment: .leading,spacing: 15) {
                             HStack {
-                                Text(plantsModule.selectedModule.getName())
+                                Text(plantsVM.selectedModule.getName())
                                     .font(.largeTitle)
                                     .fontWeight(.bold)
                                     .foregroundStyle(.darkGreen)
@@ -49,8 +49,8 @@ struct PlantsModuleCell: View {
                                 }.alert(isPresented: $vm.showAlert){
                                     Alert(title: Text("Remove module ?") ,message: Text("This will delete all your plants"),primaryButton: .destructive(Text("Confirm") ,action: {
                                         isPlantsModuleCreated = false
-                                        context.delete(plantsModule.selectedModule)
-                                        context.insert(DefaultModules.plants)
+                                        context.delete(plantsVM.selectedModule)
+                        
                                         
                                     }),secondaryButton: .cancel())
                                 }
@@ -63,7 +63,7 @@ struct PlantsModuleCell: View {
                                 .fontWeight(.bold)
                                 .foregroundStyle(.darkGreen)
                             ScrollView(.horizontal,showsIndicators: false){
-                                if !plantsModule.selectedModule.wateredLocations.isEmpty {
+                                if !plantsVM.selectedModule.wateredLocations.isEmpty {
                                     
                                     HStack(spacing: 20){
                                         
@@ -100,7 +100,7 @@ struct PlantsModuleCell: View {
                 } .frame(maxWidth: .infinity)
                 
                 .onAppear {
-                    vm.updatePlants(with: plantsModule.selectedModule)
+                    vm.updatePlants(with: plantsVM.selectedModule)
                     if !swipeToDelete {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             withAnimation {
@@ -124,12 +124,12 @@ struct PlantsModuleCell: View {
                     
                     
                 } .dragToDelete(cardOffset: $cardOffset) {
-                    context.delete(plantsModule.selectedModule)
-                    context.insert(DefaultModules.plants)
+                    context.delete(plantsVM.selectedModule)
+      
                 }
                 RoundedRectangle(cornerRadius: 20)
                     .fill(.red)
-                    .deleteCardSlow(cardOffset: $cardOffset, customHeight: plantsModule.selectedModule.plants.isEmpty ? 150 : 180)
+                    .deleteCardSlow(cardOffset: $cardOffset, customHeight: plantsVM.selectedModule.plants.isEmpty ? 150 : 180)
             }.frame(maxWidth: .infinity)
             if !swipeToDelete {
                 Button {
@@ -178,7 +178,7 @@ extension PlantsModuleCell {
         
         var filteredPlants: [(key:houseLocation,value:[PlantModel])] {
           
-            return selectedModule.wateredLocations.filter({$0.value.filter({$0.prepared == false && $0.waterDate.isToday()}).count > 0})
+            return selectedModule.wateredLocations.filter({$0.value.filter({$0.watered == false && $0.waterDate.isToday()}).count > 0})
             
         }
         
@@ -188,5 +188,5 @@ extension PlantsModuleCell {
 #Preview {
     PlantsModuleCell(vm: PlantsModuleCell.ViewModel())
         .modelContainer(for:PlantsModuleDataClass.self)
-        .environmentObject(PlantsModuleHomeView.ViewModel())
+        .environmentObject(PlantsModuleViewModel())
 }

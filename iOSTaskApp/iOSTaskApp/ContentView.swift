@@ -107,6 +107,7 @@ struct HomeView: View {
     @Environment(\.dismiss) var dismiss
     @State var isAddModuleOpen: Bool = false
     @EnvironmentObject var packingVM: PackingModuleViewModel
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @EnvironmentObject var dateManager: DateManager
 
 
@@ -122,7 +123,7 @@ struct HomeView: View {
                                 CustomNavBar(
                                     isWelcomeScreenOver: $isWelcomeScreenOver,
                                     isAddModuleOpen: $isAddModuleOpen
-                                ).environmentObject(packingVM)
+                                )
                                 
                                 
                                 
@@ -142,6 +143,8 @@ struct HomeView: View {
                                     
                                     
                                     PlantsModuleHomeView()
+                                        .environmentObject(plantsVM)
+                                        .environmentObject(dateManager)
                                     
                                     
                                 }
@@ -168,7 +171,6 @@ struct AddModuleView: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var isAddModuleOpen: Bool
     @State var isAddingModuleOpen: Bool = false
-    @Query var availableModules: [CreatingModuleData]
 
     var body: some View {
         NavigationStack {
@@ -185,19 +187,6 @@ struct AddModuleView: View {
                             .foregroundStyle(Utils.textColor(colorScheme))
                     }.padding(.bottom, 20)
 
-                    Button {
-                        for modules in availableModules {
-                            context.delete(modules)
-                        }
-                        for newModules in DefaultModules.defaults {
-                            context.insert(newModules)
-                        }
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Utils.textColor(colorScheme))
-                    }.padding(.bottom, 20)
                 }.frame(maxWidth: .infinity, alignment: .center)
 
                 Text("Choose a Module")
@@ -224,9 +213,10 @@ struct AddModuleView: View {
 #Preview {
     ContentView()
         .modelContainer(for: [
-            Trip.self, PackingModuleDataClass.self, CreatingModuleData.self,
+            Trip.self, PackingModuleDataClass.self,
             PlantsModuleDataClass.self,
         ],inMemory: true)
         .environmentObject(DateManager())
         .environmentObject(PackingModuleViewModel())
+        .environmentObject(PlantsModuleViewModel())
 }

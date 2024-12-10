@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-@Model
 class CreatingModuleData {
     var id:UUID
     var name: String

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddingCustomPlantView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var plantsModule: PlantsModuleHomeView.ViewModel
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @State var infoText: String = ""
     @State var plantName: String = ""
     @State var selectedDate:Date = Date.now
@@ -193,8 +193,8 @@ struct AddingCustomPlantView: View {
                     Button {
                         
                         let customPlant = PlantModel(name: plantName == "" ? "Plant" : plantName,location: location, frequency: frequency, image: selectedImage == "" ? "african-violet" : selectedImage, waterDate: selectedDate,isCustom: true)
-                        plantsModule.selectedModule.addPlant(a: customPlant)
-                        plantsModule.toast = Toast(style: .success, message: "Plant Added", duration: 2)
+                        plantsVM.selectedModule.addPlant(a: customPlant)
+                        plantsVM.toast = Toast(style: .success, message: "Plant Added", duration: 2)
                         dismiss()
                         cancelHit = false
                         
@@ -225,6 +225,6 @@ struct AddingCustomPlantView: View {
 
 #Preview {
     AddingCustomPlantView( cancelHit: .constant(false))
-        .environmentObject(PlantsModuleHomeView.ViewModel())
+        .environmentObject(PlantsModuleViewModel())
         
 }

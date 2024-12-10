@@ -59,5 +59,5 @@ struct ModuleViewCell: View {
 
 #Preview {
     ModuleViewCell(module: DefaultModules.plants)
-        .modelContainer(for:CreatingModuleData.self)
+       
 }

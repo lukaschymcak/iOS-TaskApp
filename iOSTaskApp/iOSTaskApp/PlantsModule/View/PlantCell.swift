@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlantCell: View {
-    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @State var plantCell: PlantModel
     @State var showWaterAlert: Bool = false
     @State var showDeletePlantAlert: Bool = false
@@ -72,11 +72,11 @@ struct PlantCell: View {
                                         primaryButton: .destructive(
                                             Text("Confirm"),
                                             action: {
-                                                plantsModuleModel.toast = Toast(
+                                                plantsVM.toast = Toast(
                                                     style: .success,
                                                     message: "Plant Removed",
                                                     doOutsideFunctonImage: "")
-                                                plantsModuleModel.selectedModule
+                                                plantsVM.selectedModule
                                                     .removePlant(a: plantCell)
 
                                             }), secondaryButton: .cancel())
@@ -108,11 +108,13 @@ struct PlantCell: View {
                     showWaterAlert.toggle()
 
                 } else {
-                    plantCell.prepare()
-                    plantsModuleModel.toast = Toast(
+                    plantCell.toggleWatered()
+                    plantCell.waterPlant()
+                    plantsVM.toast = Toast(
                         style: .success, message: "Plant Watered",
                         doOutsideFunctonImage: "arrow.uturn.backward")
-                    plantsModuleModel.selectedPlants = plantCell
+                    plantsVM.selectedPlants = plantCell
+                    plantCell.setWaterDate(a: Date())
                 }
             } label: {
                 HStack {
@@ -120,29 +122,29 @@ struct PlantCell: View {
 
                 }.frame(width: 0, height: 0)
                 Image(
-                    systemName: plantCell.prepared
+                    systemName: plantCell.watered
                         ? "checkmark.circle" : "drop.circle"
                 )
                 .font(.system(size: 50))
                 .foregroundStyle(.lightCream)
             }.padding(.horizontal)
-                .alert(isPresented: $showWaterAlert) {
-                    Alert(
-                        title: Text(
-                            "You forgot to water this plant , once watered next watering date will be calculated from today"
-                        ),
-                        primaryButton: .destructive(
-                            Text("Water"),
-                            action: {
-                                plantCell.prepare()
-                                plantsModuleModel.toast = Toast(
-                                    style: .success, message: "Plant Watered",
-                                    doOutsideFunctonImage:
-                                        "arrow.uturn.backward")
-                                plantsModuleModel.selectedPlants = plantCell
-                                plantCell.setWaterDate(a: Date())
-                            }), secondaryButton: .cancel())
-                }.disabled(plantCell.prepared)
+                .alert("Water ?", isPresented: $showWaterAlert, actions: {
+                    
+                    Button("Yes"){
+                        plantCell.prepare()
+                        plantsVM.toast = Toast(
+                            style: .success, message: "Plant Watered",
+                            doOutsideFunctonImage:
+                                "arrow.uturn.backward")
+                        plantsVM.selectedPlants = plantCell
+                        plantCell.setWaterDate(a: Date())
+                    }
+                    Button("No", role: .cancel) {
+                    }
+                }, message: {
+                    Text("You forgot to water this plant , once watered next watering date will be calculated from today")
+                })
+                .disabled(plantCell.watered)
         } else {
             Image(
                 systemName: "clock"

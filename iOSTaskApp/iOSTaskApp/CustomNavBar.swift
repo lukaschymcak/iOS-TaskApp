@@ -14,7 +14,7 @@ struct CustomNavBar: View {
     @Binding var isWelcomeScreenOver: Bool
     @AppStorage("userName") var name:String = ""
     @Binding var isAddModuleOpen: Bool
-    @EnvironmentObject var packingVM: PackingModuleViewModel
+
     
     var body: some View {
         GeometryReader { GeometryProxy in
@@ -22,7 +22,7 @@ struct CustomNavBar: View {
                 VStack{
                     NavigationLink {
                         SettingsView()
-                            .environmentObject(packingVM)
+  
                         
                         
                     } label: {
@@ -76,7 +76,8 @@ struct CustomNavBar: View {
 }
 #Preview {
     CustomNavBar(isWelcomeScreenOver: .constant(false), name: "Lukas", isAddModuleOpen: .constant(false))
-        .environmentObject(PackingModuleViewModel())
+
+    
 }
 
 

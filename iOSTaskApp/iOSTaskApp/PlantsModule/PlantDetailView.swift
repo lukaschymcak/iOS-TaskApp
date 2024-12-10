@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlantDetailView: View {
-    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     var colums: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     @Environment(\.dismiss) var dismiss
     var plantCell:PlantModel
@@ -178,8 +178,8 @@ struct PlantDetailView: View {
                     
                 }else {
                     plantCell.prepare()
-                    plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                    plantsModuleModel.selectedPlants = plantCell
+                    plantsVM.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                    plantsVM.selectedPlants = plantCell
                     dismiss()
                 }
             } label: {
@@ -193,8 +193,8 @@ struct PlantDetailView: View {
                 .alert(isPresented: $showWaterAlert) {
                     Alert(title: Text("Water Plant ?"), primaryButton: .destructive(Text("You forgot to water this plant , once watered next watering date will be calculated from today"), action: {
                         plantCell.prepare()
-                        plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                        plantsModuleModel.selectedPlants = plantCell
+                        plantsVM.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                        plantsVM.selectedPlants = plantCell
                     }) , secondaryButton: .cancel())
                 }.disabled(plantCell.prepared)
         } else {
@@ -212,5 +212,5 @@ struct PlantDetailView: View {
 
 #Preview {
     PlantDetailView(plantCell: DefaultPlants.monstera )
-        .environmentObject(PlantsModuleHomeView.ViewModel())
+        .environmentObject(PlantsModuleViewModel())
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomPlantDetailView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     var plantCell:PlantModel
     @State var showWateringAlert:Bool = false
     @State var setWater:String = ""
@@ -208,8 +208,8 @@ struct CustomPlantDetailView: View {
                     
                 }else {
                     plantCell.prepare()
-                    plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                    plantsModuleModel.selectedPlants = plantCell
+                    plantsVM.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                    plantsVM.selectedPlants = plantCell
                     dismiss()
                 }
             } label: {
@@ -223,8 +223,8 @@ struct CustomPlantDetailView: View {
                 .alert(isPresented: $showWateringAlert) {
                     Alert(title: Text("Water Plant ?"), primaryButton: .destructive(Text("You forgot to water this plant , once watered next watering date will be calculated from today"), action: {
                         plantCell.prepare()
-                        plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                        plantsModuleModel.selectedPlants = plantCell
+                        plantsVM.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                        plantsVM.selectedPlants = plantCell
                     }) , secondaryButton: .cancel())
                 }.disabled(plantCell.prepared)
         } else {
