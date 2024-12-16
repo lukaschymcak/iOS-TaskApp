@@ -29,11 +29,12 @@ class PlantsModuleDataClass:Identifiable {
             plant.prepared
         }
     }
+    
 
     var needWatering: Int {
         var counter: Int = 0
         for plant in plants {
-            if !plant.prepared && plant.waterDate.isToday() {
+            if !plant.watered && (plant.waterDate.isToday() || plant.waterDate.isBeforeToday()) {
                 counter += 1
             }
         }
@@ -136,8 +137,46 @@ extension PlantsModuleDataClass {
                 
             }
         }
+    
+    func filterByDAte(when time: waterTime) -> [PlantModel] {
+        switch time {
+        case .today:
+            return plants.filter { plant in
+                Calendar.current.isDateInToday(plant.waterDate)
+            }
+        case .tomorrow:
+            return plants.filter { plant in
+                Calendar.current.isDateInTomorrow(plant.waterDate)
+            }
+        case .thisWeek:
+            let tmrw = Calendar.current.date(byAdding: .day, value: 1, to: Date.now)
+            if let tmrw = tmrw {
+                let nextWeek = Calendar.current.date(
+                    byAdding: .day, value: 6, to: tmrw)
+                if let nextWeek = nextWeek {
+                    return plants.filter { plant in
+                        plant.waterDate > tmrw && plant.waterDate < nextWeek
+                    }
+                } else{
+                    return []
+                }
+            }
+            return []
+            
+        case .afterWeek:
+            let morethanWeek = Calendar.current.date(byAdding: .day, value: 7, to: Date.now)
+            if let morethanWeek = morethanWeek {
+                return plants.filter { plant in
+                    plant.waterDate >= morethanWeek 
+                }
+            }
+            return []
         
+            
+        }
+    }
         
+    
         
         func getForgottenPlants(location:houseLocation) -> [PlantModel]{
             return plants.filter { plant in
@@ -148,26 +187,13 @@ extension PlantsModuleDataClass {
         func getAllPlants() -> [PlantModel] {
             return plants.sorted { $0.waterDate < $1.waterDate }
         }
-        func waterPlants() {
-            plants.filter { plant in
-                plant.prepared
-            }.forEach { plant in
-                if let dateIncrease = Calendar.current.date(
-                    byAdding: .day, value: plant.frequency,
-                    to: plant.waterDate) {
-                    plant.toggleWatered()
-                    plant.setWaterDate(a: dateIncrease)
-                    plant.unPrepare()
-                    
-                }
-            }
-            
-        }
-        func refreshPlants(a:PlantsModuleDataClass){
-            for plants in a.plants {
+       
+        func refreshPlants(){
+            for plants in plants {
                 
-                if plants.watered {
+                if plants.watered  && plants.waterDate.isBeforeToday() {
                     plants.toggleNotWatered()
+                    print("Plant \(plants.name) was watered but it's date was before today, so it was unwatered")
                 }
             }
             

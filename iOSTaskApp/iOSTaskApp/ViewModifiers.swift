@@ -70,7 +70,38 @@ struct DeleteCardSlow: ViewModifier {
     }
 }
 
-
+struct CustomBackBar: ViewModifier {
+    var title: String
+    var textColor: Color
+    var backImage: String?
+    var action: () -> Void
+    func body(content: Content) -> some View {
+        content
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        action()
+                    } label: {
+                        Image(systemName: backImage ?? "chevron.backward")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(textColor)
+                        
+                    }.frame(height: 50)
+                }
+                ToolbarItem(placement: .principal) {
+                    Text(title)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundStyle(textColor)
+                        .frame(height: 50)
+                }
+                
+            }.toolbarTitleDisplayMode(.inline)
+        
+        
+    }
+}
 
 extension View {
     func dragToDelete(cardOffset: Binding<CGSize>, perform: @escaping () -> Void ) -> some View {
@@ -78,6 +109,9 @@ extension View {
     }
     func deleteCardSlow(cardOffset: Binding<CGSize>,customHeight: CGFloat) -> some View {
         self.modifier(DeleteCardSlow(cardOffset: cardOffset,customHeight: customHeight))
+    }
+    func customBackBar(title: String,textColor: Color,action: @escaping () -> Void) -> some View {
+        self.modifier(CustomBackBar(title: title,textColor: textColor,action: action))
     }
 
 }

@@ -31,15 +31,18 @@ class PackingNotificationManager {
         date.minute = 0
         let identifier = "TripNotification"
         self.content.title = "Task App"
-        self.content.subtitle = trip.dateFrom.isToday()  ? "\(trip.name) is happening today" : " \(trip.name) is happening in \(trip.dayDifference) days"
+        self.content.subtitle = trip.dateFrom.isToday()  ? "\(trip.name)is happening today" : " \(trip.name) is happening in \(trip.dayDifference) days"
         self.content.body = "You are \(trip.percentage)% ready"
         self.content.sound = UNNotificationSound.default
         self.content.badge = 1
         content.sound = UNNotificationSound.default
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
-        //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
         let request = UNNotificationRequest(identifier: identifier, content: self.content, trigger: trigger)
         UNUserNotificationCenter.current().add(request)
+    }
+    
+    func removeTripNotificationfromCenter(){
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["TripNotification"])
     }
                                                                           
                                                                         

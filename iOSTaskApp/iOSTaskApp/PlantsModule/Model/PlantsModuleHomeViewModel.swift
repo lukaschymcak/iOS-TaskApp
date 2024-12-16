@@ -8,8 +8,7 @@
 import Foundation
 import SwiftData
 
-extension PlantsModuleHomeView {
-    class ViewModel:ObservableObject {
+class PlantsModuleViewModel:ObservableObject {
         
         @Published var selectedModule:PlantsModuleDataClass
         @Published var selectedPlants: PlantModel?
@@ -20,6 +19,13 @@ extension PlantsModuleHomeView {
             self.selectedModule = selelectedModule
         }
  
+      
+    var filteredPlants: [(key:houseLocation,value:[PlantModel])] {
+      
+        return selectedModule.wateredLocations.filter({$0.value.filter({$0.watered == false && $0.waterDate.isToday() || $0.waterDate.isBeforeToday()}).count > 0})
+        
+    }
+          
             
         
         func setSelectedModule(a:PlantsModuleDataClass){
@@ -33,5 +39,5 @@ extension PlantsModuleHomeView {
             
             
         }
-    }
+    
 

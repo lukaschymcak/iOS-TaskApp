@@ -18,6 +18,7 @@ struct PackageModuleHomeView: View {
     @State private var cardOffset = CGSize.zero
     @State private var showDeleteAlert:Bool = false
     @AppStorage("swipreToDeleteInfo") var swipeToDelete: Bool = false
+    @AppStorage("isPackingModuleCreated") var isPackingModuleCreated = false
     
     
     var body: some View {
@@ -46,6 +47,7 @@ struct PackageModuleHomeView: View {
                             packingVM.setSelectedModule(a: onlyModule)
                             
                             
+                            
                         }.frame(maxWidth: .infinity,alignment: .leading)
                         
                         
@@ -59,6 +61,14 @@ struct PackageModuleHomeView: View {
             
             
         }
+        VStack{
+            
+        }.onAppear {
+            if packinModule == nil {
+                isPackingModuleCreated = false
+            }
+        }
+        
         
         
         

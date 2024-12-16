@@ -23,13 +23,16 @@ class PackingModuleViewModel:ObservableObject {
     func checkAndAddToHistory() {
         if let module = selectedModule {
             if let earliestTrip = module.earliestTrip {
-                if earliestTrip.dateFrom < Date() {
+                if earliestTrip.dateFrom.isBeforeToday() {
                     module.addTripHistory(a:earliestTrip)
                     module.removeTrip(a: earliestTrip)
+                    print("Added to history")
                 }
+            
             }
             
         }
+
     }
     
     init(selelectedModule:PackingModuleDataClass = PackingModuleDataClass()) {

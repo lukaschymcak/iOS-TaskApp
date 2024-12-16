@@ -13,33 +13,33 @@ struct PlantsModuleHomeView: View {
     @Environment(\.modelContext) var context
     @Query var plantsModule:[PlantsModuleDataClass]
     var singleModule: PlantsModuleDataClass? { plantsModule.first }
-    @StateObject var plantsModuleModel: ViewModel = ViewModel()
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @State private var cardOffset = CGSize.zero
     @State private var showDeleteAlert:Bool = false
+    @AppStorage("isPlantsModuleCreated") var isPlantsModuleCreated = false
     
 
     var body: some View {
-   
-            
+     
             
             if let singleModule = singleModule{
                 ZStack(alignment: .trailing) {
                     NavigationLink {
                         PlantsModuleOpen()
                             .navigationBarBackButtonHidden(true)
-                            .environmentObject(plantsModuleModel)
+                            .environmentObject(plantsVM)
                     } label: {
                         PlantsModuleCell()
-                            .environmentObject(plantsModuleModel)
-                           
+                            .environmentObject(plantsVM)
+                        
                             .dragToDelete(cardOffset: $cardOffset) {
-                                context.delete(plantsModuleModel.selectedModule)
-                                context.insert(DefaultModules.plants)
+                                isPlantsModuleCreated = false
+                                context.delete(plantsVM.selectedModule)
+                                
                             }
                     }.onAppear(perform: {
-                        plantsModuleModel.setSelectedModule(a: singleModule)
-                        plantsModuleModel.selectedModule.refreshPlants(a: singleModule)
-                        plantsModuleModel.selectedModule.waterPlants()
+                        plantsVM.setSelectedModule(a: singleModule)
+                        
                         
                     })
                     .padding(.vertical, 5)
@@ -50,12 +50,21 @@ struct PlantsModuleHomeView: View {
                         .deleteCardSlow(cardOffset: $cardOffset,customHeight: singleModule.plants.isEmpty ? 150 : 180)
                 }
             }
+        VStack{
+            
+        }.onAppear {
+            if singleModule == nil {
+                isPlantsModuleCreated = false
+            }
+        }
             
         
     }
+
     
   
 }
+
 
 #Preview {
     PlantsModuleHomeView()

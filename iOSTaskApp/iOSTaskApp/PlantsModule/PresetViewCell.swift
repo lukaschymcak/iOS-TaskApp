@@ -14,7 +14,7 @@ struct PresetViewCell: View {
         ZStack{
             GeometryReader { GeometryProxy in
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(hex: "697442"))
+                    .fill(.lightGreen)
                     .frame(width: GeometryProxy.size.width - 50, height: 80)
                     .frame(maxWidth: .infinity,alignment: .center)
                     .overlay {

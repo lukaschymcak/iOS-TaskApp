@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomPlantDetailView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     var plantCell:PlantModel
     @State var showWateringAlert:Bool = false
     @State var setWater:String = ""
@@ -21,63 +21,56 @@ struct CustomPlantDetailView: View {
     var body: some View {
         GeometryReader { GeometryProxy in
             ZStack{
-        
-                Color(hex: "FEFAE0")
+            
+                Color.lightCream
                     .ignoresSafeArea()
-                VStack {
-                    HStack{
-                        Button{
-                            dismiss()
-                        }label: {
-                            Image(systemName: "chevron.left")
-                                .foregroundStyle(Color(hex: "606C38"))
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                
-                        }
-                        Spacer()
-                    }.frame(width: GeometryProxy.size.width - 30)
+                VStack(){
+                  
                     HStack {
                         Image(plantCell.image)
                             .resizable()
                             .frame(width: 200, height: 200)
                             .offset(x: -5, y: 5)
-                    }.frame(maxWidth: GeometryProxy.size.width ,alignment: .center)
-                        .frame(maxHeight: .infinity,alignment: .top)
+                    }.frame(maxWidth: .infinity,alignment: .center)
+                        .frame(height: 400,alignment: .top)
+                        
+                      
+                    
                 }
        
 
                 ZStack{
                     RoundedRectangle(cornerRadius: 30)
-                        .fill(Color(hex: "606C38"))
+                        .fill(.darkGreen)
                         .ignoresSafeArea()
-                        .frame(height: 560)
+                        .frame(height:350)
                         .frame(maxHeight: .infinity,alignment: .bottom)
-               
+            
                     VStack(alignment: .leading, spacing: 20){
+                        Spacer()
                         Text(plantCell.name)
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                            .foregroundStyle(Color(hex: "FEFAE0"))
+                            .foregroundStyle(.lightCream)
                 
                             
                         VStack{
                             HStack{
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(height: 80)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .overlay {
                                         HStack{
                                             Image(systemName: "calendar")
-                                                .foregroundStyle(Color(hex: "606C38"))
+                                                .foregroundStyle(.darkGreen)
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
                                                 Text("FREQUENCY")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text("Every \(plantCell.frequency) days")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                     .font(.subheadline)
                                                     
@@ -86,19 +79,19 @@ struct CustomPlantDetailView: View {
                                     }
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(height: 80)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .overlay {
                                         HStack{
                                             Image(systemName: "drop")
-                                                .foregroundStyle(Color(hex: "606C38"))
+                                                .foregroundStyle(.darkGreen)
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
                                                 Text("WATER(ml)")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text(plantCell.water == "" ? "Tap to add Water" : "\(plantCell.water)")
-                                                        .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                         .fontWeight(.bold)
                                                         .font(.subheadline)
                                                         
@@ -120,19 +113,19 @@ struct CustomPlantDetailView: View {
                             HStack{
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(height: 80)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .overlay {
                                         HStack{
                                             Image(systemName: "thermometer.transmission")
-                                                .foregroundStyle(Color(hex: "606C38"))
+                                                .foregroundStyle(.darkGreen)
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
                                                 Text("TEMP(C)")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text(plantCell.temp == "" ? "Tap to add Temp" : "\(plantCell.temp)")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                     .font(.subheadline)
                                                     
@@ -151,19 +144,19 @@ struct CustomPlantDetailView: View {
                                     }
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(height: 80)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .overlay {
                                         HStack{
                                             Image(systemName: "sun.max")
-                                                .foregroundStyle(Color(hex: "606C38"))
+                                                .foregroundStyle(.darkGreen)
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
                                                 Text("LIGHT")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text(plantCell.light == "" ? "Tap to add Light" : "\(plantCell.light)")
-                                                    .foregroundStyle(Color(hex: "606C38"))
+                                                    .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                     .font(.subheadline)
                                                     
@@ -183,19 +176,14 @@ struct CustomPlantDetailView: View {
                                     }
                             }
                         }
-                        ScrollView(showsIndicators: false){
-                            Text(plantCell.getDesc())
-                                .font(.title2)
-                                .foregroundStyle(Color(hex: "FEFAE0"))
-                            
-             
-                        }
-                            .frame(height: 220,alignment: .top)
+
                         HStack {
                             wateringButton
                         }.frame(maxWidth: .infinity,alignment: .center)
+                            .padding(.bottom,10)
+                            .padding(.top,10)
                            
-                    }.frame(width: GeometryProxy.size.width - 50,height: GeometryProxy.size.height,alignment: .bottom)
+                    }.frame(width: GeometryProxy.size.width - 50)
                     
                        
                    
@@ -204,7 +192,10 @@ struct CustomPlantDetailView: View {
                 
                 }
             }
-        }
+        }.ignoresSafeArea(.keyboard)
+            .customBackBar(title: "Plants", textColor: .darkGreen) {
+                dismiss()
+            }
     }
     @ViewBuilder
     var wateringButton: some View {
@@ -217,8 +208,8 @@ struct CustomPlantDetailView: View {
                     
                 }else {
                     plantCell.prepare()
-                    plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                    plantsModuleModel.selectedPlants = plantCell
+                    plantsVM.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                    plantsVM.selectedPlants = plantCell
                     dismiss()
                 }
             } label: {
@@ -227,13 +218,13 @@ struct CustomPlantDetailView: View {
                     ? "checkmark.circle" : "drop.circle"
                 )
                 .font(.system(size: 50))
-                .foregroundStyle(Color(hex: "FEFAE0"))
+                .foregroundStyle(.lightCream)
             }.padding(.horizontal)
                 .alert(isPresented: $showWateringAlert) {
                     Alert(title: Text("Water Plant ?"), primaryButton: .destructive(Text("You forgot to water this plant , once watered next watering date will be calculated from today"), action: {
                         plantCell.prepare()
-                        plantsModuleModel.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
-                        plantsModuleModel.selectedPlants = plantCell
+                        plantsVM.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                        plantsVM.selectedPlants = plantCell
                     }) , secondaryButton: .cancel())
                 }.disabled(plantCell.prepared)
         } else {
@@ -241,12 +232,12 @@ struct CustomPlantDetailView: View {
                 systemName: "clock"
             )
             .font(.system(size: 50))
-            .foregroundStyle(Color(hex: "FEFAE0"))
+            .foregroundStyle(.lightCream)
             .padding(.horizontal)
         }
     }
 }
 
 #Preview {
-    CustomPlantDetailView( plantCell: MockPlants.plantA)
+    CustomPlantDetailView( plantCell: DefaultPlants.africanViolet)
 }

@@ -77,7 +77,7 @@ class PackingModuleDataClass{
 
 
 struct PackingMockData{
-    static let packingMock = PackingModuleDataClass(name: "Packing",trip: [Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now)])
+    static let packingMock = PackingModuleDataClass(name: "Packing",trip: [Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now),Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now),Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now)])
     
     
     

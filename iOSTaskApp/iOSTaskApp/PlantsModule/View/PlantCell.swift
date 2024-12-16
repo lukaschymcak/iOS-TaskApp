@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlantCell: View {
-    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
+    @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @State var plantCell: PlantModel
     @State var showWaterAlert: Bool = false
     @State var showDeletePlantAlert: Bool = false
@@ -17,7 +17,7 @@ struct PlantCell: View {
         GeometryReader { GeometryProxy in
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(hex: "697442"))
+                    .fill(.lightGreen)
 
                 HStack {
                     VStack(alignment: .leading) {
@@ -30,23 +30,23 @@ struct PlantCell: View {
                                 Text(plantCell.location.rawValue)
                                     .font(.footnote)
                                     .fontWeight(.bold)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .padding(0)
                                 Text(plantCell.name)
                                     .font(.title)
                                     .fontWeight(.bold)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                     .lineLimit(1)
                                 HStack {
                                     Image(systemName: "drop")
                                         .fontWeight(.bold)
-                                        .foregroundStyle(Color(hex: "FEFAE0"))
+                                        .foregroundStyle(.lightCream)
                                     Text(
                                         plantCell.waterDate,
                                         format: .dateTime.month().day()
                                     )
                                     .font(.title2)
-                                    .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .foregroundStyle(.lightCream)
                                 }
 
                             }
@@ -63,7 +63,7 @@ struct PlantCell: View {
                                     Image(systemName: "minus")
                                         .font(.largeTitle)
                                         .fontWeight(.bold)
-                                        .foregroundStyle(Color(hex: "FEFAE0"))
+                                        .foregroundStyle(.lightCream)
                                         .offset(x: -3)
                                 }
                                 .alert(isPresented: $showDeletePlantAlert) {
@@ -72,11 +72,11 @@ struct PlantCell: View {
                                         primaryButton: .destructive(
                                             Text("Confirm"),
                                             action: {
-                                                plantsModuleModel.toast = Toast(
+                                                plantsVM.toast = Toast(
                                                     style: .success,
                                                     message: "Plant Removed",
                                                     doOutsideFunctonImage: "")
-                                                plantsModuleModel.selectedModule
+                                                plantsVM.selectedModule
                                                     .removePlant(a: plantCell)
 
                                             }), secondaryButton: .cancel())
@@ -108,11 +108,13 @@ struct PlantCell: View {
                     showWaterAlert.toggle()
 
                 } else {
-                    plantCell.prepare()
-                    plantsModuleModel.toast = Toast(
+                    plantCell.toggleWatered()
+                    plantCell.waterPlantAndIncreaseDate()
+                    plantsVM.toast = Toast(
                         style: .success, message: "Plant Watered",
                         doOutsideFunctonImage: "arrow.uturn.backward")
-                    plantsModuleModel.selectedPlants = plantCell
+                    plantsVM.selectedPlants = plantCell
+                    plantCell.setWaterDate(a: Date())
                 }
             } label: {
                 HStack {
@@ -120,37 +122,40 @@ struct PlantCell: View {
 
                 }.frame(width: 0, height: 0)
                 Image(
-                    systemName: plantCell.prepared
+                    systemName: plantCell.watered
                         ? "checkmark.circle" : "drop.circle"
                 )
                 .font(.system(size: 50))
-                .foregroundStyle(Color(hex: "FEFAE0"))
+                .foregroundStyle(.lightCream)
             }.padding(.horizontal)
-                .alert(isPresented: $showWaterAlert) {
-                    Alert(
-                        title: Text(
-                            "You forgot to water this plant , once watered next watering date will be calculated from today"
-                        ),
-                        primaryButton: .destructive(
-                            Text("Water"),
-                            action: {
-                                plantCell.prepare()
-                                plantsModuleModel.toast = Toast(
-                                    style: .success, message: "Plant Watered",
-                                    doOutsideFunctonImage:
-                                        "arrow.uturn.backward")
-                                plantsModuleModel.selectedPlants = plantCell
-                                plantCell.setWaterDate(a: Date())
-                            }), secondaryButton: .cancel())
-                }.disabled(plantCell.prepared)
+                .alert("Water ?", isPresented: $showWaterAlert, actions: {
+                    
+                    Button("Yes"){
+                        plantCell.toggleWatered()
+                        plantCell.waterPlantAndIncreaseDate()
+                        plantsVM.toast = Toast(
+                            style: .success, message: "Plant Watered",
+                            doOutsideFunctonImage:
+                                "arrow.uturn.backward")
+                        plantsVM.selectedPlants = plantCell
+                        plantCell.setWaterDate(a: Date())
+                    }
+                    Button("No", role: .cancel) {
+                    }
+                }, message: {
+                    Text("You forgot to water this plant , once watered next watering date will be calculated from today")
+                })
+                .disabled(plantCell.watered)
         } else {
             Image(
                 systemName: "clock"
             )
             .font(.system(size: 50))
-            .foregroundStyle(Color(hex: "FEFAE0"))
+            .foregroundStyle(.lightCream)
             .padding(.horizontal)
         }
     }
 
 }
+
+

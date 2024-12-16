@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PlantList: View {
-    @EnvironmentObject var plantsModuleModel: PlantsModuleHomeView.ViewModel
     @EnvironmentObject var vm: PlantsModuleOpen.ViewModel
     
     var body: some View {
@@ -33,7 +32,7 @@ struct PlantList: View {
                                         cornerRadius: 20
                                     )
                                     .stroke(
-                                        Color(hex: "C77F3C"),
+                                        .lightCream,
                                         lineWidth: vm.selectedLocation
                                         == houseLocation.all ? 5 : 0
                                     )
@@ -43,7 +42,7 @@ struct PlantList: View {
                                         .font(.title)
                                         .fontWeight(.bold)
                                         .foregroundStyle(
-                                            Color(hex: "C77F3C")
+                                            .lightCream
                                         )
                                         .background(.clear)
                                         .padding(8)
@@ -75,7 +74,7 @@ struct PlantList: View {
                                             cornerRadius: 20
                                         )
                                         .stroke(
-                                            Color(hex: "C77F3C"),
+                                            .lightCream,
                                             lineWidth: vm.selectedLocation
                                                 == location ? 5 : 0
                                         )
@@ -85,7 +84,7 @@ struct PlantList: View {
                                             .font(.title)
                                             .fontWeight(.bold)
                                             .foregroundStyle(
-                                                Color(hex: "C77F3C")
+                                                .lightCream
                                             )
                                             .background(.clear)
                                             .padding(8)
@@ -93,13 +92,13 @@ struct PlantList: View {
                                     }
                                   
                                 }
-                                if value.filter({ $0.prepared == false && $0.waterDate.isToday() }).count
+                                if value.filter({ $0.watered == false && $0.waterDate.isToday() }).count
                                     > 0
                                 {
                                     Circle()
                                         .fill(
                                             
-                                                Color(hex: "C77F3C")
+                                            .lightOrange
                                         )
                                         .frame(
                                             width: 25,
@@ -107,10 +106,10 @@ struct PlantList: View {
                                         )
                                         .overlay {
                                             Text(
-                                                "\(value.filter({$0.prepared == false && $0.waterDate.isToday()}).count)  "
+                                                "\(value.filter({$0.watered == false && $0.waterDate.isToday()}).count)  "
                                             )
                                             .foregroundStyle(
-                                                .white
+                                                .lightCream
                                             )
                                             .multilineTextAlignment(.center)
                                             .padding(1)
@@ -137,5 +136,5 @@ struct PlantList: View {
 
 #Preview {
     PlantList()
-        .environmentObject(PlantsModuleHomeView.ViewModel())
+        .environmentObject(PlantsModuleOpen.ViewModel())
 }
