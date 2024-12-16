@@ -20,8 +20,7 @@ struct PlantsModuleHomeView: View {
     
 
     var body: some View {
-   
-            
+     
             
             if let singleModule = singleModule{
                 ZStack(alignment: .trailing) {
@@ -32,15 +31,15 @@ struct PlantsModuleHomeView: View {
                     } label: {
                         PlantsModuleCell()
                             .environmentObject(plantsVM)
-                           
+                        
                             .dragToDelete(cardOffset: $cardOffset) {
                                 isPlantsModuleCreated = false
                                 context.delete(plantsVM.selectedModule)
-                            
+                                
                             }
                     }.onAppear(perform: {
                         plantsVM.setSelectedModule(a: singleModule)
-                      
+                        
                         
                     })
                     .padding(.vertical, 5)
@@ -61,9 +60,11 @@ struct PlantsModuleHomeView: View {
             
         
     }
+
     
   
 }
+
 
 #Preview {
     PlantsModuleHomeView()

@@ -109,7 +109,7 @@ struct PlantCell: View {
 
                 } else {
                     plantCell.toggleWatered()
-                    plantCell.waterPlant()
+                    plantCell.waterPlantAndIncreaseDate()
                     plantsVM.toast = Toast(
                         style: .success, message: "Plant Watered",
                         doOutsideFunctonImage: "arrow.uturn.backward")
@@ -131,7 +131,8 @@ struct PlantCell: View {
                 .alert("Water ?", isPresented: $showWaterAlert, actions: {
                     
                     Button("Yes"){
-                        plantCell.prepare()
+                        plantCell.toggleWatered()
+                        plantCell.waterPlantAndIncreaseDate()
                         plantsVM.toast = Toast(
                             style: .success, message: "Plant Watered",
                             doOutsideFunctonImage:

@@ -73,6 +73,7 @@ struct DeleteCardSlow: ViewModifier {
 struct CustomBackBar: ViewModifier {
     var title: String
     var textColor: Color
+    var backImage: String?
     var action: () -> Void
     func body(content: Content) -> some View {
         content
@@ -81,7 +82,7 @@ struct CustomBackBar: ViewModifier {
                     Button {
                         action()
                     } label: {
-                        Image(systemName: "chevron.backward")
+                        Image(systemName: backImage ?? "chevron.backward")
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundStyle(textColor)

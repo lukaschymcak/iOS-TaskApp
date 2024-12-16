@@ -106,7 +106,7 @@ struct PlantList: View {
                                         )
                                         .overlay {
                                             Text(
-                                                "\(value.filter({$0.prepared == false && $0.waterDate.isToday()}).count)  "
+                                                "\(value.filter({$0.watered == false && $0.waterDate.isToday()}).count)  "
                                             )
                                             .foregroundStyle(
                                                 .lightCream

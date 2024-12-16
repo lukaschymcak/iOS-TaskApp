@@ -37,9 +37,12 @@ class PackingNotificationManager {
         self.content.badge = 1
         content.sound = UNNotificationSound.default
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
-        //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
         let request = UNNotificationRequest(identifier: identifier, content: self.content, trigger: trigger)
         UNUserNotificationCenter.current().add(request)
+    }
+    
+    func removeTripNotificationfromCenter(){
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["TripNotification"])
     }
                                                                           
                                                                         

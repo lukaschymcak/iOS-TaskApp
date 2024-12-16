@@ -18,40 +18,20 @@ struct PlantListView: View {
         GeometryReader { GeometryProxy in
             ScrollView(showsIndicators: false){
                 NavigationStack{
-                VStack(alignment:.leading){
-          
+                    VStack(alignment:.leading){
+                        
                         if vmChild == .all{
-                            Text("All:")
-                                .font(.largeTitle)
-                                .foregroundStyle(.lightOrange)
-                                .fontWeight(.bold)
-                                .padding(.top,10)
-                                .padding(.horizontal,10)
                             
-                            ForEach(plantsVM.selectedModule.getAllPlants(),id: \.id){ plant in
-                                if !plant.isCustom {
-                                    NavigationLink {
-                                        PlantDetailView(plantCell: plant)
-                                            .environmentObject(plantsVM)
-                                            .navigationBarBackButtonHidden(true)
-                                    } label: {
-                                        
-                                        PlantCell(plantCell: plant)
-                                            .frame(height: 130)
-                                    }
-                                } else {
-                                    NavigationLink {
-                                        CustomPlantDetailView(plantCell: plant)
-                                            .environmentObject(plantsVM)
-                                            .navigationBarBackButtonHidden(true)
-                                    } label: {
-                                        
-                                        PlantCell(plantCell: plant)
-                                            .frame(height: 130)
-                                    }
-                                }
-
-                            }
+      
+                            
+                            showAllPlantsByDate(when: .today)
+                            showAllPlantsByDate(when: .tomorrow)
+                            showAllPlantsByDate(when: .thisWeek)
+                            showAllPlantsByDate(when: .afterWeek)
+                            
+                            
+                            
+                            
                             
                         } else {
                             if !plantsVM.selectedModule.getForgottenPlants(location: vmChild).isEmpty{
@@ -88,27 +68,27 @@ struct PlantListView: View {
                                 }
                                 
                             }
-                            showPlantsByDateAndLocation( when: .today, location: $vmChild)
-                            showPlantsByDateAndLocation( when: .tomorrow, location: $vmChild)
-                            showPlantsByDateAndLocation( when: .thisWeek, location: $vmChild)
-                            showPlantsByDateAndLocation( when: .afterWeek, location: $vmChild)
+                            showPlantsByDateAndLocation( when: .today, location: vmChild)
+                            showPlantsByDateAndLocation( when: .tomorrow, location: vmChild)
+                            showPlantsByDateAndLocation( when: .thisWeek, location: vmChild)
+                            showPlantsByDateAndLocation( when: .afterWeek, location: vmChild)
                             
                         }
                     }
                 }.frame(width: GeometryProxy.size.width - 20)
                     .frame(maxWidth: .infinity,alignment: .center)
-                  
-       
+                
+                
             }
             
         }.toastView(toast: $plantsVM.toast, someAction: {plantsVM.selectedPlants?.unPrepare()})
-          
+        
     }
-   
+    
     struct showPlantsByDateAndLocation: View {
         @EnvironmentObject var plantsVM: PlantsModuleViewModel
         @State var when: waterTime
-        @Binding var location: houseLocation
+        var location: houseLocation
         var body: some View {
             NavigationStack{
                 
@@ -146,6 +126,50 @@ struct PlantListView: View {
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    struct showAllPlantsByDate: View {
+        @EnvironmentObject var plantsVM: PlantsModuleViewModel
+        @State var when: waterTime
+        var body: some View{
+            NavigationStack{
+                VStack(alignment: .leading){
+                    if !plantsVM.selectedModule.filterByDAte(when: when).isEmpty{
+                        Text(when.rawValue)
+                            .font(.largeTitle)
+                            .foregroundStyle(.lightOrange)
+                            .fontWeight(.bold)
+                            .padding(.top,10)
+                            .padding(.horizontal,10)
+                        ForEach(plantsVM.selectedModule.filterByDAte(when: when).sorted(by: { !$0.watered && $1.watered }),id: \.id){ plant in
+                            if !plant.isCustom {
+                                NavigationLink {
+                                    PlantDetailView(plantCell: plant)
+                                        .environmentObject(plantsVM)
+                                        .navigationBarBackButtonHidden(true)
+                                } label: {
+                                    
+                                    PlantCell(plantCell: plant)
+                                        .frame(height: 130)
+                                }
+                            } else {
+                                NavigationLink {
+                                    CustomPlantDetailView(plantCell: plant)
+                                        .environmentObject(plantsVM)
+                                        .navigationBarBackButtonHidden(true)
+                                } label: {
+                                    
+                                    PlantCell(plantCell: plant)
+                                        .frame(height: 130)
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+                
             }
         }
     }

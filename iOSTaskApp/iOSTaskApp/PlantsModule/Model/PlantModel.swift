@@ -84,7 +84,7 @@ class PlantModel:Hashable,Identifiable {
         func unPrepare(){
             self.prepared = false
         }
-        func waterPlant() {
+        func waterPlantAndIncreaseDate() {
                 if let dateIncrease = Calendar.current.date(
                     byAdding: .day, value: frequency,
                     to: waterDate)

@@ -14,32 +14,52 @@ struct ContentView: View {
     @State var checkWelcomeScreen: Bool = true
     @EnvironmentObject var dateManager: DateManager
     @EnvironmentObject var packingVM: PackingModuleViewModel
+    @AppStorage("ModulesLoaded") var modulesLoaded: Bool = false
+    @AppStorage("isPackingModuleCreated") var isPackingModuleCreated: Bool = false
+    @AppStorage("isPlantsModuleCreated") var isPlantsModuleCreated = false
+    @Environment(\.modelContext) var context
+
    
     var body: some View {
-        ZStack {
-            VStack {
-                if isWelcomeScreenOver {
-                    HomeView()
-                        .transition(.opacity)
-                        .environmentObject(dateManager)
-                        .environmentObject(packingVM)
-
-                } else {
-                    WelcomeView()
-                        .transition(.move(edge: .bottom))
+        NavigationStack {
+            ZStack {
+                VStack {
+                    if isWelcomeScreenOver {
+                        HomeView()
+                            .transition(.opacity)
+                            .environmentObject(dateManager)
+                            .environmentObject(packingVM)
+                        
+                    } else {
+                        WelcomeView()
+                            .transition(.move(edge: .bottom))
+                        
+                    }
+              
+                
+                }.animation(.easeInOut, value: isWelcomeScreenOver)
+            }.onAppear(){
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                    if success {
+                        print("Permission approved!")
+                    } else if let error = error {
+                        print(error.localizedDescription)
+                    }
                     
                 }
-            }.animation(.easeInOut, value: isWelcomeScreenOver)
-        }.onAppear(){
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-                if success {
-                    print("Permission approved!")
-                } else if let error = error {
-                    print(error.localizedDescription)
-                }
-            }
-         
             
+                if modulesLoaded == false {
+                    context.delete(PackingModuleDataClass(name: "Packing"))
+                    context.insert(PackingModuleDataClass(name: "Packing"))
+                    isPackingModuleCreated = true
+                    context.delete(PackingModuleDataClass())
+                    context.insert(PlantsModuleDataClass())
+                    isPlantsModuleCreated = true
+                    modulesLoaded = true
+                }
+                
+                
+            }
         }
     }
 
@@ -109,6 +129,7 @@ struct HomeView: View {
     @EnvironmentObject var packingVM: PackingModuleViewModel
     @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @EnvironmentObject var dateManager: DateManager
+    @AppStorage("userName") var name:String = ""
 
 
     var body: some View {
@@ -118,30 +139,13 @@ struct HomeView: View {
          
                     NavigationStack {
                         ZStack {
-                     
+                
                             VStack() {
-                                CustomNavBar(
-                                    isWelcomeScreenOver: $isWelcomeScreenOver,
-                                    isAddModuleOpen: $isAddModuleOpen
-                                )
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                                 ScrollView {
                                     PackageModuleHomeView()
                                         .environmentObject(dateManager)
                                         .environmentObject(packingVM)
-                               
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
+
                                     PlantsModuleHomeView()
                                         .environmentObject(plantsVM)
                                         .environmentObject(dateManager)
@@ -151,12 +155,28 @@ struct HomeView: View {
                             }
                     }
                     
-                    .sheet(isPresented: $isAddModuleOpen) {
-                        
-                        AddModuleView(isAddModuleOpen: $isAddModuleOpen)
-                        
+                }.toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        NavigationLink {
+                            SettingsView()
+
+                        } label: {
+                            Image(systemName: "slider.vertical.3")
+                                .font(.title2)
+                                .foregroundStyle(Utils.textColor(colorScheme))
+                                .fontWeight(.bold)
+                        }
                     }
-                    
+                    ToolbarItem(placement: .principal) {
+                        Text("hello,\(name)")
+                            .font(.title3)
+                            .foregroundStyle(Utils.textColor(colorScheme))
+                            .fontWeight(.bold)
+                            
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                      
+                    }
                 }
             }
       
@@ -166,50 +186,6 @@ struct HomeView: View {
  
 }
 
-struct AddModuleView: View {
-    @Environment(\.modelContext) var context
-    @Environment(\.colorScheme) var colorScheme
-    @Binding var isAddModuleOpen: Bool
-    @State var isAddingModuleOpen: Bool = false
-
-    var body: some View {
-        NavigationStack {
-
-            VStack(alignment: .center) {
-
-                HStack {
-                    Button {
-                        isAddModuleOpen.toggle()
-                    } label: {
-                        Image(systemName: "chevron.up")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Utils.textColor(colorScheme))
-                    }.padding(.bottom, 20)
-
-                }.frame(maxWidth: .infinity, alignment: .center)
-
-                Text("Choose a Module")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundStyle(Utils.textColor(colorScheme))
-                    .padding(.bottom, 20)
-
-      
-
-                    ModuleListView(isAddingModuleOpen: $isAddingModuleOpen)
-             
-
-            }
-
-            .padding(.top, 20)
-
-            Spacer()
-
-        }
-
-    }
-}
 #Preview {
     ContentView()
         .modelContainer(for: [

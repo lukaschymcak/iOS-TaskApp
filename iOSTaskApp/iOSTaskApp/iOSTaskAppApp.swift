@@ -16,7 +16,7 @@ struct iOSTaskAppApp: App {
     @StateObject var plantsVM = PlantsModuleViewModel()
     private static let refreshId = "dateRefresh"
     let packingNotificationManager = PackingNotificationManager.shared
-    var isPackingModuleCreated:Bool { UserDefaults.standard.bool(forKey: "isPackingModuleCreated") }
+    @AppStorage("isPackingModuleCreated") var isPackingModuleCreated: Bool = false
     
     var body: some Scene {
         WindowGroup {
@@ -27,23 +27,43 @@ struct iOSTaskAppApp: App {
                 .environmentObject(plantsVM)
         }.onChange(of: scenephase) { _,phase in
             if phase == .background {
+                plantsVM.selectedModule.refreshPlants()
                 scheduleAppRefresh()
                 if isPackingModuleCreated {
-                    packingVM.checkAndAddToHistory()
-                    packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
-  
+                      packingVM.checkAndAddToHistory()
+                    if packingVM.selectedModule?.trips.isEmpty == true{
+                        packingNotificationManager.removeTripNotificationfromCenter()
+                        print("removed")
+                    } else {
+                        packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
+                    }
+                        
+                    
                 }
 
             } else if phase == .active {
+          
+                plantsVM.selectedModule.refreshPlants()
+                packingVM.checkAndAddToHistory()
                 UNUserNotificationCenter.current().setBadgeCount(0)
+                UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { requests in
+                    print("Pending notifications: \(requests.count)")
+                })
                 dateManager.updateDate()
-                
+     
             }
         }.backgroundTask(.appRefresh(Self.refreshId)) {
             await scheduleAppRefresh()
             await dateManager.updateDate()
             if await isPackingModuleCreated {
-              await  packingVM.checkAndAddToHistory()
+               await packingVM.checkAndAddToHistory()
+                if await packingVM.selectedModule?.trips.isEmpty == true{
+                  await   packingNotificationManager.removeTripNotificationfromCenter()
+                    print("removed")
+                } else {
+                   await packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
+                }
+                
                await packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
 
             }

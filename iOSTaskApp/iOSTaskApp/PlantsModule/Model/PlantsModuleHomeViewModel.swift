@@ -20,7 +20,11 @@ class PlantsModuleViewModel:ObservableObject {
         }
  
       
-            
+    var filteredPlants: [(key:houseLocation,value:[PlantModel])] {
+      
+        return selectedModule.wateredLocations.filter({$0.value.filter({$0.watered == false && $0.waterDate.isToday() || $0.waterDate.isBeforeToday()}).count > 0})
+        
+    }
           
             
         
