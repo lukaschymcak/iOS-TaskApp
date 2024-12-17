@@ -12,6 +12,7 @@ struct SettingsView: View {
     @State private var newUserName = ""
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.modelContext) var context
     @AppStorage("packingNotif")  var isNotificationForPackingOn = false
     @AppStorage("plantsNotif")  var isNotificationForPlantsOn = false
     var body: some View {
@@ -52,9 +53,19 @@ struct SettingsView: View {
                             Image(systemName: "app.badge")
                             
                             Toggle("Enable Notifications", isOn: $isNotificationForPackingOn)
+                           
+
                             
                                
                             
+                        }
+                        HStack{
+                            Button {
+                                context.delete(PackingModuleDataClass(name: "Packing"))
+                                context.insert(PackingModuleDataClass(name: "Packing"))
+                            } label: {
+                               Text("Reset Packing Module (TESTING)")
+                            }
                         }
                     } header: {
                         Text("Packing Module Settings")
@@ -69,6 +80,14 @@ struct SettingsView: View {
                         
                         Toggle("Enable Notifications", isOn: $isNotificationForPlantsOn)
                          
+                    }
+                    HStack{
+                        Button {
+                            context.delete(PlantsModuleDataClass())
+                            context.insert(PlantsModuleDataClass())
+                        } label: {
+                           Text("Reset Plants Module (TESTING)")
+                        }
                     }
                 } header: {
                     Text("Plants Module Settings")

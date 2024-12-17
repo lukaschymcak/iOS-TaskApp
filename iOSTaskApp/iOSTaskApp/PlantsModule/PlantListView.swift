@@ -22,7 +22,40 @@ struct PlantListView: View {
                         
                         if vmChild == .all{
                             
-      
+                            if !plantsVM.selectedModule.getForgottenPlants(location: vmChild).isEmpty{
+                                Text("Forgotten:")
+                                    .font(.largeTitle)
+                                    .foregroundStyle(.lightOrange)
+                                    .fontWeight(.bold)
+                                    .padding(.top,10)
+                                    .padding(.horizontal,10)
+                                
+                                ForEach(plantsVM.selectedModule.getForgottenPlants(location:  vmChild),id: \.id){ plant in
+                                    if !plant.isCustom {
+                                        NavigationLink {
+                                            PlantDetailView(plantCell: plant)
+                                                .environmentObject(plantsVM)
+                                                .navigationBarBackButtonHidden(true)
+                                        } label: {
+                                            
+                                            PlantCell(plantCell: plant)
+                                                .frame(height: 130)
+                                        }
+                                    } else {
+                                        NavigationLink {
+                                            CustomPlantDetailView(plantCell: plant)
+                                                .environmentObject(plantsVM)
+                                                .navigationBarBackButtonHidden(true)
+                                        } label: {
+                                            
+                                            PlantCell(plantCell: plant)
+                                                .frame(height: 130)
+                                        }
+                                    }
+                                    
+                                }
+                                
+                            }
                             
                             showAllPlantsByDate(when: .today)
                             showAllPlantsByDate(when: .tomorrow)

@@ -29,29 +29,33 @@ struct PlantsModuleCell: View {
                         .fill(.lightCream)
                         .stroke(.darkGreen,lineWidth: 7)
                         .frame(maxWidth: UIScreen.main.bounds.width - 25)
-                        .frame(height: plantsVM.selectedModule.needWatering > 0 ? 210 : 200)
+                        .frame(height: plantsVM.selectedModule.needWatering > 0 ? 210 : 150)
                     
                     
                     VStack{
-                        VStack(alignment: .leading,spacing: 25) {
+                        VStack(alignment: .leading) {
                             HStack {
+                                Image("aloe-vera")
+                                    .resizable()
+                                    .frame(width: 70, height: 70)
+                                    .padding(.trailing,8)
+                               
                                 Text(plantsVM.selectedModule.getName())
-                                    .font(.largeTitle)
+                                    .font(.system(size: 40))
                                     .fontWeight(.bold)
                                     .foregroundStyle(.darkGreen)
                                 Spacer()
-                                Image("aloe-vera")
-                                    .resizable()
-                                    .frame(width: 60, height: 60)
-                               
+                            
                                 
                                 
                                 
                             }
-                            Text("\(plantsVM.selectedModule.needWatering) plants need watering today")
+                            Text("\(plantsVM.selectedModule.needWatering) plants need watering today ")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundStyle(.darkGreen)
+                        
+                            
                             ScrollView(.horizontal,showsIndicators: false){
                                 if plantsVM.selectedModule.needWatering > 0 {
                                     
@@ -80,19 +84,21 @@ struct PlantsModuleCell: View {
                             
                             
                         }.padding(.horizontal,8)
-                            .frame(maxWidth: UIScreen.main.bounds.width - 55)
+
                         
                         
                         
-                    }
+                    }.frame(maxWidth: UIScreen.main.bounds.width - 55)
                        
                     
                 } .frame(maxWidth: .infinity)
                 
                 
             }.frame(maxWidth: .infinity)
+                
          
         }.frame(maxWidth: .infinity, alignment: .center)
+
             .padding(.bottom,5)
                 
                 

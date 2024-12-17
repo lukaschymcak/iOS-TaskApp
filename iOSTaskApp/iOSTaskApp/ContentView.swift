@@ -159,6 +159,7 @@ struct HomeView: View {
                     ToolbarItem(placement: .topBarLeading) {
                         NavigationLink {
                             SettingsView()
+    
 
                         } label: {
                             Image(systemName: "slider.vertical.3")

@@ -32,11 +32,6 @@ struct PlantsModuleHomeView: View {
                         PlantsModuleCell()
                             .environmentObject(plantsVM)
                         
-                            .dragToDelete(cardOffset: $cardOffset) {
-                                isPlantsModuleCreated = false
-                                context.delete(plantsVM.selectedModule)
-                                
-                            }
                     }.onAppear(perform: {
                         plantsVM.setSelectedModule(a: singleModule)
                         
@@ -45,9 +40,7 @@ struct PlantsModuleHomeView: View {
                     .padding(.vertical, 5)
                     .frame(maxWidth: .infinity)
                     
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(.red)
-                        .deleteCardSlow(cardOffset: $cardOffset,customHeight: singleModule.plants.isEmpty ? 150 : 180)
+                
                 }
             }
         VStack{

@@ -31,58 +31,59 @@ struct PackingModule: View {
                         .fill(Color(hex: "22577A"))
                         .stroke(.orange,lineWidth: 7)
                         .frame(maxWidth: UIScreen.main.bounds.width - 25)
-                        .frame(height: 210)
+                        .frame(height: packingModule.trips.count > 0 ? 210 : 150)
                     
                     VStack(spacing: 0){
                         
-                        VStack(alignment: .leading) {
+                 
                             HStack {
-                                Text(packingModule.name)
-                                    .font(.largeTitle)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.white)
-                                Spacer()
                                 Image("suitcase")
                                     .resizable()
                                     .frame(width: 70, height: 70)
+                                    .padding(.trailing,8)
+                                Text(packingModule.name)
+                                    .font(.system(size: 40))
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.white)
+                                Spacer()
+                               
        
 
                                 
                                 
-                            }
-                            
-                            
-                        }.padding(.horizontal,8)
+                            } .padding(.horizontal,8)
                         
-                            .frame(maxWidth: UIScreen.main.bounds.width - 55)
+                            .padding(.bottom, packingModule.trips.count > 0 ? 10 : 5)
+                            
+                            
+                      
+                  
                         
                         
                         
                         
                         
                         HStack(alignment:.bottom){
-                            VStack(alignment:.leading,spacing: 5){
-                                Text("next trip:")
-                                    .font(.system(size: 23))
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.white)
+                            VStack(alignment:.leading, spacing: 0){
+                  
                            
                                 
                                 if packingModule.trips.isEmpty {
-                                    Text("No trips")
-                                        .font(.system(size: 30))
+                                    Text("No upcoming trips")
+                                        .font(.title)
                                         .fontWeight(.bold)
                                         .foregroundStyle(.white)
                                         .multilineTextAlignment(.center)
                                         .lineLimit(2)
-                                    Text("trip")
-                                        .font(.system(size: 30))
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.white)
+                         
                                     
                                     
                                 } else {
                                     if let earliestTrip = packingModule.earliestTrip {
+                                        Text("upcoming trip:")
+                                            .font(.title2)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(.white)
                                         if  earliestTrip.name == "" {
                                             Text("Trip")
                                                 .font(.system(size: 30))
@@ -133,26 +134,18 @@ struct PackingModule: View {
                             
                         }
                         .padding(.horizontal,8)
-                        .frame(maxWidth: UIScreen.main.bounds.width - 55)
+           
                         
                         
                         
-                    }.padding(.vertical,20)
+                    }          .frame(maxWidth: UIScreen.main.bounds.width - 55)
                         .frame(maxWidth: .infinity, alignment: .center)
-                }.dragToDelete(cardOffset: $cardOffset) {
-                    isPackingModuleCreated = false
-                    context.delete(packingModule)
-             
-                    
                 }
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.red)
-                    .deleteCardSlow(cardOffset: $cardOffset, customHeight: packingModule.trips.isEmpty ? 150 : 180)
             }
            
      
         }.frame(maxWidth: .infinity, alignment: .center)
-            .padding(.bottom,5)
+            .padding(.bottom,10)
             
     }
     }
