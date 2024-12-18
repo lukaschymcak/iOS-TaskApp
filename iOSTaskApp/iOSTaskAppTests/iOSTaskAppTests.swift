@@ -6,7 +6,7 @@
 //
 
 import Testing
-@testable import iOSTaskApp
+@testable import TaskApp
 import Foundation
 import SwiftData
 import SwiftUI

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1600"
-   version = "1.7">
+   version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES"
@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CCF39D7C2CB7FD2900F1FFDD"
-               BuildableName = "iOSTaskApp.app"
-               BlueprintName = "iOSTaskApp"
-               ReferencedContainer = "container:iOSTaskApp.xcodeproj">
+               BuildableName = "TaskApp.app"
+               BlueprintName = "TaskApp"
+               ReferencedContainer = "container:TaskApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,9 +29,33 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CCF39D8E2CB7FD2C00F1FFDD"
+               BuildableName = "TaskAppTests.xctest"
+               BlueprintName = "TaskAppTests"
+               ReferencedContainer = "container:TaskApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CCF39D982CB7FD2C00F1FFDD"
+               BuildableName = "TaskAppUITests.xctest"
+               BlueprintName = "TaskAppUITests"
+               ReferencedContainer = "container:TaskApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = ""
       selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
@@ -39,17 +63,24 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "YES"
+      launchAutomaticallySubstyle = "1">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CCF39D7C2CB7FD2900F1FFDD"
-            BuildableName = "iOSTaskApp.app"
-            BlueprintName = "iOSTaskApp"
-            ReferencedContainer = "container:iOSTaskApp.xcodeproj">
+            BuildableName = "TaskApp.app"
+            BlueprintName = "TaskApp"
+            ReferencedContainer = "container:TaskApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = ""
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -62,9 +93,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CCF39D7C2CB7FD2900F1FFDD"
-            BuildableName = "iOSTaskApp.app"
-            BlueprintName = "iOSTaskApp"
-            ReferencedContainer = "container:iOSTaskApp.xcodeproj">
+            BuildableName = "TaskApp.app"
+            BlueprintName = "TaskApp"
+            ReferencedContainer = "container:TaskApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

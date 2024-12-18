@@ -15,8 +15,7 @@ struct ContentView: View {
     @EnvironmentObject var dateManager: DateManager
     @EnvironmentObject var packingVM: PackingModuleViewModel
     @AppStorage("ModulesLoaded") var modulesLoaded: Bool = false
-    @AppStorage("isPackingModuleCreated") var isPackingModuleCreated: Bool = false
-    @AppStorage("isPlantsModuleCreated") var isPlantsModuleCreated = false
+   
     @Environment(\.modelContext) var context
 
    
@@ -51,10 +50,8 @@ struct ContentView: View {
                 if modulesLoaded == false {
                     context.delete(PackingModuleDataClass(name: "Packing"))
                     context.insert(PackingModuleDataClass(name: "Packing"))
-                    isPackingModuleCreated = true
                     context.delete(PackingModuleDataClass())
                     context.insert(PlantsModuleDataClass())
-                    isPlantsModuleCreated = true
                     modulesLoaded = true
                 }
                 

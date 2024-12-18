@@ -16,7 +16,7 @@ struct PlantsModuleHomeView: View {
     @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @State private var cardOffset = CGSize.zero
     @State private var showDeleteAlert:Bool = false
-    @AppStorage("isPlantsModuleCreated") var isPlantsModuleCreated = false
+
     
 
     var body: some View {
@@ -45,10 +45,6 @@ struct PlantsModuleHomeView: View {
             }
         VStack{
             
-        }.onAppear {
-            if singleModule == nil {
-                isPlantsModuleCreated = false
-            }
         }
             
         

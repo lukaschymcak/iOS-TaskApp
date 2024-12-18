@@ -17,7 +17,7 @@ struct PackingModule: View {
     @EnvironmentObject var dateManager: DateManager
     var packingModule: PackingModuleDataClass
     @AppStorage("swipreToDeleteInfo") var swipeToDelete: Bool = false
-    @AppStorage("isPackingModuleCreated") var isPackingModuleCreated = false
+
     @State private var cardOffset = CGSize.zero
     var body: some View {
         
@@ -31,115 +31,115 @@ struct PackingModule: View {
                         .fill(Color(hex: "22577A"))
                         .stroke(.orange,lineWidth: 7)
                         .frame(maxWidth: UIScreen.main.bounds.width - 25)
-                        .frame(height: packingModule.trips.count > 0 ? 210 : 150)
-                    
-                    VStack(spacing: 0){
-                        
-                 
-                            HStack {
-                                Image("suitcase")
-                                    .resizable()
-                                    .frame(width: 70, height: 70)
-                                    .padding(.trailing,8)
-                                Text(packingModule.name)
-                                    .font(.system(size: 40))
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.white)
-                                Spacer()
-                               
-       
-
+                        .frame(height: packingModule.trips.count > 0 ? 190 : 150)
+                        .overlay {
+                            VStack(spacing:packingModule.trips.count > 0 ? 20 : 15){
                                 
-                                
-                            } .padding(.horizontal,8)
-                        
-                            .padding(.bottom, packingModule.trips.count > 0 ? 10 : 5)
-                            
-                            
-                      
-                  
-                        
-                        
-                        
-                        
-                        
-                        HStack(alignment:.bottom){
-                            VStack(alignment:.leading, spacing: 0){
-                  
-                           
-                                
-                                if packingModule.trips.isEmpty {
-                                    Text("No upcoming trips")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.white)
-                                        .multilineTextAlignment(.center)
-                                        .lineLimit(2)
                          
-                                    
-                                    
-                                } else {
-                                    if let earliestTrip = packingModule.earliestTrip {
-                                        Text("upcoming trip:")
-                                            .font(.title2)
+                                    HStack {
+                                        Image("suitcase")
+                                            .resizable()
+                                            .frame(width: 50, height: 50)
+                                            .padding(.trailing,8)
+                                        Text(packingModule.name)
+                                            .font(.system(size: 35))
                                             .fontWeight(.bold)
                                             .foregroundStyle(.white)
-                                        if  earliestTrip.name == "" {
-                                            Text("Trip")
-                                                .font(.system(size: 30))
+                                        Spacer()
+                                       
+               
+
+                                        
+                                        
+                                    } .padding(.horizontal,8)
+                                
+                            
+                                    
+                                    
+                              
+                          
+                                
+                                
+                                
+                                
+                                
+                                HStack(alignment:.bottom){
+                                    VStack(alignment:.leading, spacing: 5){
+                          
+                                   
+                                        
+                                        if packingModule.trips.isEmpty {
+                                            Text("No upcoming trips")
+                                                .font(.title)
                                                 .fontWeight(.bold)
                                                 .foregroundStyle(.white)
-                                        } else{
-                                            Text(earliestTrip.name)
-                                                .font(.system(size: 30))
-                                                .fontWeight(.bold)
-                                                .foregroundStyle(.white)
-                                                .lineLimit(1)
+                                                .multilineTextAlignment(.center)
+                                                .lineLimit(2)
+                                 
+                                            
+                                            
+                                        } else {
+                                            if let earliestTrip = packingModule.earliestTrip {
+                                              
+                                                if  earliestTrip.name == "" {
+                                                    Text("Trip")
+                                                        .font(.system(size: 30))
+                                                        .fontWeight(.bold)
+                                                        .foregroundStyle(.white)
+                                                } else{
+                                                    Text(earliestTrip.name)
+                                                        .font(.system(size: 30))
+                                                        .fontWeight(.bold)
+                                                        .foregroundStyle(.white)
+                                                        .lineLimit(1)
+                                                }
+                                                
+                                                if Calendar.current.isDate(earliestTrip.dateFrom, inSameDayAs: Date.now){
+                                                    Text("Today")
+                                                        .font(.system(size: 30))
+                                                        .fontWeight(.bold)
+                                                        .foregroundStyle(.white)
+                                                } else{
+                                                    Text("in \(packingModule.dayDifference) days")
+                                                        .font(.system(size: 30))
+                                                        .fontWeight(.bold)
+                                                        .foregroundStyle(.white)
+                                                }
+                                                
+                                            }
+                                            
+                                            
+                                            
                                         }
                                         
-                                        if Calendar.current.isDate(earliestTrip.dateFrom, inSameDayAs: Date.now){
-                                            Text("Today")
-                                                .font(.system(size: 30))
-                                                .fontWeight(.bold)
-                                                .foregroundStyle(.white)
-                                        } else{
-                                            Text("in \(packingModule.dayDifference) days")
-                                                .font(.system(size: 30))
-                                                .fontWeight(.bold)
-                                                .foregroundStyle(.white)
-                                        }
+                                        
+                                    }
+                                    Spacer()
+                                    if !packingModule.trips.isEmpty{
+                                        Text("\(packingModule.percentage)% \n packed")
+                                            .font(.system(size: 30))
+                                            .foregroundStyle(.white)
+                                            .fontWeight(.bold)
+                                            .multilineTextAlignment(.trailing)
                                         
                                     }
                                     
                                     
                                     
+                                    
+                                    
+                                    
                                 }
+                                .padding(.horizontal,8)
+          
+                   
                                 
                                 
-                            }
-                            Spacer()
-                            if !packingModule.trips.isEmpty{
-                                Text("\(packingModule.percentage)% \n packed")
-                                    .font(.system(size: 30))
-                                    .foregroundStyle(.white)
-                                    .fontWeight(.bold)
-                                    .multilineTextAlignment(.trailing)
                                 
-                            }
-                            
-                            
-                            
-                            
-                            
-                            
+                            }          .frame(maxWidth: UIScreen.main.bounds.width - 55)
+                                .frame(maxWidth: .infinity, alignment: .center)
                         }
-                        .padding(.horizontal,8)
-           
-                        
-                        
-                        
-                    }          .frame(maxWidth: UIScreen.main.bounds.width - 55)
-                        .frame(maxWidth: .infinity, alignment: .center)
+                  
                 }
             }
            

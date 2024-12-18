@@ -53,6 +53,11 @@ struct SettingsView: View {
                             Image(systemName: "app.badge")
                             
                             Toggle("Enable Notifications", isOn: $isNotificationForPackingOn)
+                                .onChange(of: isNotificationForPackingOn) { _, newValue in
+                                    if !newValue{
+                                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["TripNotification"])
+                                    }
+                                }
                            
 
                             

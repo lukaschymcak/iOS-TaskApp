@@ -24,13 +24,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CCF39D7D2CB7FD2900F1FFDD /* iOSTaskApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSTaskApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CCF39D8F2CB7FD2C00F1FFDD /* iOSTaskAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSTaskAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CCF39D992CB7FD2C00F1FFDD /* iOSTaskAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSTaskAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCF39D7D2CB7FD2900F1FFDD /* TaskApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCF39D8F2CB7FD2C00F1FFDD /* TaskAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCF39D992CB7FD2C00F1FFDD /* TaskAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		CC1E24472CEB49740048FF67 /* Exceptions for "iOSTaskApp" folder in "iOSTaskAppTests" target */ = {
+		CC1E24472CEB49740048FF67 /* Exceptions for "iOSTaskApp" folder in "TaskAppTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				PackingModule/Bags/Bags.swift,
@@ -38,14 +38,14 @@
 				PackingModule/PackingModuleDataClass.swift,
 				PackingModule/Trip/Trip.swift,
 			);
-			target = CCF39D8E2CB7FD2C00F1FFDD /* iOSTaskAppTests */;
+			target = CCF39D8E2CB7FD2C00F1FFDD /* TaskAppTests */;
 		};
-		CCF39DB02CB7FD8E00F1FFDD /* Exceptions for "iOSTaskApp" folder in "iOSTaskApp" target */ = {
+		CCF39DB02CB7FD8E00F1FFDD /* Exceptions for "iOSTaskApp" folder in "TaskApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = CCF39D7C2CB7FD2900F1FFDD /* iOSTaskApp */;
+			target = CCF39D7C2CB7FD2900F1FFDD /* TaskApp */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -53,8 +53,8 @@
 		CCF39D7F2CB7FD2900F1FFDD /* iOSTaskApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				CCF39DB02CB7FD8E00F1FFDD /* Exceptions for "iOSTaskApp" folder in "iOSTaskApp" target */,
-				CC1E24472CEB49740048FF67 /* Exceptions for "iOSTaskApp" folder in "iOSTaskAppTests" target */,
+				CCF39DB02CB7FD8E00F1FFDD /* Exceptions for "iOSTaskApp" folder in "TaskApp" target */,
+				CC1E24472CEB49740048FF67 /* Exceptions for "iOSTaskApp" folder in "TaskAppTests" target */,
 			);
 			path = iOSTaskApp;
 			sourceTree = "<group>";
@@ -109,9 +109,9 @@
 		CCF39D7E2CB7FD2900F1FFDD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CCF39D7D2CB7FD2900F1FFDD /* iOSTaskApp.app */,
-				CCF39D8F2CB7FD2C00F1FFDD /* iOSTaskAppTests.xctest */,
-				CCF39D992CB7FD2C00F1FFDD /* iOSTaskAppUITests.xctest */,
+				CCF39D7D2CB7FD2900F1FFDD /* TaskApp.app */,
+				CCF39D8F2CB7FD2C00F1FFDD /* TaskAppTests.xctest */,
+				CCF39D992CB7FD2C00F1FFDD /* TaskAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,9 +119,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CCF39D7C2CB7FD2900F1FFDD /* iOSTaskApp */ = {
+		CCF39D7C2CB7FD2900F1FFDD /* TaskApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CCF39DA32CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "iOSTaskApp" */;
+			buildConfigurationList = CCF39DA32CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "TaskApp" */;
 			buildPhases = (
 				CCF39D792CB7FD2900F1FFDD /* Sources */,
 				CCF39D7A2CB7FD2900F1FFDD /* Frameworks */,
@@ -134,16 +134,16 @@
 			fileSystemSynchronizedGroups = (
 				CCF39D7F2CB7FD2900F1FFDD /* iOSTaskApp */,
 			);
-			name = iOSTaskApp;
+			name = TaskApp;
 			packageProductDependencies = (
 			);
 			productName = iOSTaskApp;
-			productReference = CCF39D7D2CB7FD2900F1FFDD /* iOSTaskApp.app */;
+			productReference = CCF39D7D2CB7FD2900F1FFDD /* TaskApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CCF39D8E2CB7FD2C00F1FFDD /* iOSTaskAppTests */ = {
+		CCF39D8E2CB7FD2C00F1FFDD /* TaskAppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CCF39DA62CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "iOSTaskAppTests" */;
+			buildConfigurationList = CCF39DA62CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "TaskAppTests" */;
 			buildPhases = (
 				CCF39D8B2CB7FD2C00F1FFDD /* Sources */,
 				CCF39D8C2CB7FD2C00F1FFDD /* Frameworks */,
@@ -157,16 +157,16 @@
 			fileSystemSynchronizedGroups = (
 				CCF39D922CB7FD2C00F1FFDD /* iOSTaskAppTests */,
 			);
-			name = iOSTaskAppTests;
+			name = TaskAppTests;
 			packageProductDependencies = (
 			);
 			productName = iOSTaskAppTests;
-			productReference = CCF39D8F2CB7FD2C00F1FFDD /* iOSTaskAppTests.xctest */;
+			productReference = CCF39D8F2CB7FD2C00F1FFDD /* TaskAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		CCF39D982CB7FD2C00F1FFDD /* iOSTaskAppUITests */ = {
+		CCF39D982CB7FD2C00F1FFDD /* TaskAppUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CCF39DA92CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "iOSTaskAppUITests" */;
+			buildConfigurationList = CCF39DA92CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "TaskAppUITests" */;
 			buildPhases = (
 				CCF39D952CB7FD2C00F1FFDD /* Sources */,
 				CCF39D962CB7FD2C00F1FFDD /* Frameworks */,
@@ -180,11 +180,11 @@
 			fileSystemSynchronizedGroups = (
 				CCF39D9C2CB7FD2C00F1FFDD /* iOSTaskAppUITests */,
 			);
-			name = iOSTaskAppUITests;
+			name = TaskAppUITests;
 			packageProductDependencies = (
 			);
 			productName = iOSTaskAppUITests;
-			productReference = CCF39D992CB7FD2C00F1FFDD /* iOSTaskAppUITests.xctest */;
+			productReference = CCF39D992CB7FD2C00F1FFDD /* TaskAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -210,7 +210,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CCF39D782CB7FD2900F1FFDD /* Build configuration list for PBXProject "iOSTaskApp" */;
+			buildConfigurationList = CCF39D782CB7FD2900F1FFDD /* Build configuration list for PBXProject "TaskApp" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -224,9 +224,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CCF39D7C2CB7FD2900F1FFDD /* iOSTaskApp */,
-				CCF39D8E2CB7FD2C00F1FFDD /* iOSTaskAppTests */,
-				CCF39D982CB7FD2C00F1FFDD /* iOSTaskAppUITests */,
+				CCF39D7C2CB7FD2900F1FFDD /* TaskApp */,
+				CCF39D8E2CB7FD2C00F1FFDD /* TaskAppTests */,
+				CCF39D982CB7FD2C00F1FFDD /* TaskAppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -282,12 +282,12 @@
 /* Begin PBXTargetDependency section */
 		CCF39D912CB7FD2C00F1FFDD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CCF39D7C2CB7FD2900F1FFDD /* iOSTaskApp */;
+			target = CCF39D7C2CB7FD2900F1FFDD /* TaskApp */;
 			targetProxy = CCF39D902CB7FD2C00F1FFDD /* PBXContainerItemProxy */;
 		};
 		CCF39D9B2CB7FD2C00F1FFDD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CCF39D7C2CB7FD2900F1FFDD /* iOSTaskApp */;
+			target = CCF39D7C2CB7FD2900F1FFDD /* TaskApp */;
 			targetProxy = CCF39D9A2CB7FD2C00F1FFDD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -420,7 +420,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"iOSTaskApp/Preview Content\"";
 				DEVELOPMENT_TEAM = DBYD5J255B;
 				ENABLE_PREVIEWS = YES;
@@ -437,7 +437,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lukas.iOSTaskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -456,7 +456,7 @@
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"iOSTaskApp/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = DBYD5J255B;
@@ -474,7 +474,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lukas.iOSTaskApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TaskApp;
@@ -500,7 +500,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSTaskApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iOSTaskApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TaskApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TaskApp";
 			};
 			name = Debug;
 		};
@@ -519,7 +519,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSTaskApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iOSTaskApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TaskApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TaskApp";
 			};
 			name = Release;
 		};
@@ -562,7 +562,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CCF39D782CB7FD2900F1FFDD /* Build configuration list for PBXProject "iOSTaskApp" */ = {
+		CCF39D782CB7FD2900F1FFDD /* Build configuration list for PBXProject "TaskApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CCF39DA12CB7FD2C00F1FFDD /* Debug */,
@@ -571,7 +571,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CCF39DA32CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "iOSTaskApp" */ = {
+		CCF39DA32CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "TaskApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CCF39DA42CB7FD2C00F1FFDD /* Debug */,
@@ -580,7 +580,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CCF39DA62CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "iOSTaskAppTests" */ = {
+		CCF39DA62CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "TaskAppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CCF39DA72CB7FD2C00F1FFDD /* Debug */,
@@ -589,7 +589,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CCF39DA92CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "iOSTaskAppUITests" */ = {
+		CCF39DA92CB7FD2C00F1FFDD /* Build configuration list for PBXNativeTarget "TaskAppUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CCF39DAA2CB7FD2C00F1FFDD /* Debug */,

@@ -42,6 +42,7 @@ class PackingNotificationManager {
     }
     
     func removeTripNotificationfromCenter(){
+        
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["TripNotification"])
     }
                                                                           
