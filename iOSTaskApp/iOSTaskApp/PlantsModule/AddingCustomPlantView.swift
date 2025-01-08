@@ -117,7 +117,7 @@ struct AddingCustomPlantView: View {
                             Button {
                                 location = loc
                             } label: {
-                                Text(loc.id)
+                                Text(loc.localizedString())
                                 
                             }
                             

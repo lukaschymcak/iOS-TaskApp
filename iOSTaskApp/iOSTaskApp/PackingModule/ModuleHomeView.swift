@@ -24,7 +24,7 @@ struct PackageModuleHomeView: View {
     var body: some View {
         if let onlyModule = packinModule {
             ZStack(alignment: .trailing){
-                    HStack(spacing: 0){
+ 
                         
                         NavigationLink {
                             PackingModuleOpen(module: onlyModule)
@@ -47,11 +47,11 @@ struct PackageModuleHomeView: View {
                             
                             
                             
-                        }.frame(maxWidth: .infinity,alignment: .leading)
+                        }
                         
                         
                         
-                    }
+                    
             
                 
 

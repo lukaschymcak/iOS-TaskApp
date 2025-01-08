@@ -13,7 +13,7 @@ import SwiftUI
 class PlantsModuleDataClass:Identifiable {
     
     @Attribute(.unique) var Id: UUID = UUID()
-    private(set) var name: String = "Plants"
+    private(set) var name: String = NSLocalizedString("Plants", comment: "")
     @Relationship(deleteRule: .cascade)
      var plants: [PlantModel]
 
@@ -68,6 +68,9 @@ enum houseLocation: String, Codable, CaseIterable, Identifiable {
     case diningRoom = "Dining Room"
     case kidsRoom = "Kids Room"
     case all = "All"
+    func localizedString() -> String {
+            return NSLocalizedString(self.rawValue, comment: "")
+        }
 
     var id: String { self.rawValue }
 
@@ -77,6 +80,10 @@ enum waterTime: String, Codable,Identifiable {
     case tomorrow = "Tomorrow"
     case thisWeek = "This Week"
     case afterWeek = "More than a week"
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+        }
+
     
     var id: Int {self.hashValue}
 }

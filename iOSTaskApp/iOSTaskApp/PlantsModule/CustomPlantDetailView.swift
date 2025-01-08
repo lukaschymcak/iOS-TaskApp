@@ -121,7 +121,7 @@ struct CustomPlantDetailView: View {
                                                 .fontWeight(.bold)
                                                 .font(.title2)
                                             VStack(alignment: .leading){
-                                                Text("TEMP(C)")
+                                                Text("TEMP(c)")
                                                     .foregroundStyle(.darkGreen)
                                                     .fontWeight(.bold)
                                                 Text(plantCell.temp == "" ? "Tap to add Temp" : "\(plantCell.temp)")

@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftData
-
+import SwiftUI
 @Model
 class Trip{
     @Attribute(.unique) var Id: UUID = UUID()
@@ -63,13 +63,7 @@ class Trip{
     }
     
    
-    func validBag(name:String) -> Bool{
-        name.isEmpty || bags.contains(where: { $0.name == name }) ? false : true
-    }
     
-    func alertMessage(name:String) -> String{
-        name.isEmpty ? "Please enter a bag name" : bags.contains(where: { $0.name == name }) ? "Bag name already exists" : ""
-    }
     
     func setName(a:String){
         self.name = a

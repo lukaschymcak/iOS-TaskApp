@@ -46,11 +46,12 @@ struct ContentView: View {
                     }
                     
                 }
+                print(modulesLoaded.description)
             
                 if modulesLoaded == false {
-                    context.delete(PackingModuleDataClass(name: "Packing"))
-                    context.insert(PackingModuleDataClass(name: "Packing"))
                     context.delete(PackingModuleDataClass())
+                    context.insert(PackingModuleDataClass())
+                    context.delete(PlantsModuleDataClass())
                     context.insert(PlantsModuleDataClass())
                     modulesLoaded = true
                 }
@@ -76,12 +77,12 @@ struct WelcomeView: View {
              
                 .frame(width: 250, height: 250)
                 .padding(.top, 20)
-            Text("Welcome,")
+            Text(LocalizedStringKey("welcome"))
                 .font(.system(size: 60))
                 .fontWeight(.heavy)
                 .padding(5)
 
-            TextField("Enter your name", text: $name)
+            TextField(LocalizedStringKey("enter_name"), text: $name)
                 .focused($nameIsFocused)
                 .multilineTextAlignment(.center)
                 .font(.largeTitle)
@@ -136,26 +137,31 @@ struct HomeView: View {
          
                     NavigationStack {
                         ZStack {
-                
                             VStack() {
                                 ScrollView {
                                     PackageModuleHomeView()
                                         .environmentObject(dateManager)
                                         .environmentObject(packingVM)
-
+                                    
+                                    
                                     PlantsModuleHomeView()
                                         .environmentObject(plantsVM)
                                         .environmentObject(dateManager)
                                     
-                                    
+                             
                                 }
+                              
+
                             }
-                    }
+                        }
+                 
                     
                 }.toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         NavigationLink {
                             SettingsView()
+                                .environmentObject(packingVM)
+                                .environmentObject(plantsVM)
     
 
                         } label: {
@@ -166,16 +172,27 @@ struct HomeView: View {
                         }
                     }
                     ToolbarItem(placement: .principal) {
-                        Text("hello,\(name)")
-                            .font(.title3)
-                            .foregroundStyle(Utils.textColor(colorScheme))
-                            .fontWeight(.bold)
+
+                            Text(LocalizedStringKey("hello"))
+                                .font(.title3)
+                                .foregroundStyle(Utils.textColor(colorScheme))
+                                .fontWeight(.bold)
+                       
+                         +   Text(", \(name == "" ? "User" : name)")
+                                .font(.title3)
+                                .foregroundStyle(Utils.textColor(colorScheme))
+                                .fontWeight(.bold)
+                                
+      
+               
                             
                     }
+               
                     ToolbarItem(placement: .topBarTrailing) {
                       
                     }
-                }
+                }.toolbarTitleDisplayMode(.inline)
+                    
             }
       
      

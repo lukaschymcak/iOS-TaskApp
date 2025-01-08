@@ -90,7 +90,7 @@ struct CustomBackBar: ViewModifier {
                     }.frame(height: 50)
                 }
                 ToolbarItem(placement: .principal) {
-                    Text(title)
+                    Text(LocalizedStringKey(title))
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundStyle(textColor)

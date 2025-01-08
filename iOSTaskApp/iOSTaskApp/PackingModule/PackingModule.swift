@@ -41,7 +41,7 @@ struct PackingModule: View {
                                             .resizable()
                                             .frame(width: 50, height: 50)
                                             .padding(.trailing,8)
-                                        Text(packingModule.name)
+                                        Text("Packing")
                                             .font(.system(size: 35))
                                             .fontWeight(.bold)
                                             .foregroundStyle(.white)
@@ -146,6 +146,7 @@ struct PackingModule: View {
      
         }.frame(maxWidth: .infinity, alignment: .center)
             .padding(.bottom,10)
+            .padding(.top,20)
             
     }
     }

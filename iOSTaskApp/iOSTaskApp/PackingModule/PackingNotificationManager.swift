@@ -7,6 +7,7 @@
 
 import Foundation
 import UserNotifications
+import SwiftUI
 
 class PackingNotificationManager {
     var content = UNMutableNotificationContent()
@@ -31,8 +32,8 @@ class PackingNotificationManager {
         date.minute = 0
         let identifier = "TripNotification"
         self.content.title = "Task App"
-        self.content.subtitle = trip.dateFrom.isToday()  ? "\(trip.name)is happening today" : " \(trip.name) is happening in \(trip.dayDifference) days"
-        self.content.body = "You are \(trip.percentage)% ready"
+        self.content.subtitle = trip.dateFrom.isToday()  ? NSLocalizedString("\(trip.name) is happening today", comment: "") :NSLocalizedString("\(trip.name) is happening in \(trip.dayDifference) day", comment: "")
+        self.content.body =   NSLocalizedString("You are \(trip.percentage)% ready", comment: "")
         self.content.sound = UNNotificationSound.default
         self.content.badge = 1
         content.sound = UNNotificationSound.default

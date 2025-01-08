@@ -39,7 +39,7 @@ struct PlantsModuleCell: View {
                                             .frame(width: 50, height: 50)
                                             .padding(.trailing,8)
                                        
-                                        Text(plantsVM.selectedModule.getName())
+                                        Text("Plants")
                                             .font(.system(size: 35))
                                             .fontWeight(.bold)
                                             .foregroundStyle(.darkGreen)
@@ -49,7 +49,7 @@ struct PlantsModuleCell: View {
                                         
                                         
                                     }
-                                    Text("\(plantsVM.selectedModule.needWatering) plants need watering today ")
+                                    Text(LocalizedStringKey("\(plantsVM.selectedModule.needWatering) plants need watering today "))
                                         .font(.title2)
                                         .fontWeight(.bold)
                                         .foregroundStyle(.darkGreen)
@@ -64,7 +64,7 @@ struct PlantsModuleCell: View {
                                                     
                                                     
                                                     VStack{
-                                                        Text("\(location.id)")
+                                                        Text(location.localizedString())
                                                             .font(.headline)
                                                             .fontWeight(.bold)
                                                             .foregroundStyle(.darkGreen)

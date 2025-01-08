@@ -28,7 +28,7 @@ struct AddingTripsSheetView: View {
                 }
                 .padding(.top,30)
                 .padding(.bottom,5)
-                Text("Adding Trip")
+                Text("Adding trip")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.bottom, 20)

@@ -114,7 +114,7 @@ struct PlantListView: View {
                 
             }
             
-        }.toastView(toast: $plantsVM.toast, someAction: {plantsVM.selectedPlants?.unPrepare()})
+        }.toastView(toast: $plantsVM.toast, someAction: {plantsVM.selectedPlants?.toggleNotWatered()})
         
     }
     
@@ -127,7 +127,7 @@ struct PlantListView: View {
                 
                 VStack(alignment: .leading){
                     if !plantsVM.selectedModule.filterByDateAndLocation(when: when, location:  location).isEmpty{
-                        Text(when.rawValue)
+                        Text(when.localizedString())
                             .font(.largeTitle)
                             .foregroundStyle(.lightOrange)
                             .fontWeight(.bold)
@@ -170,7 +170,7 @@ struct PlantListView: View {
             NavigationStack{
                 VStack(alignment: .leading){
                     if !plantsVM.selectedModule.filterByDAte(when: when).isEmpty{
-                        Text(when.rawValue)
+                        Text(when.localizedString())
                             .font(.largeTitle)
                             .foregroundStyle(.lightOrange)
                             .fontWeight(.bold)

@@ -64,7 +64,7 @@ struct BagsView: View {
                 }.frame(height: 50)
             }
             ToolbarItem(placement: .principal) {
-                Text(trip.name == "" ? "Trip" : trip.name)
+                Text(trip.name == "" ? NSLocalizedString("trip", comment: "") : trip.name)
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundStyle(Color(hex: "FEFAE0"))
@@ -81,7 +81,7 @@ struct BagsView: View {
         
         
         HStack {
-            Text("HISTORY:")
+            Text(LocalizedStringKey("history"))
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.vertical,10)
@@ -121,7 +121,7 @@ struct BagsView: View {
     var currentBags: some View {
         VStack {
             HStack {
-                Text("MY BAGS:")
+                Text(LocalizedStringKey("my_bags"))
                     .font(.title)
                     .fontWeight(.bold)
                     .padding(.vertical,10)
@@ -155,7 +155,7 @@ struct BagsView: View {
                 
                 
                     HStack{
-                        TextField("Bag1", text: $bagName)
+                        TextField(LocalizedStringKey("item"), text: $bagName)
                             .padding(10)
                             .frame(height: 40)
                             .foregroundStyle(Color(hex: "22577A"))
@@ -168,7 +168,7 @@ struct BagsView: View {
                         
                         Button {
                             withAnimation {
-                                if !trip.validBag(name: bagName){
+                                if  bagName == "" {
                                     showAlert = true
                                     
                                 } else{
@@ -188,7 +188,7 @@ struct BagsView: View {
                                 .clipShape(.rect(cornerRadius: 10))
                             
                         }
-                        .alert("\(trip.alertMessage(name:bagName))" ,isPresented: $showAlert) {
+                        .alert(LocalizedStringKey("new_bag") ,isPresented: $showAlert) {
                             
                         }.sensoryFeedback(.increase, trigger: trip.bags.count)
                         
@@ -301,7 +301,7 @@ struct ClosedBag:View {
                                 .fontWeight(.bold)
                             
                         }.alert(isPresented: $showAlert){
-                            Alert(title: Text("Remove bag ?") ,message: Text("This will delete the Bag , and your items."),primaryButton: .destructive(Text("Confirm") ,action: {
+                            Alert(title: Text(LocalizedStringKey("remove_bag")) ,message: Text(LocalizedStringKey("remove_bag_notif")),primaryButton: .destructive(Text("Confirm") ,action: {
                                 trip.removeBags(a: bag)
                             }),secondaryButton: .cancel())
                         }
@@ -362,7 +362,7 @@ struct OpenBag: View {
                     Spacer()
                     if !historyView {
                         HStack{
-                            TextField("Item", text: $itemName)
+                            TextField(LocalizedStringKey("item"), text: $itemName)
                                 .padding(10)
                                 .frame(height: 40)
                                 .foregroundStyle(Color(hex: "22577A"))
@@ -415,7 +415,7 @@ struct OpenBag: View {
                 }.frame(height: 50)
             }
             ToolbarItem(placement: .principal) {
-                Text("Packing")
+                Text(bag.name)
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundStyle(Color(hex: "FEFAE0"))

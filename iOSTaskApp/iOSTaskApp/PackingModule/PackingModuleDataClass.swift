@@ -12,7 +12,7 @@ import SwiftUI
 @Model
 class PackingModuleDataClass{
     @Attribute(.unique) var Id: UUID = UUID()
-    private(set) var name: String
+    private(set) var name: String = NSLocalizedString("Packing", comment: "")
     var percentage:Int {
         print("perc called")
       if let firstTrip = trips.first {
@@ -44,8 +44,8 @@ class PackingModuleDataClass{
     private(set) var trips  = [Trip]()
     @Relationship(deleteRule: .cascade)
     private(set) var tripHistory  = [Trip]()
-    init(name: String = "Packing",tripHistory:[Trip] = [],trip:[Trip] = []) {
-        self.name = name
+    init(tripHistory:[Trip] = [],trip:[Trip] = []) {
+    
         self.tripHistory = tripHistory
 
     }
@@ -77,7 +77,7 @@ class PackingModuleDataClass{
 
 
 struct PackingMockData{
-    static let packingMock = PackingModuleDataClass(name: "Packing",trip: [Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now),Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now),Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now)])
+    static let packingMock = PackingModuleDataClass(trip: [Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now),Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now),Trip( name: "Trip to Italy", dateFrom: Date.now, dateTo: Date.now)])
     
     
     

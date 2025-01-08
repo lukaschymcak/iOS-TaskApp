@@ -29,7 +29,7 @@ struct ListTripView: View {
 
             VStack {
                 HStack {
-                    Text("HISTORY:")
+                    Text(LocalizedStringKey("history"))
                         .font(.title)
                         .fontWeight(.bold)
                         .padding(.vertical, 15)
@@ -47,7 +47,7 @@ struct ListTripView: View {
 
                     ScrollView {
                         if module.tripHistory == [] {
-                            Text("History is empty")
+                            Text(LocalizedStringKey("empty_history"))
                                 .frame(maxWidth: .infinity)
                                 .foregroundStyle(Color(hex: "22577A"))
                                 .font(.headline)
@@ -105,7 +105,7 @@ struct ListTripView: View {
 
             VStack {
                 HStack {
-                    Text("MY TRIPS:")
+                    Text(LocalizedStringKey("my_trips"))
                         .font(.title)
                         .fontWeight(.bold)
                         .padding(.vertical, 15)
@@ -131,7 +131,7 @@ struct ListTripView: View {
                     ScrollView {
 
                         if module.trips == [] {
-                            Text("Add a trip to see details")
+                            Text(LocalizedStringKey("empty_trips"))
                                 .frame(maxWidth: .infinity)
                                 .foregroundStyle(Color(hex: "22577A"))
                                 .font(.headline)
