@@ -169,40 +169,59 @@ struct PlantDetailView: View {
         }
     @ViewBuilder
     var wateringButton: some View {
-       
-        if Calendar.current.isDateInToday(plantCell.waterDate) || plantCell.waterDate.isBeforeToday() {
+        
+        if Calendar.current.isDateInToday(plantCell.waterDate)
+            || plantCell.waterDate.isBeforeToday()
+        {
             Button {
                 if plantCell.waterDate.isBeforeToday() {
                     showWaterAlert.toggle()
-                    dismiss()
-                    
-                }else {
-                    plantCell.prepare()
-                    plantsVM.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+
+                } else {
+                    plantCell.toggleWatered()
+                    plantCell.waterPlantAndIncreaseDate()
+                    plantsVM.toast = Toast(
+                        style: .success, message: NSLocalizedString("Plant Watered", comment: ""),
+                        doOutsideFunctonImage: "arrow.uturn.backward")
                     plantsVM.selectedPlants = plantCell
-                    dismiss()
+
                 }
             } label: {
+                HStack {
+                    Text(showWaterAlert.description)
+
+                }.frame(width: 0, height: 0)
                 Image(
-                    systemName: plantCell.prepared
-                    ? "checkmark.circle" : "drop.circle"
+                    systemName: plantCell.watered
+                        ? "checkmark.circle" : "drop.circle"
                 )
                 .font(.system(size: 50))
-                .foregroundStyle(Color(hex: "FEFAE0"))
+                .foregroundStyle(.lightCream)
             }.padding(.horizontal)
-                .alert(isPresented: $showWaterAlert) {
-                    Alert(title: Text("Water Plant ?"), primaryButton: .destructive(Text("You forgot to water this plant , once watered next watering date will be calculated from today"), action: {
-                        plantCell.prepare()
-                        plantsVM.toast = Toast(style: .success, message: "Plant Watered",doOutsideFunctonImage: "arrow.uturn.backward")
+                .alert(LocalizedStringKey("Water ?"), isPresented: $showWaterAlert, actions: {
+                    
+                    Button(LocalizedStringKey("Yes")) {
+                        plantCell.toggleWatered()
+                        plantCell.waterPlantAndIncreaseDate()
+                        plantsVM.toast = Toast(
+                            style: .success, message: NSLocalizedString("Plant Watered", comment: ""),
+                            doOutsideFunctonImage:
+                                "arrow.uturn.backward")
                         plantsVM.selectedPlants = plantCell
-                    }) , secondaryButton: .cancel())
-                }.disabled(plantCell.prepared)
+                    
+                    }
+                    Button("No", role: .cancel) {
+                    }
+                }, message: {
+                    Text(LocalizedStringKey("You forgot to water this plant , once watered next watering date will be calculated from today"))
+                })
+                .disabled(plantCell.watered)
         } else {
             Image(
                 systemName: "clock"
             )
             .font(.system(size: 50))
-            .foregroundStyle(Color(hex: "FEFAE0"))
+            .foregroundStyle(.lightCream)
             .padding(.horizontal)
         }
     }

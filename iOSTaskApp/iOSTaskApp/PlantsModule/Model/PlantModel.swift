@@ -77,7 +77,9 @@ class PlantModel:Hashable,Identifiable {
         func setWaterDate(a:Date){
             self.waterDate = a
         }
-        
+    func getWaterDate() -> Date {
+        return self.waterDate
+    }
         func prepare(){
             self.prepared = true
         }

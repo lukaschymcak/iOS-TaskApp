@@ -42,7 +42,7 @@ struct PlantCell: View {
                                         .fontWeight(.bold)
                                         .foregroundStyle(.lightCream)
                                     Text(
-                                        plantCell.waterDate,
+                                        plantCell.getWaterDate(),
                                         format: .dateTime.month().day()
                                     )
                                     .font(.title2)
@@ -114,7 +114,7 @@ struct PlantCell: View {
                         style: .success, message: NSLocalizedString("Plant Watered", comment: ""),
                         doOutsideFunctonImage: "arrow.uturn.backward")
                     plantsVM.selectedPlants = plantCell
-                    plantCell.setWaterDate(a: Date())
+          
                 }
             } label: {
                 HStack {
@@ -138,7 +138,7 @@ struct PlantCell: View {
                             doOutsideFunctonImage:
                                 "arrow.uturn.backward")
                         plantsVM.selectedPlants = plantCell
-                        plantCell.setWaterDate(a: Date())
+                
                     }
                     Button("No", role: .cancel) {
                     }
