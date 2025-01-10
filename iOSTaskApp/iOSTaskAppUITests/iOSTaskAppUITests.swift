@@ -21,18 +21,4 @@ final class iOSTaskAppUITests: XCTestCase {
 
 
  
-    func testExample() {
-                        
-
-        
-        let app = XCUIApplication()
-        app.buttons["welcomeScreenButton"].tap()
-        app.textFields["Enter your name"].tap()
-        app/*@START_MENU_TOKEN@*/.buttons["arrow.down.circle"]/*[[".buttons[\"Arrow Down Circle\"]",".buttons[\"arrow.down.circle\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-                
-                
-    
-
-
-    }
 }

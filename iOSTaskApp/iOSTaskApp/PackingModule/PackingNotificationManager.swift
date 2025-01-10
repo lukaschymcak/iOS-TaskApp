@@ -24,6 +24,7 @@ class PackingNotificationManager {
         guard let module = module.selectedModule else { return}
         guard let trip = module.earliestTrip else {return }
         guard isPackingNotfiOn && trip.dayDifference <= 3 && trip.percentage < 100  else { print("Notification not prepared")
+            packingNotifCreated = false
             return }
         
         print("Notification prepared")
@@ -40,6 +41,7 @@ class PackingNotificationManager {
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
         let request = UNNotificationRequest(identifier: identifier, content: self.content, trigger: trigger)
         UNUserNotificationCenter.current().add(request)
+        packingNotifCreated = true
     }
     
     func removeTripNotificationfromCenter(){
