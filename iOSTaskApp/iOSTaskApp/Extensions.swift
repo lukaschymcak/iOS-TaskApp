@@ -26,10 +26,18 @@ extension Date {
         let calendar = Calendar.current
         let now = Date()
         
-        if let daysDifference = calendar.dateComponents([.day], from: self, to: now).day {
+        let today = calendar.startOfDay(for: now)
+        let selfDay = calendar.startOfDay(for: self)
+        
+        if let daysDifference =  calendar.dateComponents([.day], from: selfDay, to: today).day {
+            print(daysDifference)
+            print(now)
+            print(self)
             return daysDifference > 0
         }
-        
+        print(now)
+        print(self)
+         
         return false
     }
 
