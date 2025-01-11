@@ -17,15 +17,14 @@ struct PackageModuleHomeView: View {
     @EnvironmentObject var dateManager: DateManager
     @State private var cardOffset = CGSize.zero
     @State private var showDeleteAlert:Bool = false
-    @AppStorage("swipreToDeleteInfo") var swipeToDelete: Bool = false
-    @AppStorage("isPackingModuleCreated") var isPackingModuleCreated = false
+
+    
     
     
     var body: some View {
         if let onlyModule = packinModule {
             ZStack(alignment: .trailing){
-                Color.black.opacity(swipeToDelete ? 0 : 0.1).zIndex(2)
-                    HStack(spacing: 0){
+ 
                         
                         NavigationLink {
                             PackingModuleOpen(module: onlyModule)
@@ -48,11 +47,11 @@ struct PackageModuleHomeView: View {
                             
                             
                             
-                        }.frame(maxWidth: .infinity,alignment: .leading)
+                        }
                         
                         
                         
-                    }
+                    
             
                 
 
@@ -63,10 +62,6 @@ struct PackageModuleHomeView: View {
         }
         VStack{
             
-        }.onAppear {
-            if packinModule == nil {
-                isPackingModuleCreated = false
-            }
         }
         
         

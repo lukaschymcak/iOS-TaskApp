@@ -27,7 +27,7 @@ struct PlantCell: View {
                                 .frame(width: 80, height: 80)
                                 .padding()
                             VStack(alignment: .leading, spacing: 5) {
-                                Text(plantCell.location.rawValue)
+                                Text(plantCell.location.localizedString())
                                     .font(.footnote)
                                     .fontWeight(.bold)
                                     .foregroundStyle(.lightCream)
@@ -42,7 +42,7 @@ struct PlantCell: View {
                                         .fontWeight(.bold)
                                         .foregroundStyle(.lightCream)
                                     Text(
-                                        plantCell.waterDate,
+                                        plantCell.getWaterDate(),
                                         format: .dateTime.month().day()
                                     )
                                     .font(.title2)
@@ -68,13 +68,13 @@ struct PlantCell: View {
                                 }
                                 .alert(isPresented: $showDeletePlantAlert) {
                                     Alert(
-                                        title: Text("Remove Plant ?"),
+                                        title: Text(LocalizedStringKey("Remove Plant ?")),
                                         primaryButton: .destructive(
-                                            Text("Confirm"),
+                                            Text(LocalizedStringKey("Confirm")),
                                             action: {
                                                 plantsVM.toast = Toast(
                                                     style: .success,
-                                                    message: "Plant Removed",
+                                                    message: NSLocalizedString("Plant Removed", comment: ""),
                                                     doOutsideFunctonImage: "")
                                                 plantsVM.selectedModule
                                                     .removePlant(a: plantCell)
@@ -111,10 +111,10 @@ struct PlantCell: View {
                     plantCell.toggleWatered()
                     plantCell.waterPlantAndIncreaseDate()
                     plantsVM.toast = Toast(
-                        style: .success, message: "Plant Watered",
+                        style: .success, message: NSLocalizedString("Plant Watered", comment: ""),
                         doOutsideFunctonImage: "arrow.uturn.backward")
                     plantsVM.selectedPlants = plantCell
-                    plantCell.setWaterDate(a: Date())
+          
                 }
             } label: {
                 HStack {
@@ -128,22 +128,22 @@ struct PlantCell: View {
                 .font(.system(size: 50))
                 .foregroundStyle(.lightCream)
             }.padding(.horizontal)
-                .alert("Water ?", isPresented: $showWaterAlert, actions: {
+                .alert(LocalizedStringKey("Water ?"), isPresented: $showWaterAlert, actions: {
                     
-                    Button("Yes"){
+                    Button(LocalizedStringKey("Yes")) {
                         plantCell.toggleWatered()
                         plantCell.waterPlantAndIncreaseDate()
                         plantsVM.toast = Toast(
-                            style: .success, message: "Plant Watered",
+                            style: .success, message: NSLocalizedString("Plant Watered", comment: ""),
                             doOutsideFunctonImage:
                                 "arrow.uturn.backward")
                         plantsVM.selectedPlants = plantCell
-                        plantCell.setWaterDate(a: Date())
+                
                     }
                     Button("No", role: .cancel) {
                     }
                 }, message: {
-                    Text("You forgot to water this plant , once watered next watering date will be calculated from today")
+                    Text(LocalizedStringKey("You forgot to water this plant , once watered next watering date will be calculated from today"))
                 })
                 .disabled(plantCell.watered)
         } else {

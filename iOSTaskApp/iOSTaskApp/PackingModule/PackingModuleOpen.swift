@@ -23,31 +23,29 @@ struct PackingModuleOpen: View {
 
                     VStack {
                         ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(.orange, lineWidth: 5)
-                                .fill(.clear)
-                                .frame(width: 120, height: 50)
-                                .offset(x: vmParent.openingHistory ? 135 : 15)
-                                .animation(
-                                    .spring,
-                                    value: vmParent.openingHistory
-                                )
-                                .zIndex(2)
+                        
 
                             ZStack(alignment: .leading) {
 
                                 HStack(spacing: 25) {
+                                    
                                     Button {
 
                                         vmParent.openingHistory = false
 
                                     } label: {
-                                        Text("Current")
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(
-                                                Color(hex: "22577A")
-                                            )
+                                        ZStack{
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(.orange, lineWidth: vmParent.openingHistory ? 0 : 5)
+                                                    .frame(height: 50)
+                                            Text("Current")
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(
+                                                    Color(hex: "22577A")
+                                                )
+                                                .padding(8)
+                                        }
                                     }
 
                                     Button {
@@ -55,12 +53,17 @@ struct PackingModuleOpen: View {
                                         vmParent.openingHistory = true
 
                                     } label: {
-                                        Text("History")
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(
-                                                Color(hex: "22577A")
-                                            )
+                                        ZStack{
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(.orange, lineWidth: vmParent.openingHistory ? 5 : 0)
+                                                    .frame(height: 50)
+                                            Text("History")
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(
+                                                    Color(hex: "22577A")
+                                                )         .padding(8)
+                                        }
                                     }
                                     Spacer()
 
@@ -70,12 +73,13 @@ struct PackingModuleOpen: View {
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(Color(hex: "FEFAE0"))
                                     .frame(
-                                        width: 270,
+                                        width: GeometryProxy.size.width - 20,
                                         height: 65
                                     )
                             }
 
                         }.frame(width: GeometryProxy.size.width - 40)
+                            .padding(.bottom, 15)
 
                         Color.orange
                             .frame(

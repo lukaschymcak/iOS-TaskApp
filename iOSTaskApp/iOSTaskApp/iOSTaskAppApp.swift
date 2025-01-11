@@ -16,7 +16,8 @@ struct iOSTaskAppApp: App {
     @StateObject var plantsVM = PlantsModuleViewModel()
     private static let refreshId = "dateRefresh"
     let packingNotificationManager = PackingNotificationManager.shared
-    @AppStorage("isPackingModuleCreated") var isPackingModuleCreated: Bool = false
+
+    @AppStorage("packingNotif") var packingNotif: Bool = false
     
     var body: some Scene {
         WindowGroup {
@@ -29,17 +30,20 @@ struct iOSTaskAppApp: App {
             if phase == .background {
                 plantsVM.selectedModule.refreshPlants()
                 scheduleAppRefresh()
-                if isPackingModuleCreated {
-                      packingVM.checkAndAddToHistory()
-                    if packingVM.selectedModule?.trips.isEmpty == true{
+                packingVM.checkAndAddToHistory()
+            if packingVM.selectedModule?.trips.isEmpty == true{
                         packingNotificationManager.removeTripNotificationfromCenter()
                         print("removed")
                     } else {
-                        packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
+                        if packingNotif {
+                            packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
+                        } else {
+                            packingNotificationManager.removeTripNotificationfromCenter()
+                        }
                     }
                         
                     
-                }
+                
 
             } else if phase == .active {
           
@@ -55,18 +59,20 @@ struct iOSTaskAppApp: App {
         }.backgroundTask(.appRefresh(Self.refreshId)) {
             await scheduleAppRefresh()
             await dateManager.updateDate()
-            if await isPackingModuleCreated {
                await packingVM.checkAndAddToHistory()
                 if await packingVM.selectedModule?.trips.isEmpty == true{
                   await   packingNotificationManager.removeTripNotificationfromCenter()
                     print("removed")
                 } else {
-                   await packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
+                    if await packingNotif {
+                       await packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
+                    } else {
+                   await  packingNotificationManager.removeTripNotificationfromCenter()
+                    }
                 }
                 
-               await packingNotificationManager.checkAndcreatePackingNotifications(for: packingVM)
 
-            }
+            
             
         }
     }

@@ -38,7 +38,7 @@ struct PlantList: View {
                                     )
                                     .frame(height: 50)
 
-                                    Text(houseLocation.all.rawValue)
+                                    Text(houseLocation.all.localizedString())
                                         .font(.title)
                                         .fontWeight(.bold)
                                         .foregroundStyle(
@@ -80,7 +80,7 @@ struct PlantList: View {
                                         )
                                         .frame(height: 50)
 
-                                        Text(location.rawValue)
+                                        Text(location.localizedString())
                                             .font(.title)
                                             .fontWeight(.bold)
                                             .foregroundStyle(

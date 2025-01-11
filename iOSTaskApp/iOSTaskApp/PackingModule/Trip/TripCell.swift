@@ -64,13 +64,13 @@ struct TripCell: View {
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color(hex: "FEFAE0"))
-                            }.alert("Delete Trip ?", isPresented: $showDeleteAlert) {
-                                Button("Yes", role: .destructive) {
-                                    toast = Toast(style: .success, message: "Trip succesfully deleted")
+                            }.alert(LocalizedStringKey("delete_trip"), isPresented: $showDeleteAlert) {
+                                Button(LocalizedStringKey("yes"), role: .destructive) {
+                                    toast = Toast(style: .success, message: NSLocalizedString("trip_deleted", comment: ""))
                                     module.removeHistoryTrip(a: trip)
                                 }
                             } message: {
-                                Text("This will delete the trip from your history")
+                                Text(LocalizedStringKey("trip_delete_history_warning"))
                             }
                             
                             
@@ -78,7 +78,7 @@ struct TripCell: View {
                             .padding(.bottom,10)
                         
                         HStack{
-                            Text(trip.name == "" ? "Trip" : trip.name)
+                            Text(trip.name == "" ? "\(LocalizedStringKey("trip"))" : trip.name)
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color(hex: "FEFAE0"))
@@ -92,7 +92,7 @@ struct TripCell: View {
                     }.padding(9)
                         .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
                 }.dragToDelete(cardOffset: $cardOffset) {
-                    toast = Toast(style: .success, message: "Trip succesfully deleted")
+                    toast = Toast(style: .success, message: NSLocalizedString("trip_deleted", comment: ""))
                     module.removeHistoryTrip(a: trip)
                 }
                 RoundedRectangle(cornerRadius: 20)
@@ -140,22 +140,22 @@ struct TripCell: View {
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color(hex: "FEFAE0"))
-                            }.alert("Complete Trip?", isPresented: $showAddToHistoryAlert, actions: {
-                                Button("Confirm", role: .destructive) {
-                                    toast = Toast(style: .success, message: "Added to history")
+                            }.alert(LocalizedStringKey("complete_trip"), isPresented: $showAddToHistoryAlert, actions: {
+                                Button(LocalizedStringKey("confirm"), role: .destructive) {
+                                    toast = Toast(style: .success, message: NSLocalizedString("added_history", comment: ""))
                                     module.addTripHistory(a: trip)
                                     module.removeTrip(a: trip)
                                 }
                             }, message: {
-                                Text("This will complete the trip , and add it to your history")
+                                Text(LocalizedStringKey("add_trip_history_warning"))
                             }
-                            ).alert("Delete Trip ?", isPresented: $showDeleteAlert, actions: {
+                            ).alert(LocalizedStringKey("delete_trip"), isPresented: $showDeleteAlert, actions: {
                                 Button("Yes", role: .destructive) {
-                                    toast = Toast(style: .success, message: "Trip succesfully deleted")
+                                    toast = Toast(style: .success, message: NSLocalizedString("trip_deleted", comment: ""))
                                     module.removeTrip(a: trip)
                                 }
                             }, message: {
-                                Text("This will delete the trip")
+                                Text(LocalizedStringKey("trip_delete_warning"))
                                 
                                 
                             })
@@ -165,7 +165,7 @@ struct TripCell: View {
                             .padding(.bottom,10)
                         
                         HStack{
-                            Text(trip.name == "" ? "Trip" : trip.name)
+                            Text(trip.name == "" ? NSLocalizedString("trip", comment: "") : trip.name)
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color(hex: "FEFAE0"))
@@ -181,7 +181,7 @@ struct TripCell: View {
                     
                     
                 }.dragToDelete(cardOffset: $cardOffset) {
-                    toast = Toast(style: .success, message: "Trip succesfully deleted")
+                    toast = Toast(style: .success, message: NSLocalizedString("trip_deleted", comment: ""))
                     module.removeTrip(a: trip)
                 }
                 RoundedRectangle(cornerRadius: 20)

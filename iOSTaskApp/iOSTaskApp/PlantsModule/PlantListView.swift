@@ -22,7 +22,40 @@ struct PlantListView: View {
                         
                         if vmChild == .all{
                             
-      
+                            if !plantsVM.selectedModule.getForgottenPlants(location: vmChild).isEmpty{
+                                Text("Forgotten:")
+                                    .font(.largeTitle)
+                                    .foregroundStyle(.lightOrange)
+                                    .fontWeight(.bold)
+                                    .padding(.top,10)
+                                    .padding(.horizontal,10)
+                                
+                                ForEach(plantsVM.selectedModule.getForgottenPlants(location:  vmChild),id: \.id){ plant in
+                                    if !plant.isCustom {
+                                        NavigationLink {
+                                            PlantDetailView(plantCell: plant)
+                                                .environmentObject(plantsVM)
+                                                .navigationBarBackButtonHidden(true)
+                                        } label: {
+                                            
+                                            PlantCell(plantCell: plant)
+                                                .frame(height: 130)
+                                        }
+                                    } else {
+                                        NavigationLink {
+                                            CustomPlantDetailView(plantCell: plant)
+                                                .environmentObject(plantsVM)
+                                                .navigationBarBackButtonHidden(true)
+                                        } label: {
+                                            
+                                            PlantCell(plantCell: plant)
+                                                .frame(height: 130)
+                                        }
+                                    }
+                                    
+                                }
+                                
+                            }
                             
                             showAllPlantsByDate(when: .today)
                             showAllPlantsByDate(when: .tomorrow)
@@ -81,7 +114,7 @@ struct PlantListView: View {
                 
             }
             
-        }.toastView(toast: $plantsVM.toast, someAction: {plantsVM.selectedPlants?.unPrepare()})
+        }.toastView(toast: $plantsVM.toast, someAction: {plantsVM.selectedPlants?.toggleNotWatered()})
         
     }
     
@@ -94,7 +127,7 @@ struct PlantListView: View {
                 
                 VStack(alignment: .leading){
                     if !plantsVM.selectedModule.filterByDateAndLocation(when: when, location:  location).isEmpty{
-                        Text(when.rawValue)
+                        Text(when.localizedString())
                             .font(.largeTitle)
                             .foregroundStyle(.lightOrange)
                             .fontWeight(.bold)
@@ -137,7 +170,7 @@ struct PlantListView: View {
             NavigationStack{
                 VStack(alignment: .leading){
                     if !plantsVM.selectedModule.filterByDAte(when: when).isEmpty{
-                        Text(when.rawValue)
+                        Text(when.localizedString())
                             .font(.largeTitle)
                             .foregroundStyle(.lightOrange)
                             .fontWeight(.bold)

@@ -7,6 +7,7 @@
 
 import Foundation
 import UserNotifications
+import SwiftUI
 
 class PackingNotificationManager {
     var content = UNMutableNotificationContent()
@@ -23,6 +24,7 @@ class PackingNotificationManager {
         guard let module = module.selectedModule else { return}
         guard let trip = module.earliestTrip else {return }
         guard isPackingNotfiOn && trip.dayDifference <= 3 && trip.percentage < 100  else { print("Notification not prepared")
+            packingNotifCreated = false
             return }
         
         print("Notification prepared")
@@ -31,17 +33,19 @@ class PackingNotificationManager {
         date.minute = 0
         let identifier = "TripNotification"
         self.content.title = "Task App"
-        self.content.subtitle = trip.dateFrom.isToday()  ? "\(trip.name)is happening today" : " \(trip.name) is happening in \(trip.dayDifference) days"
-        self.content.body = "You are \(trip.percentage)% ready"
+        self.content.subtitle = trip.dateFrom.isToday()  ? NSLocalizedString("\(trip.name) is happening today", comment: "") :NSLocalizedString("\(trip.name) is happening in \(trip.dayDifference) day", comment: "")
+        self.content.body =   NSLocalizedString("You are \(trip.percentage)% ready", comment: "")
         self.content.sound = UNNotificationSound.default
         self.content.badge = 1
         content.sound = UNNotificationSound.default
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
         let request = UNNotificationRequest(identifier: identifier, content: self.content, trigger: trigger)
         UNUserNotificationCenter.current().add(request)
+        packingNotifCreated = true
     }
     
     func removeTripNotificationfromCenter(){
+        
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["TripNotification"])
     }
                                                                           

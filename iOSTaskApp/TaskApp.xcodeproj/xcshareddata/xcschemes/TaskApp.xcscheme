@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CCF39D7C2CB7FD2900F1FFDD"
-               BuildableName = "iOSTaskApp.app"
-               BlueprintName = "iOSTaskApp"
-               ReferencedContainer = "container:iOSTaskApp.xcodeproj">
+               BuildableName = "TaskApp.app"
+               BlueprintName = "TaskApp"
+               ReferencedContainer = "container:TaskApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,9 +36,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CCF39D8E2CB7FD2C00F1FFDD"
-               BuildableName = "iOSTaskAppTests.xctest"
-               BlueprintName = "iOSTaskAppTests"
-               ReferencedContainer = "container:iOSTaskApp.xcodeproj">
+               BuildableName = "TaskAppTests.xctest"
+               BlueprintName = "TaskAppTests"
+               ReferencedContainer = "container:TaskApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CCF39D982CB7FD2C00F1FFDD"
-               BuildableName = "iOSTaskAppUITests.xctest"
-               BlueprintName = "iOSTaskAppUITests"
-               ReferencedContainer = "container:iOSTaskApp.xcodeproj">
+               BuildableName = "TaskAppUITests.xctest"
+               BlueprintName = "TaskAppUITests"
+               ReferencedContainer = "container:TaskApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CCF39D7C2CB7FD2900F1FFDD"
-            BuildableName = "iOSTaskApp.app"
-            BlueprintName = "iOSTaskApp"
-            ReferencedContainer = "container:iOSTaskApp.xcodeproj">
+            BuildableName = "TaskApp.app"
+            BlueprintName = "TaskApp"
+            ReferencedContainer = "container:TaskApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -83,7 +83,7 @@
       </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -93,9 +93,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CCF39D7C2CB7FD2900F1FFDD"
-            BuildableName = "iOSTaskApp.app"
-            BlueprintName = "iOSTaskApp"
-            ReferencedContainer = "container:iOSTaskApp.xcodeproj">
+            BuildableName = "TaskApp.app"
+            BlueprintName = "TaskApp"
+            ReferencedContainer = "container:TaskApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

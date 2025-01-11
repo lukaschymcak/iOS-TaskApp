@@ -16,7 +16,7 @@ struct PlantsModuleHomeView: View {
     @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @State private var cardOffset = CGSize.zero
     @State private var showDeleteAlert:Bool = false
-    @AppStorage("isPlantsModuleCreated") var isPlantsModuleCreated = false
+
     
 
     var body: some View {
@@ -32,11 +32,6 @@ struct PlantsModuleHomeView: View {
                         PlantsModuleCell()
                             .environmentObject(plantsVM)
                         
-                            .dragToDelete(cardOffset: $cardOffset) {
-                                isPlantsModuleCreated = false
-                                context.delete(plantsVM.selectedModule)
-                                
-                            }
                     }.onAppear(perform: {
                         plantsVM.setSelectedModule(a: singleModule)
                         
@@ -45,17 +40,11 @@ struct PlantsModuleHomeView: View {
                     .padding(.vertical, 5)
                     .frame(maxWidth: .infinity)
                     
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(.red)
-                        .deleteCardSlow(cardOffset: $cardOffset,customHeight: singleModule.plants.isEmpty ? 150 : 180)
+                
                 }
             }
         VStack{
             
-        }.onAppear {
-            if singleModule == nil {
-                isPlantsModuleCreated = false
-            }
         }
             
         

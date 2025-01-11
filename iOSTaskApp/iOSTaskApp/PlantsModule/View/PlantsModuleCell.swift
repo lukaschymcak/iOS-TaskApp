@@ -12,7 +12,7 @@ struct PlantsModuleCell: View {
     @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @StateObject var vm = ViewModel()
     @AppStorage("swipreToDeleteInfo") var swipeToDelete: Bool = false
-    @AppStorage("isPlantsModuleCreated") var isPlantsModuleCreated = false
+
     @State private var cardOffset = CGSize.zero
 
     
@@ -29,70 +29,78 @@ struct PlantsModuleCell: View {
                         .fill(.lightCream)
                         .stroke(.darkGreen,lineWidth: 7)
                         .frame(maxWidth: UIScreen.main.bounds.width - 25)
-                        .frame(height: plantsVM.selectedModule.needWatering > 0 ? 210 : 200)
-                    
-                    
-                    VStack{
-                        VStack(alignment: .leading,spacing: 25) {
-                            HStack {
-                                Text(plantsVM.selectedModule.getName())
-                                    .font(.largeTitle)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.darkGreen)
-                                Spacer()
-                                Image("aloe-vera")
-                                    .resizable()
-                                    .frame(width: 60, height: 60)
-                               
-                                
-                                
-                                
-                            }
-                            Text("\(plantsVM.selectedModule.needWatering) plants need watering today")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .foregroundStyle(.darkGreen)
-                            ScrollView(.horizontal,showsIndicators: false){
-                                if plantsVM.selectedModule.needWatering > 0 {
+                        .frame(height: plantsVM.selectedModule.needWatering > 0 ? 190 : 150)
+                        .overlay {
+                            VStack{
+                                VStack(alignment: .leading,spacing: 15){
+                                    HStack {
+                                        Image("aloe-vera")
+                                            .resizable()
+                                            .frame(width: 50, height: 50)
+                                            .padding(.trailing,8)
+                                       
+                                        Text("Plants")
+                                            .font(.system(size: 35))
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(.darkGreen)
+                                        Spacer()
                                     
-                                    HStack(spacing: 20){
                                         
-                                        ForEach(plantsVM.filteredPlants,id: \.key.id) { location , value  in
+                                        
+                                        
+                                    }
+                                    Text(LocalizedStringKey("\(plantsVM.selectedModule.needWatering) plants need watering today "))
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.darkGreen)
+                                
+                                    
+                                    ScrollView(.horizontal,showsIndicators: false){
+                                        if plantsVM.selectedModule.needWatering > 0 {
                                             
-                                            
-                                            VStack{
-                                                Text("\(location.id)")
-                                                    .font(.headline)
-                                                    .fontWeight(.bold)
-                                                    .foregroundStyle(.darkGreen)
-                                                Text("\(value.filter({$0.watered == false && $0.waterDate.isToday() || $0.waterDate.isBeforeToday()}).count)")
-                                                    .font(.title2)
-                                                    .fontWeight(.bold)
-                                                    .foregroundStyle(.darkGreen)
+                                            HStack(spacing: 20){
+                                                
+                                                ForEach(plantsVM.filteredPlants,id: \.key.id) { location , value  in
+                                                    
+                                                    
+                                                    VStack{
+                                                        Text(location.localizedString())
+                                                            .font(.headline)
+                                                            .fontWeight(.bold)
+                                                            .foregroundStyle(.darkGreen)
+                                                        Text("\(value.filter({$0.watered == false && $0.waterDate.isToday() || $0.waterDate.isBeforeToday()}).count)")
+                                                            .font(.title2)
+                                                            .fontWeight(.bold)
+                                                            .foregroundStyle(.darkGreen)
+                                                    }
+                                                    
+                                                    
+                                                }
                                             }
-                                            
                                             
                                         }
                                     }
                                     
-                                }
-                            }
-                            
-                            
-                        }.padding(.horizontal,8)
-                            .frame(maxWidth: UIScreen.main.bounds.width - 55)
-                        
-                        
-                        
-                    }
+                                    
+                                }.padding(.horizontal,8)
+
+                                
+                                
+                                
+                            }.frame(maxWidth: UIScreen.main.bounds.width - 55)
+                        }
+                    
+                    
                        
                     
                 } .frame(maxWidth: .infinity)
                 
                 
             }.frame(maxWidth: .infinity)
+                
          
         }.frame(maxWidth: .infinity, alignment: .center)
+
             .padding(.bottom,5)
                 
                 
