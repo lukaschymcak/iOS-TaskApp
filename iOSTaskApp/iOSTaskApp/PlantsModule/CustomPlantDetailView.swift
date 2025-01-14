@@ -10,6 +10,7 @@ import SwiftUI
 struct CustomPlantDetailView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var plantsVM: PlantsModuleViewModel
+    @Environment(\.colorScheme) var colorscheme
     var plantCell:PlantModel
     @State var showWateringAlert:Bool = false
     @State var setWater:String = ""
@@ -51,7 +52,7 @@ struct CustomPlantDetailView: View {
                         Text(plantCell.name)
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                            .foregroundStyle(.lightCream)
+                            .foregroundStyle(Utils.textColor(colorscheme))
                 
                             
                         VStack{

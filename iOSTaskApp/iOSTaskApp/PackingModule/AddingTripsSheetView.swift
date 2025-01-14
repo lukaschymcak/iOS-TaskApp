@@ -12,6 +12,7 @@ struct AddingTripsSheetView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
     var module:PackingModuleDataClass
+    @StateObject var vm  = AddingTripsSheetView.ViewModel()
     @State var name = ""
     @State var dateFrom = Date.now
     @State var dateTo = Date.now
@@ -36,14 +37,14 @@ struct AddingTripsSheetView: View {
                     Text("Name:")
                         .font(.title)
                         .fontWeight(.bold)
-                    TextField("", text: $name)
+                    TextField("", text: $vm.name)
                         .textFieldStyle(.roundedBorder)
                 }
                 .padding(.bottom,20)
                 HStack {
                     VStack(alignment:.leading){
                         HStack{
-                            DatePicker(selection: $dateFrom,in: Date.now..., displayedComponents: .date) {
+                            DatePicker(selection: $vm.dateFrom,in: Date.now..., displayedComponents: .date) {
                                 Text("From:")
                                     .font(.title)
                                     .fontWeight(.bold)
@@ -55,7 +56,7 @@ struct AddingTripsSheetView: View {
     
                         .padding(.bottom,10)
                         HStack{
-                            DatePicker(selection: $dateTo,in: Date.now..., displayedComponents: .date) {
+                            DatePicker(selection: $vm.dateTo,in: Date.now..., displayedComponents: .date) {
                                 Text("To:")
                                     .font(.title)
                                     .fontWeight(.bold)
@@ -70,9 +71,7 @@ struct AddingTripsSheetView: View {
                     }
                     Button {
                       
-                        let trip = Trip(name: name, dateFrom: dateFrom, dateTo: dateTo,module: module)
-                        module.addTrip(a: trip)
-                        module.sortTrips()
+                        vm.addATrip( module: module)
                         dismiss()
                         
                     } label: {
@@ -100,6 +99,22 @@ struct AddingTripsSheetView: View {
          
         }
     }
+
+extension AddingTripsSheetView {
+    class ViewModel: ObservableObject{
+        @Published var name = ""
+        @Published var dateFrom = Date.now
+        @Published var dateTo = Date.now
+        
+        
+        func addATrip( module: PackingModuleDataClass){
+            let trip = Trip(name: name, dateFrom: dateFrom, dateTo: dateTo,module: module)
+            module.addTrip(a: trip)
+            module.sortTrips()
+            
+        }
+    }
+}
 
 #Preview {
     AddingTripsSheetView(module: PackingMockData.packingMock)

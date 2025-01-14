@@ -78,7 +78,7 @@ struct TripCell: View {
                             .padding(.bottom,10)
                         
                         HStack{
-                            Text(trip.name == "" ? "\(LocalizedStringKey("trip"))" : trip.name)
+                            Text(trip.name == "" ? NSLocalizedString("trip", comment: "") : trip.name)
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(Color(hex: "FEFAE0"))

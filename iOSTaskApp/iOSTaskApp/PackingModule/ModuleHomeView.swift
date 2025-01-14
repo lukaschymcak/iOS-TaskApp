@@ -9,15 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct PackageModuleHomeView: View {
-    @Namespace private var namespace
-    @Environment(\.modelContext) var context
     @Query var packingModule :[PackingModuleDataClass]
     var packinModule: PackingModuleDataClass? { packingModule.first }
     @EnvironmentObject var packingVM: PackingModuleViewModel
     @EnvironmentObject var dateManager: DateManager
-    @State private var cardOffset = CGSize.zero
-    @State private var showDeleteAlert:Bool = false
-
     
     
     

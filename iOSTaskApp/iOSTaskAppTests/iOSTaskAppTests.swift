@@ -136,3 +136,104 @@ import SwiftUI
         
     }
 }
+
+@Suite("Bag tests") struct test_bag {
+    let mockTrip = TaskApp.Trip(name: "Kosice", dateFrom: Date.now, dateTo: Date.now + 5)
+    let mockBag = TaskApp.Bags(name: "Bag1")
+    let mockBag2 = TaskApp.Bags(name: "Bag2")
+    
+    @Test("Testing adding items to bag") func test_add_item() {
+        mockBag.addItem(a: TaskApp.Item(name: "Item1", isChecked: true))
+        mockBag.addItem(a: TaskApp.Item(name: "Item2", isChecked: false))
+        #expect(mockBag.items.count == 2)
+    }
+    @Test("Testing removing items from bag") func test_remove_item() {
+        mockBag.addItem(a: TaskApp.Item(name: "Item1", isChecked: true))
+        mockBag.addItem(a: TaskApp.Item(name: "Item2", isChecked: false))
+        mockBag.removeItem(a: mockBag.items[0])
+        #expect(mockBag.items.count == 1)
+    }
+    
+    @Test("Testing if bag is packed number and percentis corret") func test_isPacked() {
+        mockBag.addItem(a: TaskApp.Item(name: "Item1", isChecked: true))
+        mockBag.addItem(a: TaskApp.Item(name: "Item2", isChecked: false))
+        #expect(mockBag.numberOfItems == 2)
+        #expect(mockBag.packedItems == 1)
+        print(mockBag.percent)
+        print(mockBag.numberOfItems)
+        print(mockBag.packedItems)
+        
+    }
+    @Test("Testing is number of items is correct") func test_number_of_items() {
+        mockBag.addItem(a: TaskApp.Item(name: "Item1", isChecked: true))
+        mockBag.addItem(a: TaskApp.Item(name: "Item2", isChecked: false))
+        #expect(mockBag.numberOfItems == 2)
+    }
+    
+    @Test("Testing if adding bag name works") func test_add_bag_name() {
+        mockBag2.setName(a: "Bag3")
+        #expect(mockBag2.name == "Bag3")
+        
+        
+        
+    }
+        
+    
+    
+    
+}
+
+@Suite("Adding trip view tests") struct test_adding_trip_view {
+    let mockAddTripViewModel = TaskApp.AddingTripsSheetView.ViewModel()
+    let mockModule = TaskApp.PackingModuleDataClass()
+    @Test("Testing if trip is added correctly") func addTripTest() {
+        mockAddTripViewModel.name = "Kosice"
+        mockAddTripViewModel.dateFrom = Date.now
+        mockAddTripViewModel.dateTo = Date.now + 5
+        mockAddTripViewModel.addATrip(module: mockModule)
+        
+        #expect(mockModule.trips.count == 1, "Trip should be added")
+        
+        
+        
+        
+        
+        
+    }
+    @Test("Testing if trip is not added when date is wrong") func doNotaddTripTest() {
+        mockAddTripViewModel.name = "Kosice"
+        mockAddTripViewModel.dateFrom = Date.now - 86400
+        mockAddTripViewModel.dateTo = Date.now + 86400
+        mockAddTripViewModel.addATrip(module: mockModule)
+        
+        #expect(mockModule.trips.count == 1, "Trip should not be added")
+        
+        
+        
+    }
+}
+    
+@Suite("PackageModuleHomeView Tests") struct test_package_home_view {
+        let mockView = TaskApp.PackageModuleHomeView()
+        
+        @Test("Testing if body is not nill on start") func test_Body() {
+            let body = mockView.body
+            
+            #expect(body != nil)
+            
+            
+        }
+        
+        
+        
+    }
+    
+@Suite("Packing Module view Tests") struct test_packing_view{
+    let mockVIew = TaskApp.PackingModule(packingModule: TaskApp.PackingModuleDataClass())
+    @Test("Testing if body is not nil on start") func test_Body() {
+        let body = mockVIew.body
+   
+    }
+
+    
+}
