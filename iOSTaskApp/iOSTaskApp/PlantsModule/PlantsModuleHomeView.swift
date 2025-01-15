@@ -14,8 +14,7 @@ struct PlantsModuleHomeView: View {
     @Query var plantsModule:[PlantsModuleDataClass]
     var singleModule: PlantsModuleDataClass? { plantsModule.first }
     @EnvironmentObject var plantsVM: PlantsModuleViewModel
-    @State private var cardOffset = CGSize.zero
-    @State private var showDeleteAlert:Bool = false
+
 
     
 
@@ -37,15 +36,18 @@ struct PlantsModuleHomeView: View {
                         
                         
                     })
-                    .padding(.vertical, 5)
+
                     .frame(maxWidth: .infinity)
+            
                     
                 
                 }
+            } else {
+                VStack{
+                    
+                }
             }
-        VStack{
-            
-        }
+        
             
         
     }

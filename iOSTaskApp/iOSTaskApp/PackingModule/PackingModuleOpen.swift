@@ -27,7 +27,7 @@ struct PackingModuleOpen: View {
 
                             ZStack(alignment: .leading) {
 
-                                HStack(spacing: 25) {
+                                HStack(spacing: 0) {
                                     
                                     Button {
 
@@ -44,7 +44,7 @@ struct PackingModuleOpen: View {
                                                 .foregroundStyle(
                                                     Color(hex: "22577A")
                                                 )
-                                                .padding(8)
+                                            
                                         }
                                     }
 
@@ -62,36 +62,38 @@ struct PackingModuleOpen: View {
                                                 .fontWeight(.bold)
                                                 .foregroundStyle(
                                                     Color(hex: "22577A")
-                                                )         .padding(8)
+                                                )
                                         }
                                     }
                                     Spacer()
 
                                 }
-                                .padding(.leading, 24)
+                                .padding(.leading, 10)
                                 .zIndex(2)
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(Color(hex: "FEFAE0"))
                                     .frame(
-                                        width: GeometryProxy.size.width - 20,
+                                   
                                         height: 65
                                     )
                             }
 
-                        }.frame(width: GeometryProxy.size.width - 40)
-                            .padding(.bottom, 15)
+                        }
+                          
 
                         Color.orange
                             .frame(
-                                width: GeometryProxy.size.width - 30,
+                       
                                 height: 5
                             )
                             .clipShape(.rect(cornerRadius: 20))
-                            .offset(y: -5)
+                            .padding(1)
+                            .padding(.bottom,5)
+                        
                         ZStack(alignment: .bottom) {
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(Color(hex: "FEFAE0"))
-                                .frame(width: GeometryProxy.size.width - 20)
+                  
 
                             VStack(alignment: .center) {
 
@@ -99,16 +101,17 @@ struct PackingModuleOpen: View {
                                     .environmentObject(vmParent)
                                     .zIndex(3)
 
-                            }.frame(
-                                width: GeometryProxy.size.width - 20,
-                                height: GeometryProxy.size.height - 130
-                            )
-                            .frame(maxWidth: .infinity, alignment: .center)
+                            }                        .frame(width: max(GeometryProxy.size.width - 50,0))
+                  
                         
                                     
                                                     }
                         Spacer()
                     }.padding(.top, 15)
+                        .frame(width: max(GeometryProxy.size.width - 20,0))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                     
+                    
 
                 }
                 .sheet(isPresented: $vmParent.addingTrip) {

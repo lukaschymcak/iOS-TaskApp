@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PackingOnboarding: View {
     @State var currentPage = 0
-    @AppStorage("isOnboardingShown") var isOnboardingShown: Bool = true
     @Environment(\.dismiss) var dismiss
     @State var lastPageSeen:Bool = false
     var body: some View {
@@ -43,7 +42,7 @@ struct PackingOnboarding: View {
                             if page.isLastPage {
                                 Button {
                                     dismiss()
-                                    isOnboardingShown = false
+                                    UserDefaults.standard.set(false, forKey: "isOnboardingShown")
                                 } label: {
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(.white)

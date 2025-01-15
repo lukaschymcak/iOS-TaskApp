@@ -40,7 +40,7 @@ struct TripCell: View {
                             .fill(Color(hex: "1E6091"))
                         
                         
-                            .frame(width: GeometryProxy.size.width - 40, height: 140)
+                            .frame(width: GeometryProxy.size.width , height: 140)
                     }.frame(maxWidth: .infinity)
                     VStack(alignment:.leading){
                         HStack{
@@ -90,7 +90,7 @@ struct TripCell: View {
                         }
                         
                     }.padding(9)
-                        .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
+                        .frame(width: max(GeometryProxy.size.width - 20,0), height: 110,alignment: .topLeading)
                 }.dragToDelete(cardOffset: $cardOffset) {
                     toast = Toast(style: .success, message: NSLocalizedString("trip_deleted", comment: ""))
                     module.removeHistoryTrip(a: trip)
@@ -113,7 +113,7 @@ struct TripCell: View {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(Color(hex: "1E6091"))
                         
-                            .frame(width: GeometryProxy.size.width - 40, height: 140)
+                            .frame(width: GeometryProxy.size.width, height: 140)
                         
                     }.frame(maxWidth: .infinity)
                     
@@ -177,7 +177,7 @@ struct TripCell: View {
                         }
                         
                     }.padding(9)
-                        .frame(width: GeometryProxy.size.width - 55, height: 110,alignment: .topLeading)
+                        .frame(width: max(GeometryProxy.size.width - 20,0), height: 110,alignment: .topLeading)
                     
                     
                 }.dragToDelete(cardOffset: $cardOffset) {
@@ -191,4 +191,3 @@ struct TripCell: View {
         }.frame(height: 140)
     }
 }
-

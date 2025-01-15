@@ -154,14 +154,11 @@ import SwiftUI
         #expect(mockBag.items.count == 1)
     }
     
-    @Test("Testing if bag is packed number and percentis corret") func test_isPacked() {
+    @Test("Testing if bag is packed number is corret") func test_isPacked() {
         mockBag.addItem(a: TaskApp.Item(name: "Item1", isChecked: true))
         mockBag.addItem(a: TaskApp.Item(name: "Item2", isChecked: false))
         #expect(mockBag.numberOfItems == 2)
         #expect(mockBag.packedItems == 1)
-        print(mockBag.percent)
-        print(mockBag.numberOfItems)
-        print(mockBag.packedItems)
         
     }
     @Test("Testing is number of items is correct") func test_number_of_items() {
@@ -176,6 +173,13 @@ import SwiftUI
         
         
         
+    }
+    
+    @Test("Testing if collapse bag works") func test_collapse_bag() {
+        mockBag2.toggleCollapsed()
+        #expect(mockBag2.isCollapsed == false)
+        mockBag2.toggleCollapsed()
+        #expect(mockBag2.isCollapsed == true)
     }
         
     

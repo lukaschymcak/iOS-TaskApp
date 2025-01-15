@@ -23,9 +23,7 @@ class Bags{
         }.count
     }
     
-    var percent: Int {
-        (packedItems / numberOfItems) * 100
-    }
+
     private var trip: Trip?
     init(name: String, items: [Item] = [],isCollapsed: Bool = true,trip: Trip? = nil) {
         self.name = name

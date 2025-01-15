@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
     " - " : {
 
     },
@@ -92,7 +89,8 @@
             "value" : "%@ je dnes"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%lld" : {
 
@@ -100,7 +98,60 @@
     "%lld  " : {
 
     },
+    "%lld plants need watering" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld plants need watering"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld plants need watering"
+                }
+              }
+            }
+          }
+        },
+        "sk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld kvety potrebuje poliať"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld kvetov potrebuje poliať"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld kvet potrebuje poliať"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld kvetov potrebuje poliať"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld plants need watering today " : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "variations" : {
@@ -150,7 +201,8 @@
             }
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%lld/%lld" : {
       "localizations" : {
@@ -458,6 +510,17 @@
         }
       }
     },
+    "Cooking: Name " : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varím: Meno"
+          }
+        }
+      }
+    },
     "Current" : {
       "localizations" : {
         "sk" : {
@@ -642,6 +705,9 @@
           }
         }
       }
+    },
+    "Enter trip" : {
+
     },
     "enter_name" : {
       "extractionState" : "manual",
@@ -853,7 +919,7 @@
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Historia:"
+            "value" : "História:"
           }
         }
       }
@@ -1094,7 +1160,7 @@
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moje Tašky:"
+            "value" : "Tašky:"
           }
         }
       }
@@ -1170,12 +1236,32 @@
         }
       }
     },
+    "No shopping planned " : {
+      "localizations" : {
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Žiadny nakup"
+          }
+        }
+      }
+    },
     "No upcoming trips" : {
       "localizations" : {
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Žiadny výlet"
+            "value" : "Žiadny planovaný výlet"
+          }
+        }
+      }
+    },
+    "Not cooking today" : {
+      "localizations" : {
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nič dnes nevarím"
           }
         }
       }
@@ -1377,6 +1463,16 @@
         }
       }
     },
+    "Recipes" : {
+      "localizations" : {
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recepty"
+          }
+        }
+      }
+    },
     "Remember, everything is still work in progress, so please let us know anything that might improve the experience. Thanks a lot!" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1505,6 +1601,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nastavenia"
+          }
+        }
+      }
+    },
+    "Shopping" : {
+      "localizations" : {
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nakupovanie"
           }
         }
       }
@@ -1815,6 +1921,9 @@
           }
         }
       }
+    },
+    "Work in Progress" : {
+
     },
     "yes" : {
       "extractionState" : "manual",

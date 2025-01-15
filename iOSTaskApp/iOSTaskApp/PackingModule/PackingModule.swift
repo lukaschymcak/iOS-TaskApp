@@ -27,13 +27,13 @@ struct PackingModule: View {
                
                 ZStack{
                     
-                    RoundedRectangle(cornerRadius: 20)
+                    RoundedRectangle(cornerRadius: 15)
                         .fill(Color(hex: "22577A"))
-                        .stroke(.orange,lineWidth: 7)
-                        .frame(maxWidth: UIScreen.main.bounds.width - 25)
-                        .frame(height: packingModule.trips.count > 0 ? 190 : 150)
+            
+                        .frame(maxWidth: UIScreen.main.bounds.width)
+                        .frame(height: 190)
                         .overlay {
-                            VStack(spacing:packingModule.trips.count > 0 ? 20 : 15){
+                            VStack(spacing:packingModule.trips.count > 0 ? 15: 25){
                                 
                          
                                     HStack {
@@ -136,7 +136,7 @@ struct PackingModule: View {
                                 
                                 
                                 
-                            }          .frame(maxWidth: UIScreen.main.bounds.width - 55)
+                            }          .frame(width: max(UIScreen.main.bounds.width - 55,0))
                                 .frame(maxWidth: .infinity, alignment: .center)
                         }
                   
@@ -146,7 +146,8 @@ struct PackingModule: View {
      
         }.frame(maxWidth: .infinity, alignment: .center)
             .padding(.bottom,10)
-            .padding(.top,20)
+    
+        
             
     }
     }

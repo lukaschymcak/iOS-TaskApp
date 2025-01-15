@@ -43,31 +43,14 @@ struct PackageModuleHomeView: View {
                             
                             
                         }
-                        
-                        
-                        
-                    
-            
-                
+         
 
             }
             
             
             
         }
-        VStack{
-            
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+ 
     }
 }
 

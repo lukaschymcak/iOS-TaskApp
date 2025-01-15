@@ -12,29 +12,30 @@ struct PlantsModuleOpen: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var vmParent = ViewModel()
     @Environment(\.dismiss) var dismiss
-    @AppStorage("isPlantsOnboardingShown") var isPlantsOnboardingShown: Bool = true
+    @AppStorage("isPlantsOnboarding") var isPlantsOnboardingShown: Bool = true
     
 
+
     var body: some View {
+        
         NavigationStack {
             GeometryReader { GeometryProxy in
                 ZStack(alignment: .bottom) {
-
-                    RoundedRectangle(cornerRadius: 30)
-                        .fill(.darkGreen)
+                    
+                    Color.darkGreen
                         .ignoresSafeArea()
-
+                    
                     RoundedRectangle(cornerRadius: 30)
                         .fill(.lightCream)
                         .ignoresSafeArea()
                         .frame(
                             height: GeometryProxy.size.height
                             - (!plantsVM.selectedModule.wateredLocations.isEmpty
-                                    ? 85 : 0))
-
+                               ? 85 : 0))
+                    
                     VStack(spacing: 0) {
                         
-                      
+                        
                         if plantsVM.selectedModule.wateredLocations.isEmpty {
                             VStack {
                             }.onAppear {
@@ -49,34 +50,35 @@ struct PlantsModuleOpen: View {
                                         vmParent.addAndScrollTo(old: $0, new: $1, scroll: ScrollViewProxy)
                                     }.padding()
                             }
-                           
                             
                             
                             
-
+                            
+                            
                             VStack {
-
-                                PlantListView( vmChild: $vmParent.selectedLocation
-                               )
                                 
-                         
+                                PlantListView( vmChild: $vmParent.selectedLocation
+                                )
+                                
+                                
                             }
-
+                            
                         }
-
+                        
                         Spacer()
                     }
-
+                    
                 }.frame(maxWidth: .infinity, alignment: .center)
-
+                
             }
         }.onAppear(perform: {
             vmParent.updateModule(with: plantsVM.selectedModule)
+            
         })
         .fullScreenCover(isPresented: $vmParent.addingPlant) {
             AddingPlantView()
-                .environmentObject(plantsVM)    
-   
+                .environmentObject(plantsVM)
+            
         }.customBackBar(title: "Plants", textColor: plantsVM.selectedModule.plants.isEmpty ? .darkGreen : .lightCream) {
             dismiss()
         }.toolbar {
@@ -106,6 +108,7 @@ struct PlantsModuleOpen: View {
         }.sheet(isPresented: $isPlantsOnboardingShown) {
             PlantsOnboarding()
         }
+
     }
 }
 

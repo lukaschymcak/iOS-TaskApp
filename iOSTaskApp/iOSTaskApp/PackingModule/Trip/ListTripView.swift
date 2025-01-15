@@ -38,10 +38,7 @@ struct ListTripView: View {
                     Spacer()
            
 
-                }.frame(
-                    width: GeometryProxy.size.width - 30, alignment: .leading
-                )
-                .frame(maxWidth: .infinity)
+                }
 
                 NavigationStack {
 
@@ -121,10 +118,7 @@ struct ListTripView: View {
                             .foregroundStyle(.orange)
                     }
 
-                }.frame(
-                    width: GeometryProxy.size.width - 30, alignment: .leading
-                )
-                .frame(maxWidth: .infinity)
+                }
 
                 NavigationStack {
 

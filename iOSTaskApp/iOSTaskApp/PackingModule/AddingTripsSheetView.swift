@@ -37,7 +37,7 @@ struct AddingTripsSheetView: View {
                     Text("Name:")
                         .font(.title)
                         .fontWeight(.bold)
-                    TextField("", text: $vm.name)
+                    TextField("Enter trip", text: $vm.name)
                         .textFieldStyle(.roundedBorder)
                 }
                 .padding(.bottom,20)

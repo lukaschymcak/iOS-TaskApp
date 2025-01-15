@@ -13,9 +13,9 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
-    @AppStorage("packingNotif")  var isNotificationForPackingOn = false
-    @AppStorage("plantsNotif")  var isNotificationForPlantsOn = false
-    @AppStorage("selectedLanguage") var selectedLang: String = "EN"
+    @State var packingNotif = UserDefaults.standard.bool(forKey: "packingNotif")
+    @State var plantsNotif = UserDefaults.standard.bool(forKey: "plantsNotif")
+    
     @EnvironmentObject var PlantsVM: PlantsModuleViewModel
     @EnvironmentObject var packingVM: PackingModuleViewModel
     var body: some View {
@@ -57,10 +57,6 @@ struct SettingsView: View {
 
                         }
 
-                    }.onChange(of: selectedLang) { _,_ in
-                        UserDefaults.standard.set([selectedLang], forKey: "AppleLanguages")
-                        UserDefaults.standard.synchronize()
-                        
                     }
                     
                 } header: {
@@ -75,10 +71,13 @@ struct SettingsView: View {
                             
                             Image(systemName: "app.badge")
                             
-                            Toggle(LocalizedStringKey("enable_notifications"), isOn: $isNotificationForPackingOn)
-                                .onChange(of: isNotificationForPackingOn) { _, newValue in
+                            Toggle(LocalizedStringKey("enable_notifications"), isOn: $packingNotif)
+                                .onChange(of: packingNotif) { _, newValue in
                                     if !newValue{
                                         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["TripNotification"])
+                                        UserDefaults.standard.set(false, forKey: "packingNotif")
+                                    } else {
+                                        UserDefaults.standard.set(true, forKey: "packingNotif")
                                     }
                                 }
                            
@@ -109,7 +108,7 @@ struct SettingsView: View {
                         
                         Image(systemName: "app.badge")
                         
-                        Toggle(LocalizedStringKey("enable_notifications"), isOn: $isNotificationForPlantsOn)
+                        Toggle(LocalizedStringKey("enable_notifications"), isOn: $plantsNotif)
                          
                     }
                     HStack{

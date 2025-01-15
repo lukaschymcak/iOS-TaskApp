@@ -28,7 +28,7 @@ struct BagsView: View {
                  
                     VStack{
                     VStack(alignment: .center,spacing: 5){
-                            Color.orange.frame(width: GeometryProxy.size.width - 30, height: 5)
+                            Color.orange.frame( height: 5)
                                 .clipShape(.rect(cornerRadius: 20))
                             HStack{
                                 Text(trip.dateFrom , format: .dateTime.day().month().year())
@@ -39,15 +39,17 @@ struct BagsView: View {
                                     .foregroundStyle(Color(hex: "FEFAE0"))
                             }.padding(.top,10)
                         }
-                        .frame(maxWidth: .infinity)
-                        .frame(width: GeometryProxy.size.width - 40)
+
+                        
                         if historyView {
                             historyBags
                         } else {
                             currentBags
                         }
-                    }.frame(width: GeometryProxy.size.width - 40)
-                        .frame(maxWidth: .infinity)
+                    }
+     
+                        .frame(width: max(GeometryProxy.size.width - 30,0))
+                        .frame(maxWidth: .infinity, alignment: .center)
                     
                 }
             }
@@ -72,6 +74,8 @@ struct BagsView: View {
             }
                     
         }.toolbarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+        
         
        
         
@@ -81,7 +85,7 @@ struct BagsView: View {
         
         
         HStack {
-            Text(LocalizedStringKey("history"))
+            Text(LocalizedStringKey("my_bags"))
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.vertical,10)
@@ -130,7 +134,7 @@ struct BagsView: View {
             
             VStack{
                 HStack{
-                    TextField(LocalizedStringKey("item"), text: $bagName)
+                    TextField(("bag"), text: $bagName)
                         .padding(10)
                         .frame(height: 40)
                         .foregroundStyle(Color(hex: "22577A"))
@@ -191,7 +195,7 @@ struct BagsView: View {
     
                 
                 
-            }.frame(height: .infinity)
+            }
         }
         
     }
@@ -287,21 +291,22 @@ struct ClosedBag:View {
                             } .padding(.horizontal)
                      
                         
-                        
-                        Button {
-                            showAlert.toggle()
-                        } label: {
-                            Image(systemName: "x.circle")
-                                .font(.title)
-                                .foregroundStyle(Color(hex: "22577A"))
-                                .padding(5)
-                                .padding(.trailing,12)
-                                .fontWeight(.bold)
-                            
-                        }.alert(isPresented: $showAlert){
-                            Alert(title: Text(LocalizedStringKey("remove_bag")) ,message: Text(LocalizedStringKey("remove_bag_notif")),primaryButton: .destructive(Text("Confirm") ,action: {
-                                trip.removeBags(a: bag)
-                            }),secondaryButton: .cancel())
+                        if !historyView {
+                            Button {
+                                showAlert.toggle()
+                            } label: {
+                                Image(systemName: "x.circle")
+                                    .font(.title)
+                                    .foregroundStyle(Color(hex: "22577A"))
+                                    .padding(5)
+                                    .padding(.trailing,12)
+                                    .fontWeight(.bold)
+                                
+                            }.alert(isPresented: $showAlert){
+                                Alert(title: Text(LocalizedStringKey("remove_bag")) ,message: Text(LocalizedStringKey("remove_bag_notif")),primaryButton: .destructive(Text("Confirm") ,action: {
+                                    trip.removeBags(a: bag)
+                                }),secondaryButton: .cancel())
+                            }
                         }
                     }.padding(.top)
                     VStack{
@@ -311,39 +316,41 @@ struct ClosedBag:View {
                  
                         }
                     }.padding(10)
-                    HStack(spacing:10){
-                        TextField(LocalizedStringKey("item"), text: $itemName)
-                  
-                            .clipShape(.rect(cornerRadius: 10))
-                            .focused($itemNameIsFocused)
-                            .textFieldStyle(.roundedBorder)
+                    if !historyView {
+                        HStack(spacing:10){
+                            TextField(LocalizedStringKey("item"), text: $itemName)
                             
-                        
-                        
-                        
-                        
-                        Button {
-                            withAnimation {
-                                
-                                let Item = Item(name: itemName, isChecked: false)
-                                bag.addItem(a: Item)
-                                itemNameIsFocused = false
-                                itemName = ""
-                            }
-                            
-                            
-                            
-                        } label: {
-                            Image(systemName: "plus")
-                                .foregroundStyle(.white)
-                                .padding(10)
-                                .background(.orange)
                                 .clipShape(.rect(cornerRadius: 10))
+                                .focused($itemNameIsFocused)
+                                .textFieldStyle(.roundedBorder)
                             
-                        }.sensoryFeedback(.increase, trigger: bag.items.count)
-                        
-                    }.padding(.bottom,10)
-                        .padding(.horizontal)
+                            
+                            
+                            
+                            
+                            Button {
+                                withAnimation {
+                                    
+                                    let Item = Item(name: itemName, isChecked: false)
+                                    bag.addItem(a: Item)
+                                    itemNameIsFocused = false
+                                    itemName = ""
+                                }
+                                
+                                
+                                
+                            } label: {
+                                Image(systemName: "plus")
+                                    .foregroundStyle(.white)
+                                    .padding(10)
+                                    .background(.orange)
+                                    .clipShape(.rect(cornerRadius: 10))
+                                
+                            }.sensoryFeedback(.increase, trigger: bag.items.count)
+                            
+                        }.padding(.bottom,10)
+                            .padding(.horizontal)
+                    }
                     
                 }
             }.padding(5)

@@ -63,7 +63,6 @@ struct ContentView: View {
 
 }
 struct WelcomeView: View {
-    @State var isWelcomeSreenOver: Bool = false
     @State var name: String = ""
     @Environment(\.colorScheme) var colorScheme
     @FocusState private var nameIsFocused: Bool
@@ -119,83 +118,88 @@ struct WelcomeView: View {
 }
 
 struct HomeView: View {
-    @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver: Bool = false
-    @State var currentStep = 0
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-    @State var isAddModuleOpen: Bool = false
     @EnvironmentObject var packingVM: PackingModuleViewModel
     @EnvironmentObject var plantsVM: PlantsModuleViewModel
     @EnvironmentObject var dateManager: DateManager
     @AppStorage("userName") var name:String = ""
+    @State var viewArrra : [AnyView] = [AnyView(PackageModuleHomeView()), AnyView(PlantsModuleHomeView()),AnyView(RecipeModuleView()),AnyView(ShoppingModuleView())]
+  
 
 
     var body: some View {
 
-            VStack {
-              
-         
-                    NavigationStack {
-                        ZStack {
-                            VStack() {
-                                ScrollView {
-                                    PackageModuleHomeView()
-                                        .environmentObject(dateManager)
-                                        .environmentObject(packingVM)
+        VStack {
+            
+            
+            NavigationStack {
+                GeometryReader { geometry in
+                    ZStack {
+                        VStack() {
+                            ScrollView {
+                                ForEach(viewArrra.indices, id: \.self) { index in
+                                    VStack(spacing:10){
+                                        
+                                        viewArrra[index]
+                                            .environmentObject(packingVM)
+                                            .environmentObject(plantsVM)
+                                            .environmentObject(DateManager())
+                                        
+                                    }
                                     
                                     
-                                    PlantsModuleHomeView()
-                                        .environmentObject(plantsVM)
-                                        .environmentObject(dateManager)
-                                    
-                             
-                                }
-                              
-
-                            }
-                        }
-                 
+                                }.frame(width: max(geometry.size.width - 20,0))
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                
+                                  
+    
+    
+                            } .frame(height: max(geometry.size.height - 15,0),alignment: .top)
+                        }.padding(.top, 20)
+                           
+                    }
+                    
                     
                 }.toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         NavigationLink {
                             SettingsView()
-                                .environmentObject(packingVM)
-                                .environmentObject(plantsVM)
-    
-
+                            
+                            
+                            
                         } label: {
                             Image(systemName: "slider.vertical.3")
-                                .font(.title2)
+                                .font(.title)
                                 .foregroundStyle(Utils.textColor(colorScheme))
                                 .fontWeight(.bold)
                         }
                     }
                     ToolbarItem(placement: .principal) {
-
-                            Text(LocalizedStringKey("hello"))
-                                .font(.title3)
-                                .foregroundStyle(Utils.textColor(colorScheme))
-                                .fontWeight(.bold)
-                       
-                         +   Text(", \(name == "" ? "User" : name)")
-                                .font(.title3)
-                                .foregroundStyle(Utils.textColor(colorScheme))
-                                .fontWeight(.bold)
-                                
-      
-               
-                            
+                        
+                        Text(LocalizedStringKey("hello"))
+                            .font(.title)
+                            .foregroundStyle(Utils.textColor(colorScheme))
+                            .fontWeight(.bold)
+                        
+                        +   Text(", \(name == "" ? "User" : name)")
+                            .font(.title)
+                            .foregroundStyle(Utils.textColor(colorScheme))
+                            .fontWeight(.bold)
+                        
+                        
+                        
+                        
                     }
-               
+                    
                     ToolbarItem(placement: .topBarTrailing) {
-                      
+                        
                     }
                 }.toolbarTitleDisplayMode(.inline)
-                    
+
             }
-      
-     
+            
+        }
 
     }
  

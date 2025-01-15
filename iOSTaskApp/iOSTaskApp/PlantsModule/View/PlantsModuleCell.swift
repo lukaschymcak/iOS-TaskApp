@@ -25,14 +25,14 @@ struct PlantsModuleCell: View {
         VStack {
             ZStack(alignment: .trailing) {
                 ZStack{
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(.lightCream)
-                        .stroke(.darkGreen,lineWidth: 7)
-                        .frame(maxWidth: UIScreen.main.bounds.width - 25)
-                        .frame(height: plantsVM.selectedModule.needWatering > 0 ? 190 : 150)
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(.lightGreen)
+             
+                        .frame(maxWidth: UIScreen.main.bounds.width )
+                        .frame(height: 190)
                         .overlay {
                             VStack{
-                                VStack(alignment: .leading,spacing: 15){
+                                VStack(alignment: .leading,spacing: plantsVM.selectedModule.needWatering > 0 ? 10 : 20){
                                     HStack {
                                         Image("aloe-vera")
                                             .resizable()
@@ -42,17 +42,17 @@ struct PlantsModuleCell: View {
                                         Text("Plants")
                                             .font(.system(size: 35))
                                             .fontWeight(.bold)
-                                            .foregroundStyle(.darkGreen)
+                                            .foregroundStyle(.lightCream)
                                         Spacer()
                                     
                                         
                                         
                                         
                                     }
-                                    Text(LocalizedStringKey("\(plantsVM.selectedModule.needWatering) plants need watering today "))
-                                        .font(.title2)
+                                    Text(LocalizedStringKey("\(plantsVM.selectedModule.needWatering) plants need watering"))
+                                        .font(.title)
                                         .fontWeight(.bold)
-                                        .foregroundStyle(.darkGreen)
+                                        .foregroundStyle(.lightCream)
                                 
                                     
                                     ScrollView(.horizontal,showsIndicators: false){
@@ -67,11 +67,11 @@ struct PlantsModuleCell: View {
                                                         Text(location.localizedString())
                                                             .font(.headline)
                                                             .fontWeight(.bold)
-                                                            .foregroundStyle(.darkGreen)
+                                                            .foregroundStyle(.lightCream)
                                                         Text("\(value.filter({$0.watered == false && $0.waterDate.isToday() || $0.waterDate.isBeforeToday()}).count)")
                                                             .font(.title2)
                                                             .fontWeight(.bold)
-                                                            .foregroundStyle(.darkGreen)
+                                                            .foregroundStyle(.lightCream)
                                                     }
                                                     
                                                     
@@ -83,6 +83,7 @@ struct PlantsModuleCell: View {
                                     
                                     
                                 }.padding(.horizontal,8)
+                                    .padding(.top,10)
 
                                 
                                 
@@ -100,8 +101,9 @@ struct PlantsModuleCell: View {
                 
          
         }.frame(maxWidth: .infinity, alignment: .center)
-
             .padding(.bottom,5)
+            
+           
                 
                 
             
