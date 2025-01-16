@@ -82,6 +82,7 @@ struct AddingTripsSheetView: View {
                             .background(.orange)
                             .clipShape(.rect(cornerRadius: 10))
                             .foregroundStyle(.white)
+                            .accessibilityIdentifier("addTripButton")
                            
                            
                     }.padding(.horizontal)

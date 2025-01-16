@@ -707,7 +707,14 @@
       }
     },
     "Enter trip" : {
-
+      "localizations" : {
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadaj názov"
+          }
+        }
+      }
     },
     "enter_name" : {
       "extractionState" : "manual",
@@ -1004,7 +1011,7 @@
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vic"
+            "value" : "Položka"
           }
         }
       }
@@ -1567,7 +1574,7 @@
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resent Modul Kvetov"
+            "value" : "Resetni Modul Kvetov"
           }
         }
       }

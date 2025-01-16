@@ -187,6 +187,31 @@ import SwiftUI
     
 }
 
+@Suite("Item tests") struct test_items {
+    let mockTrip = TaskApp.Trip(name: "Kosice", dateFrom: Date.now, dateTo: Date.now + 5)
+    let mockBag = TaskApp.Bags(name: "Bag1")
+    let mockItem = TaskApp.Item(name: "Item1", isChecked: true)
+    let mockItem2 = TaskApp.Item(name: "Item2", isChecked: false)
+    
+    @Test("Testing if item is checked correctly") func test_check_item() {
+        mockItem.toggleChecked()
+        #expect(mockItem.isChecked == false)
+        mockItem2.toggleChecked()
+        #expect(mockItem2.isChecked == true)
+    }
+    @Test("Testing if item is named correctly") func test_name_item() {
+        mockItem.setName(a: "Item3")
+        #expect(mockItem.name == "Item3")
+    }
+    @Test("Testing if item marker is correct") func test_marker_item() {
+        mockItem.toggleChecked()
+        #expect(mockItem.marker == "square")
+        mockItem.toggleChecked()
+        #expect(mockItem.marker == "checkmark")
+    }
+    
+}
+
 @Suite("Adding trip view tests") struct test_adding_trip_view {
     let mockAddTripViewModel = TaskApp.AddingTripsSheetView.ViewModel()
     let mockModule = TaskApp.PackingModuleDataClass()

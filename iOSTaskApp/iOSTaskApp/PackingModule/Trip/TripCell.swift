@@ -64,6 +64,7 @@ struct TripCell: View {
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color(hex: "FEFAE0"))
+                                    .accessibilityIdentifier("delete_trip")
                             }.alert(LocalizedStringKey("delete_trip"), isPresented: $showDeleteAlert) {
                                 Button(LocalizedStringKey("yes"), role: .destructive) {
                                     toast = Toast(style: .success, message: NSLocalizedString("trip_deleted", comment: ""))

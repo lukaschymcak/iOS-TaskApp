@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PackingModuleOpen: View {
     @Environment(\.colorScheme) var colorScheme
-    @AppStorage("isOnboardingShown") var isOnboardingShown: Bool = true
+
     @Environment(\.dismiss) var dismiss
     var module: PackingModuleDataClass
     @StateObject var vmParent = ViewModel()
@@ -140,9 +140,6 @@ struct PackingModuleOpen: View {
 
             }.toolbarTitleDisplayMode(.inline)
 
-        }.sheet(isPresented: $isOnboardingShown) {
-            PackingOnboarding()
-                .interactiveDismissDisabled()
         }
     }
 }
