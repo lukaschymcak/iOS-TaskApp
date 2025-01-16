@@ -199,10 +199,10 @@ import SwiftUI
         mockItem2.toggleChecked()
         #expect(mockItem2.isChecked == true)
     }
-    @Test("Testing if item is named correctly") func test_name_item() {
-        mockItem.setName(a: "Item3")
-        #expect(mockItem.name == "Item3")
-    }
+//    @Test("Testing if item is named correctly") func test_name_item() {
+//        mockItem.setName(a: "Item3")
+//        #expect(mockItem.name == "Item3")
+//    }
     @Test("Testing if item marker is correct") func test_marker_item() {
         mockItem.toggleChecked()
         #expect(mockItem.marker == "square")

@@ -363,6 +363,8 @@ final class iOSTaskAppUITests: XCTestCase {
         app.buttons["addTripButton"].tap()
         
        // Trip English Test
+        
+        elementsQuery.staticTexts["Kosice"].waitForExistence(timeout: 3)
         elementsQuery.staticTexts["Kosice"].tap()
        
         XCTAssertTrue(navBar.staticTexts["Kosice"].exists)
